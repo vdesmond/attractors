@@ -14,7 +14,7 @@ initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15
 
 lorenz_vectors = [Lorenz(sigma, beta, rho, r) for r in initial_r_states]
 for vect in lorenz_vectors:
-    vect.Euler(0, 50, 6000)
+    vect.RK4(0, 50, 6000)
 
 mpl.use("Qt5Cairo")
 plt.style.use('dark_background')
@@ -55,7 +55,7 @@ def animate(i):
     return lines + points
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=7500, interval=5, blit=False)
+                               frames=3000, interval=5, blit=False)
 
 # mywriter = animation.FFMpegWriter(bitrate=5000)
 # anim.save('test2.mp4', writer='fclearfmpeg', fps=20, extra_args=['-vcodec', 'libx264'])
