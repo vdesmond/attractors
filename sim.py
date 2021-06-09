@@ -14,16 +14,18 @@ initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15
 
 lorenz_vectors = [Lorenz(sigma, beta, rho, r) for r in initial_r_states]
 for vect in lorenz_vectors:
-    vect.RK4(0, 100, 6000)
+    vect.Euler(0, 50, 6000)
 
 mpl.use("Qt5Cairo")
 plt.style.use('dark_background')
 fig = plt.figure(figsize=(16, 9), dpi=120)
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 ax.axis('off')
+
 ax.set_xlim((-20, 20))
 ax.set_ylim((-30, 30))
 ax.set_zlim((5, 45))
+
 colors = plt.cm.hsv(np.linspace(0, 0.5, len(lorenz_vectors)))
 
 lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
