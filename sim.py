@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from home.desmond.Desktop.lorenz.lorenz import Attractors
 import numpy as np
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from lorenz import Lorenz
+from attractors import RK
 
 sigma = 5
 beta = 8/3
 rho = 28
 initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15]]
 
-lorenz_vectors = [Lorenz(sigma, beta, rho, r) for r in initial_r_states]
+lorenz_vectors = [RK(r, (sigma, beta, rho)) for r in initial_r_states]
 for vect in lorenz_vectors:
     vect.RK4(0, 50, 6000)
 
