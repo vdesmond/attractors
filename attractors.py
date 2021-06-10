@@ -25,21 +25,46 @@ class Attractors(object):
         except:
             raise ValueError("Parameter Argument error")
 
+    def _lotka_volterra_params(self):
+        pass
+
+    def _rossler_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
     def lorenz(self, r):
-        x = r[0]
-        y = r[1]
-        z = r[2]
+        x, y, z = r
         dx = self.sigma * ( y - x )
         dy = x * ( self.rho - z ) - z
         dz = x * y - ( self.beta * z )
         return np.array([dx , dy , dz], dtype='double')
 
     def rabinovich_fabrikant(self, r):
-        x = r[0]
-        y = r[1]
-        z = r[2]
+        x, y, z = r
         dx = y * ( z - 1 + (x * x)) + (self.gamma * x)
-        print(dx)
         dy = x * (3*z + 1 - (x * x)) + (self.gamma * y)
         dz = -2*z + ( self.alpha + x*z )
+        #! log
+        print([dx , dy , dz])
+        return np.array([dx , dy , dz], dtype='double')
+
+    def lotka_volterra(self, r):
+        x, y, z = r
+        dx = x * (1 - x - 9*y)
+        dy = -y * (1 - 6*x - y + 9*z)
+        dz = z * ( 1 - 3*x - z )
+        #! log
+        print([dx , dy , dz])
+        return np.array([dx , dy , dz], dtype='double')
+
+    def rossler(self, r):
+        x, y, z = r
+        dx = - (y + z)
+        dy = x + (self.a*y)
+        dz = self.b + z * (x-self.c)
         return np.array([dx , dy , dz], dtype='double')
