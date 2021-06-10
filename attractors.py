@@ -27,12 +27,32 @@ class Attractors(object):
 
     def _lotka_volterra_params(self):
         pass
-
+    
     def _rossler_params(self):
         try:
             self.a = self.params["a"]
             self.b = self.params["b"]
             self.c = self.params["c"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _wang_sun_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+            self.d = self.params["d"]
+            self.e = self.params["e"]
+            self.f = self.params["f"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _rikitake_params(self):
+        try:
+            self.a = self.params["a"]
+            self.mu = self.params["mu"]
 
         except:
             raise ValueError("Parameter Argument error")
@@ -67,4 +87,18 @@ class Attractors(object):
         dx = - (y + z)
         dy = x + (self.a*y)
         dz = self.b + z * (x-self.c)
+        return np.array([dx , dy , dz], dtype='double')
+
+    def wang_sun(self, r):
+        x, y, z = r
+        dx = self.a*x + self.c*y*z
+        dy = self.b*x + self.d*y - x*z
+        dz = self.e*z + self.f*x*y
+        return np.array([dx , dy , dz], dtype='double')
+
+    def rikitake(self, r):
+        x, y, z = r
+        dx = - self.mu*x + z*y
+        dy = - self.mu*y + x*(z-self.a)
+        dz = 1 - x*y
         return np.array([dx , dy , dz], dtype='double')

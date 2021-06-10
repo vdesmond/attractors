@@ -44,17 +44,37 @@ ax.axis('off')
 # ax.set_zlim((5, 45))
 
 # * Rossler
-initial_r_states = [[0.1, 0, -0.1], [0.11, 0, -0.11]]
-attractor_vects = [RK(r, 'rossler', a=0.2, b=0.2, c=5.7) for r in initial_r_states]
+# initial_r_states = [[0.1, 0, -0.1], [0.11, 0, -0.11]]
+# attractor_vects = [RK(r, 'rossler', a=0.2, b=0.2, c=5.7) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 150, 18000)
+
+# ax.set_xlim((-2, 2))
+# ax.set_ylim((-2, 2))
+# ax.set_zlim((5, 30))
+
+# * Wang Sun
+# initial_r_states = [[0.5, 0.1, 0.1]]
+# attractor_vects = [RK(r, 'wang_sun', a=0.2, b=-0.01, c=1,d=-0.4, e=-1.0,f=-1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 350, 18000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((5, 45))
+
+# * Rikitake
+initial_r_states = [[0.1, 0.1, -0.1]]
+attractor_vects = [RK(r, 'rikitake', a=5, mu=2) for r in initial_r_states]
 for vect in attractor_vects:
-    vect.RK4(0, 150, 18000)
+    vect.RK4(0, 100, 18000)
 
-ax.set_xlim((-2, 2))
-ax.set_ylim((-2, 2))
-ax.set_zlim((5, 30))
+ax.set_xlim((-5, 5))
+ax.set_ylim((-5, 5))
+ax.set_zlim((5, 45))
 
-
-colors = plt.cm.hsv(np.linspace(0, 0.5, len(attractor_vects)))
+#! 0
+colors = plt.cm.hsv(np.linspace(0.5, 0.5, len(attractor_vects)))
 
 lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
              for c in colors], [])
