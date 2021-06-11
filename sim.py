@@ -103,14 +103,24 @@ ax.axis('off')
 # ax.set_zlim((5, 45))
 
 # * Aizawa
-initial_r_states = [[0.1, 0, 0]]
-attractor_vects = [RK(r, 'aizawa', a=0.95, b=0.7, c=0.6, d=3.5, e=0.25,f=0.1) for r in initial_r_states]
+# initial_r_states = [[0.1, 0, 0]]
+# attractor_vects = [RK(r, 'aizawa', a=0.95, b=0.7, c=0.6, d=3.5, e=0.25,f=0.1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 18000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((0, 3))
+
+# * Three Cell CNN
+initial_r_states = [[0.1, 0.1, 0.1]]
+attractor_vects = [RK(r, 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21) for r in initial_r_states]
 for vect in attractor_vects:
     vect.RK4(0, 100, 18000)
 
 ax.set_xlim((-5, 5))
 ax.set_ylim((-5, 5))
-ax.set_zlim((0, 3))
+ax.set_zlim((-2, 2))
 
 #! 0
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))

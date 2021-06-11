@@ -26,9 +26,12 @@ class Attractors(object):
             raise ValueError("Parameter Argument error")
 
     def _lotka_volterra_params(self):
-        self.a = self.params["a"]
-        self.b = self.params["b"]
-        self.c = self.params["c"]
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+        except:
+            raise ValueError("Parameter Argument error")
     
     def _rossler_params(self):
         try:
@@ -82,6 +85,16 @@ class Attractors(object):
             self.d = self.params["d"]
             self.e = self.params["e"]
             self.f = self.params["f"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _three_cell_cnn_params(self):
+        try:
+            self.p1 = self.params["p1"]
+            self.p2 = self.params["p2"]
+            self.rr = self.params["rr"]
+            self.s = self.params["s"]
 
         except:
             raise ValueError("Parameter Argument error")
@@ -148,4 +161,14 @@ class Attractors(object):
         dx = (z - self.b)*x - self.d*y
         dy = self.d*x + (z-self.b)*y
         dz = self.c + self.a*z - (z**3/3) - (x**2 + y**2)*(1+self.e*z) + self.f*z* x**3
+        return np.array([dx , dy , dz], dtype='double')
+
+    def three_cell_cnn(self, r):
+        x, y, z = r
+        fx = 0.5 * (np.abs(x+1) - np.abs(x-1))
+        fy = 0.5 * (np.abs(y+1) - np.abs(y-1))
+        fz = 0.5 * (np.abs(z+1) - np.abs(z-1))
+        dx = -x + self.p1*fx - self.s*fy - self.s*fz
+        dy = -y - self.s*fx + self.p2*fy - self.rr*fz
+        dz = -z - self.s*fx + self.rr*fy + fz
         return np.array([dx , dy , dz], dtype='double')

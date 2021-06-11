@@ -29,13 +29,13 @@ def generate_video(nframes):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Aizawa (Test)
-    vect = RK([0.1, 0, 0], 'aizawa', a=0.95, b=0.7, c=0.6, d=3.5, e=0.25,f=0.1)
-    vect.RK4(0, 20, nframes)
+    # * Three Cell CNN
+    vect = RK([0.1, 0.1, 0.1], 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21)
+    vect.RK4(0, 100, nframes)
 
     ax.set_xlim((-5, 5))
     ax.set_ylim((-5, 5))
-    ax.set_zlim((0, 3))
+    ax.set_zlim((-2, 2))
 
     cmap = plt.cm.get_cmap("hsv")
 
