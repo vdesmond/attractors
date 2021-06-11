@@ -26,7 +26,9 @@ class Attractors(object):
             raise ValueError("Parameter Argument error")
 
     def _lotka_volterra_params(self):
-        pass
+        self.a = self.params["a"]
+        self.b = self.params["b"]
+        self.c = self.params["c"]
     
     def _rossler_params(self):
         try:
@@ -56,6 +58,33 @@ class Attractors(object):
 
         except:
             raise ValueError("Parameter Argument error")
+    
+    def _nose_hoover_params(self):
+        try:
+            self.a = self.params["a"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+    
+    def _duffing_params(self):
+        try:
+            self.alpha = self.params["alpha"]
+            self.beta = self.params["beta"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _aizawa_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+            self.d = self.params["d"]
+            self.e = self.params["e"]
+            self.f = self.params["f"]
+
+        except:
+            raise ValueError("Parameter Argument error")
 
     def lorenz(self, r):
         x, y, z = r
@@ -68,17 +97,14 @@ class Attractors(object):
         x, y, z = r
         dx = y * ( z - 1 + (x * x)) + (self.gamma * x)
         dy = x * (3*z + 1 - (x * x)) + (self.gamma * y)
-        dz = -2*z + ( self.alpha + x*z )
-        #! log
-        print([dx , dy , dz])
+        dz = -2*z*( self.alpha + x*y)
         return np.array([dx , dy , dz], dtype='double')
 
     def lotka_volterra(self, r):
         x, y, z = r
-        dx = x * (1 - x - 9*y)
-        dy = -y * (1 - 6*x - y + 9*z)
-        dz = z * ( 1 - 3*x - z )
-        #! log
+        dx = x - x*y + self.c*x*x - self.a*z*x*x
+        dy = -y + x*y
+        dz = -self.b*z + self.a*z*x*x
         print([dx , dy , dz])
         return np.array([dx , dy , dz], dtype='double')
 
@@ -101,4 +127,25 @@ class Attractors(object):
         dx = - self.mu*x + z*y
         dy = - self.mu*y + x*(z-self.a)
         dz = 1 - x*y
+        return np.array([dx , dy , dz], dtype='double')
+
+    def nose_hoover(self, r):
+        x, y, z = r
+        dx = self.a*y
+        dy = - x + y*z
+        dz = 1 - y*y
+        return np.array([dx , dy , dz], dtype='double')
+
+    def duffing(self, r):
+        x, y, z = r
+        dx = y
+        dy = x - (self.alpha * y) - (x ** 3) + self.beta*np.cos(z)
+        dz = 0.5
+        return np.array([dx , dy , dz], dtype='double')
+
+    def aizawa(self, r):
+        x, y, z = r
+        dx = (z - self.b)*x - self.d*y
+        dy = self.d*x + (z-self.b)*y
+        dz = self.c + self.a*z - (z**3/3) - (x**2 + y**2)*(1+self.e*z) + self.f*z* x**3
         return np.array([dx , dy , dz], dtype='double')

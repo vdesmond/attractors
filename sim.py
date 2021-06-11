@@ -24,24 +24,33 @@ ax.axis('off')
 # ax.set_zlim((5, 45))
 
 # * Rabinovich Fabrikant
-# initial_r_states = [[-1, -0, 0.5], [-0.5, -0.03, 0.45]]
+# initial_r_states = [[-1, -1, 0.5]]
 # attractor_vects = [RK(r, 'rabinovich_fabrikant', alpha=0.14, gamma=0.1) for r in initial_r_states]
 # for vect in attractor_vects:
-#     vect.RK5(0, 70, 6000)
+#     vect.RK5(0, 350, 35000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((5, 45))
+
+# initial_r_states = [[-1, 0, 0.5]]
+# attractor_vects = [RK(r, 'rabinovich_fabrikant', alpha=1.1, gamma=0.87) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK5(0, 350, 35000)
 
 # ax.set_xlim((-5, 5))
 # ax.set_ylim((-5, 5))
 # ax.set_zlim((5, 45))
 
 # * Lotka Volterra
-# initial_r_states = [[0.1, -0.1, -0.1]]
-# attractor_vects = [RK(r, 'lotka_volterra') for r in initial_r_states]
+# initial_r_states = [[1.0, 1.0, 1.0]]
+# attractor_vects = [RK(r, 'lotka_volterra', a=2.9851, b=3.0, c=2) for r in initial_r_states]
 # for vect in attractor_vects:
-#     vect.RK4(0, 50, 6000)
+#     vect.RK4(0, 300, 20000)
 
-# ax.set_xlim((-20, 20))
-# ax.set_ylim((-30, 30))
-# ax.set_zlim((5, 45))
+# ax.set_xlim((0.5, 1.5))
+# ax.set_ylim((0.5, 1.5))
+# ax.set_zlim((2, 10))
 
 # * Rossler
 # initial_r_states = [[0.1, 0, -0.1], [0.11, 0, -0.11]]
@@ -49,8 +58,8 @@ ax.axis('off')
 # for vect in attractor_vects:
 #     vect.RK4(0, 150, 18000)
 
-# ax.set_xlim((-2, 2))
-# ax.set_ylim((-2, 2))
+# ax.set_xlim((-10, 10))
+# ax.set_ylim((-10, 10))
 # ax.set_zlim((5, 30))
 
 # * Wang Sun
@@ -64,17 +73,51 @@ ax.axis('off')
 # ax.set_zlim((5, 45))
 
 # * Rikitake
-initial_r_states = [[0.1, 0.1, -0.1]]
-attractor_vects = [RK(r, 'rikitake', a=5, mu=2) for r in initial_r_states]
+# initial_r_states = [[0.1, 0.1, -0.1]]
+# attractor_vects = [RK(r, 'rikitake', a=5, mu=2) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 18000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((5, 45))
+
+# * Nose Hoover
+# initial_r_states = [[0.1, 0, -0.1], [0.2, 0.1, -0.2], [0.15, 0.05, -0.15]]
+# attractor_vects = [RK(r, 'nose_hoover', a=1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 18000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((5, 45))
+
+# * Duffing
+# initial_r_states = [[0.1, 0, -0.1]]
+# attractor_vects = [RK(r, 'duffing', alpha=0.5, beta=11) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 18000)
+
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((5, 45))
+
+# * Aizawa
+initial_r_states = [[0.1, 0, 0]]
+attractor_vects = [RK(r, 'aizawa', a=0.95, b=0.7, c=0.6, d=3.5, e=0.25,f=0.1) for r in initial_r_states]
 for vect in attractor_vects:
     vect.RK4(0, 100, 18000)
 
 ax.set_xlim((-5, 5))
 ax.set_ylim((-5, 5))
-ax.set_zlim((5, 45))
+ax.set_zlim((0, 3))
 
 #! 0
-colors = plt.cm.hsv(np.linspace(0.5, 0.5, len(attractor_vects)))
+colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
+
+def get_colour(t):
+    cmap = plt.cm.get_cmap('hsv')
+    return cmap(t%1.)
 
 lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
              for c in colors], [])
@@ -84,7 +127,6 @@ points = sum([ax.plot([], [], [], 'o', c=c)
 def init():
     for line, pt in zip(lines, points):
         line.set_data_3d([], [], [])
-
         pt.set_data_3d([], [], [])
     return lines + points
 
@@ -93,12 +135,12 @@ def animate(i):
     i = (steps * i) % len(attractor_vects[0].X)
     # print(i)
     for line, pt, k in zip(lines, points, attractor_vects):
-        if i>10000:
-            line.set_data_3d(k.X[i-10000:i], k.Y[i-10000:i], k.Z[i-10000:i])
+        if i>15000:
+            line.set_data_3d(k.X[i-15000:i], k.Y[i-15000:i], k.Z[i-15000:i])
         else:
             line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
         pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-    ax.view_init(0.005 * i, 0.05 * i)
+    ax.view_init(0.001 * i, 0.01 * i)
     fig.canvas.draw()
     return lines + points
 
