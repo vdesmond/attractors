@@ -29,13 +29,14 @@ def generate_video(nframes):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Three Cell CNN
-    vect = RK([0.1, 0.1, 0.1], 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21)
-    vect.RK4(0, 100, nframes)
+    # * Lotka Volterra
+    r = [1.0, 1.0, 1.0]
+    vect = RK(r, 'lotka_volterra', a=2.9851, b=3.0, c=2)
+    vect.RK4(0, 200, nframes)
 
-    ax.set_xlim((-5, 5))
-    ax.set_ylim((-5, 5))
-    ax.set_zlim((-2, 2))
+    ax.set_xlim((0.5, 1.5))
+    ax.set_ylim((0.5, 1.5))
+    ax.set_zlim((2, 10))
 
     cmap = plt.cm.get_cmap("hsv")
 
@@ -50,7 +51,7 @@ def generate_video(nframes):
         points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([points[:-1],points[1:]],axis=1)
         line.set_segments(segs)
-        line.set_array(np.array(vect.Z))
+        line.set_array(np.array(vect.Y)) # set X, Y, Z for gradient
         ax.elev += 0.0001
         ax.azim += 0.1
 
@@ -72,4 +73,4 @@ def generate_video(nframes):
 
     p.communicate()
 
-generate_video(nframes=1000)
+generate_video(nframes=5000)

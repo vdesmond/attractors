@@ -113,14 +113,53 @@ ax.axis('off')
 # ax.set_zlim((0, 3))
 
 # * Three Cell CNN
-initial_r_states = [[0.1, 0.1, 0.1]]
-attractor_vects = [RK(r, 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21) for r in initial_r_states]
-for vect in attractor_vects:
-    vect.RK4(0, 100, 18000)
+# initial_r_states = [[0.1, 0.1, 0.1]]
+# attractor_vects = [RK(r, 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 18000)
 
-ax.set_xlim((-5, 5))
+# ax.set_xlim((-5, 5))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((-2, 2))
+
+# * Bouali Type I
+initial_r_states = [[0, -2, -0.25]]
+attractor_vects = [RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50) for r in initial_r_states]
+for vect in attractor_vects:
+    vect.RK4(0, 200, 20000)
+
+ax.set_xlim((-0.05, 0.05))
 ax.set_ylim((-5, 5))
-ax.set_zlim((-2, 2))
+ax.set_zlim((-0.2, 0.2))
+
+# * Bouali Type II
+# initial_r_states = [[1, 1, 0]]
+# attractor_vects = [RK(r, 'bouali_type_2', a=4, b= 1, c=1.4,s=2.8, alpha=1, beta=1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 300, 20000)
+
+# ax.set_xlim((-3, 22))
+# ax.set_ylim((-3, 22))
+# ax.set_zlim((-10, 10))
+
+# initial_r_states = [[1, 1, 0]]
+# attractor_vects = [RK(r, 'bouali_type_2', a=4, b= 1, c=1.5,s=1.0, alpha=0.3, beta=0.05) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 300, 20000)
+
+# ax.set_xlim((-3, 22))
+# ax.set_ylim((-3, 22))
+# ax.set_zlim((-7, 7))
+
+# * Bouali Type III
+# initial_r_states = [[1, 1, 0]]
+# attractor_vects = [RK(r, 'bouali_type_3', alpha=3, beta=2.2, gamma=1, mu=0.001) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 500, 10000)
+
+# ax.set_xlim((-5, 1))
+# ax.set_ylim((0, 3))
+# ax.set_zlim((-0.5, 0.5))
 
 #! 0
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
