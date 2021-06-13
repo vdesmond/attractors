@@ -26,9 +26,12 @@ class Attractors(object):
             raise ValueError("Parameter Argument error")
 
     def _lotka_volterra_params(self):
-        self.a = self.params["a"]
-        self.b = self.params["b"]
-        self.c = self.params["c"]
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+        except:
+            raise ValueError("Parameter Argument error")
     
     def _rossler_params(self):
         try:
@@ -86,6 +89,50 @@ class Attractors(object):
         except:
             raise ValueError("Parameter Argument error")
 
+    def _three_cell_cnn_params(self):
+        try:
+            self.p1 = self.params["p1"]
+            self.p2 = self.params["p2"]
+            self.rr = self.params["rr"]
+            self.s = self.params["s"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _bouali_type_1_params(self):
+        try:
+            self.k = self.params["k"]
+            self.mu = self.params["mu"]
+            self.b = self.params["b"]
+            self.p = self.params["p"]
+            self.q = self.params["q"]
+            self.s = self.params["s"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+    
+    def _bouali_type_2_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+            self.s = self.params["s"]
+            self.alpha = self.params["alpha"]
+            self.beta = self.params["beta"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
+    def _bouali_type_3_params(self):
+        try:
+            self.alpha = self.params["alpha"]
+            self.beta = self.params["beta"]
+            self.gamma = self.params["gamma"]
+            self.mu = self.params["mu"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
     def lorenz(self, r):
         x, y, z = r
         dx = self.sigma * ( y - x )
@@ -105,7 +152,6 @@ class Attractors(object):
         dx = x - x*y + self.c*x*x - self.a*z*x*x
         dy = -y + x*y
         dz = -self.b*z + self.a*z*x*x
-        print([dx , dy , dz])
         return np.array([dx , dy , dz], dtype='double')
 
     def rossler(self, r):
@@ -148,4 +194,35 @@ class Attractors(object):
         dx = (z - self.b)*x - self.d*y
         dy = self.d*x + (z-self.b)*y
         dz = self.c + self.a*z - (z**3/3) - (x**2 + y**2)*(1+self.e*z) + self.f*z* x**3
+        return np.array([dx , dy , dz], dtype='double')
+
+    def three_cell_cnn(self, r):
+        x, y, z = r
+        fx = 0.5 * (np.abs(x+1) - np.abs(x-1))
+        fy = 0.5 * (np.abs(y+1) - np.abs(y-1))
+        fz = 0.5 * (np.abs(z+1) - np.abs(z-1))
+        dx = -x + self.p1*fx - self.s*fy - self.s*fz
+        dy = -y - self.s*fx + self.p2*fy - self.rr*fz
+        dz = -z - self.s*fx + self.rr*fy + fz
+        return np.array([dx , dy , dz], dtype='double')
+
+    def bouali_type_1(self, r):
+        x, y, z = r
+        dx = self.k*y + self.mu*x*(self.b - y*y)
+        dy = -x + self.s*z
+        dz = self.p*x - self.q*y
+        return np.array([dx , dy , dz], dtype='double')
+    
+    def bouali_type_2(self, r):
+        x, y, z = r
+        dx = x*(self.a-y)+self.alpha*z
+        dy = -y*(self.b-x*x)
+        dz = -x*(self.c-self.s*z) - self.beta*z
+        return np.array([dx , dy , dz], dtype='double')
+
+    def bouali_type_3(self, r):
+        x, y, z = r
+        dx = self.alpha*x*(1-y) - self.beta*z
+        dy = -self.gamma*y*(1-x*x)
+        dz = self.mu*x
         return np.array([dx , dy , dz], dtype='double')
