@@ -29,14 +29,14 @@ def generate_video(nframes):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Lotka Volterra
-    r = [1.0, 1.0, 1.0]
-    vect = RK(r, 'lotka_volterra', a=2.9851, b=3.0, c=2)
+    # * Bouali Type I
+    r = [0, -2, -0.25]
+    vect = RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50)
     vect.RK4(0, 200, nframes)
 
-    ax.set_xlim((0.5, 1.5))
-    ax.set_ylim((0.5, 1.5))
-    ax.set_zlim((2, 10))
+    ax.set_xlim((-0.05, 0.05))
+    ax.set_ylim((-5, 5))
+    ax.set_zlim((-0.2, 0.2))
 
     cmap = plt.cm.get_cmap("hsv")
 

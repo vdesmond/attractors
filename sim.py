@@ -126,7 +126,7 @@ ax.axis('off')
 initial_r_states = [[0, -2, -0.25]]
 attractor_vects = [RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50) for r in initial_r_states]
 for vect in attractor_vects:
-    vect.RK4(0, 200, 20000)
+    vect.RK4(0, 100, 5000)
 
 ax.set_xlim((-0.05, 0.05))
 ax.set_ylim((-5, 5))
