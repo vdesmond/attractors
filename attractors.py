@@ -133,6 +133,15 @@ class Attractors(object):
         except:
             raise ValueError("Parameter Argument error")
 
+    def _finance_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+
+        except:
+            raise ValueError("Parameter Argument error")
+
     def lorenz(self, r):
         x, y, z = r
         dx = self.sigma * ( y - x )
@@ -225,4 +234,11 @@ class Attractors(object):
         dx = self.alpha*x*(1-y) - self.beta*z
         dy = -self.gamma*y*(1-x*x)
         dz = self.mu*x
+        return np.array([dx , dy , dz], dtype='double')
+
+    def finance(self, r):
+        x, y, z = r
+        dx = (1/self.b - self.a)*x + x*y + z
+        dy = -self.b*y - x*x
+        dz = -x - self.c*z
         return np.array([dx , dy , dz], dtype='double')

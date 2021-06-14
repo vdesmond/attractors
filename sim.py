@@ -123,14 +123,14 @@ ax.axis('off')
 # ax.set_zlim((-2, 2))
 
 # * Bouali Type I
-initial_r_states = [[0, -2, -0.25]]
-attractor_vects = [RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50) for r in initial_r_states]
-for vect in attractor_vects:
-    vect.RK4(0, 100, 5000)
+# initial_r_states = [[0, -2, -0.25]]
+# attractor_vects = [RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 5000)
 
-ax.set_xlim((-0.05, 0.05))
-ax.set_ylim((-5, 5))
-ax.set_zlim((-0.2, 0.2))
+# ax.set_xlim((-0.05, 0.05))
+# ax.set_ylim((-5, 5))
+# ax.set_zlim((-0.2, 0.2))
 
 # * Bouali Type II
 # initial_r_states = [[1, 1, 0]]
@@ -160,6 +160,16 @@ ax.set_zlim((-0.2, 0.2))
 # ax.set_xlim((-5, 1))
 # ax.set_ylim((0, 3))
 # ax.set_zlim((-0.5, 0.5))
+
+# * Finance
+# initial_r_states = [[0, -10, 0.1]]
+# attractor_vects = [RK(r, 'finance', a=0.00001, b=0.1, c=1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 300, 20000)
+
+# ax.set_xlim((-2, 2))
+# ax.set_ylim((-20, 0))
+# ax.set_zlim((-1.5, 1.5))
 
 #! 0
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
