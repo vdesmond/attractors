@@ -141,6 +141,14 @@ class Attractors(object):
 
         except:
             raise ValueError("Parameter Argument error")
+            
+    def _burke_shaw_params(self):
+        try:
+            self.s = self.params["s"]
+            self.v = self.params["v"]
+
+        except:
+            raise ValueError("Parameter Argument error")
 
     def lorenz(self, r):
         x, y, z = r
@@ -241,4 +249,11 @@ class Attractors(object):
         dx = (1/self.b - self.a)*x + x*y + z
         dy = -self.b*y - x*x
         dz = -x - self.c*z
+        return np.array([dx , dy , dz], dtype='double')
+
+    def burke_shaw(self, r):
+        x, y, z = r
+        dx = -self.s * (x+y)
+        dy = -y - self.s*x*z
+        dz = self.s*x*y + self.v
         return np.array([dx , dy , dz], dtype='double')

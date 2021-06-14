@@ -171,6 +171,16 @@ ax.axis('off')
 # ax.set_ylim((-20, 0))
 # ax.set_zlim((-1.5, 1.5))
 
+# * Burke Shaw
+initial_r_states = [[1, 0, 0]]
+attractor_vects = [RK(r, 'burke_shaw', s=10, v=4.272) for r in initial_r_states]
+for vect in attractor_vects:
+    vect.RK4(0, 100, 20000)
+
+ax.set_xlim((-2, 2))
+ax.set_ylim((-2, 2))
+ax.set_zlim((-1.5, 1.5))
+
 #! 0
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
 
