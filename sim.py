@@ -218,7 +218,6 @@ def init():
 def animate(i):
     steps = 4
     i = (steps * i) % len(attractor_vects[0].X)
-    # print(i)
     for line, pt, k in zip(lines, points, attractor_vects):
         if i>15000:
             line.set_data_3d(k.X[i-15000:i], k.Y[i-15000:i], k.Z[i-15000:i])

@@ -30,14 +30,10 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Moore Spiegel (t=26 -> stable)
-    r = [0, 0.8, 0]
-    vect = RK(r, 'moore_spiegel', t=20, r=100)
-    vect.RK4(0, 10, nframes)
+    X = np.random.random(nframes)
+    Y = np.random.random(nframes)
+    Z = np.random.random(nframes)
 
-    ax.set_xlim((-10, 10))
-    ax.set_ylim((-20, 20))
-    ax.set_zlim((-200, 200))
 
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument
@@ -59,11 +55,11 @@ def generate_video(nframes, custom=False, step=1):
         #! gets slower over time :/
         
         steps = step
-        i = (steps * frame) % len(vect.X)
-        points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
+        i = (steps * frame) % len(X)
+        points = np.array([X[:i], Y[:i], Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([points[:-1],points[1:]],axis=1)
         line.set_segments(segs)
-        line.set_array(np.array(vect.Y)) # set X, Y, Z for gradient
+        line.set_array(np.array(Y)) # set X, Y, Z for gradient
         ax.elev += 0.0001
         ax.azim += 0.1
 
@@ -85,4 +81,4 @@ def generate_video(nframes, custom=False, step=1):
 
     p.communicate()
 
-generate_video(nframes=600, custom=True)
+generate_video(nframes=6000, custom=True)
