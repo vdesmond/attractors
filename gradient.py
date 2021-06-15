@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-import matplotlib.pylab as plt
 import subprocess
 import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 from runge_kutta import RK
 
-def generate_video(nframes):
+def generate_video(nframes, custom=False):
 
-    plt.style.use('dark_background')
     fig = plt.figure(figsize=(16, 9), dpi=120)
     canvas_width, canvas_height = fig.canvas.get_width_height()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
+
+    fig.set_facecolor('#2E3440') #! add bg argument
+    ax.set_facecolor('#2E3440')   
 
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -29,18 +30,22 @@ def generate_video(nframes):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Bouali Type I
-    r = [0, -2, -0.25]
-    vect = RK(r, 'bouali_type_1', k=0.02, mu=0.4, b=0.2, p=10, q=0.1, s=50)
-    vect.RK4(0, 200, nframes)
+    # * Moore Spiegel (t=26 -> stable)
+    r = [0, 0.8, 0]
+    vect = RK(r, 'moore_spiegel', t=20, r=100)
+    vect.RK4(0, 50, nframes)
 
-    ax.set_xlim((-0.05, 0.05))
-    ax.set_ylim((-5, 5))
-    ax.set_zlim((-0.2, 0.2))
+    ax.set_xlim((-10, 10))
+    ax.set_ylim((-20, 20))
+    ax.set_zlim((-200, 200))
 
-    cmap = plt.cm.get_cmap("hsv")
+    if not custom:
+        cmap = plt.cm.get_cmap("hsv") #! add cmap argument
+    else:
+        from colortable import get_continuous_cmap
+        cmap = get_continuous_cmap()
 
-    line = Line3DCollection([], cmap=cmap)
+    line = Line3DCollection([], cmap=cmap) #! add hex argument
     ax.add_collection3d(line)
 
     line.set_segments([])
@@ -73,4 +78,4 @@ def generate_video(nframes):
 
     p.communicate()
 
-generate_video(nframes=5000)
+generate_video(nframes=5000, custom=True)

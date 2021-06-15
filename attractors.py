@@ -282,8 +282,8 @@ class Attractors(object):
         return np.array([dx , dy , dz], dtype='double')
 
     def moore_spiegel(self, coord):
-            x, y, z = coord
-            dx = y
-            dy = z
-            dz = - z - (self.t - self.r*(1 - x*x))*y - self.t*x
-            return np.array([dx , dy , dz], dtype='double')
+        x, y, z = coord
+        dx = y
+        dy = z
+        dz = - z - (self.t - self.r*(1 - x*x))*y - self.t*x
+        return np.array([dx , dy , dz], dtype='double')

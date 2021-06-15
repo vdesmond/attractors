@@ -114,7 +114,7 @@ ax.axis('off')
 
 # * Three Cell CNN
 # initial_r_states = [[0.1, 0.1, 0.1]]
-# attractor_vects = [RK(r, 'three_cell_cnn', p1=1.24, p2=1.1, rr=4.4, s=3.21) for r in initial_r_states]
+# attractor_vects = [RK(r, 'three_cell_cnn', p1=1.24, p2=1.1, r=4.4, s=3.21) for r in initial_r_states]
 # for vect in attractor_vects:
 #     vect.RK4(0, 100, 18000)
 
@@ -203,10 +203,6 @@ ax.set_ylim((-20, 20))
 ax.set_zlim((-200, 200))
 
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
-
-def get_colour(t):
-    cmap = plt.cm.get_cmap('hsv')
-    return cmap(t%1.)
 
 lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
              for c in colors], [])
