@@ -172,16 +172,36 @@ ax.axis('off')
 # ax.set_zlim((-1.5, 1.5))
 
 # * Burke Shaw
-initial_r_states = [[1, 0, 0]]
-attractor_vects = [RK(r, 'burke_shaw', s=10, v=4.272) for r in initial_r_states]
+# initial_r_states = [[1, 0, 0]]
+# attractor_vects = [RK(r, 'burke_shaw', s=10, v=4.272) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 20000)
+
+# ax.set_xlim((-2, 2))
+# ax.set_ylim((-2, 2))
+# ax.set_zlim((-1.5, 1.5))
+
+# * Ikeda
+#! error
+# initial_r_states = [[1, 1, 1]]
+# attractor_vects = [RK(r, 'ikeda', a=1, b=0.9, c=0.4, d=6) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 1000, 200000)
+
+# ax.set_xlim((-2, 2))
+# ax.set_ylim((-5, 45))
+# ax.set_zlim((-10, 5))
+
+# * Moore Spiegel (t=26 -> stable)
+initial_r_states = [[0, 0.8, 0]]
+attractor_vects = [RK(r, 'moore_spiegel', t=20, r=100) for r in initial_r_states]
 for vect in attractor_vects:
     vect.RK4(0, 100, 20000)
 
-ax.set_xlim((-2, 2))
-ax.set_ylim((-2, 2))
-ax.set_zlim((-1.5, 1.5))
+ax.set_xlim((-10, 10))
+ax.set_ylim((-20, 20))
+ax.set_zlim((-200, 200))
 
-#! 0
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
 
 def get_colour(t):
@@ -209,7 +229,7 @@ def animate(i):
         else:
             line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
         pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-    ax.view_init(0.001 * i, 0.01 * i)
+    ax.view_init(0.001 * i, 0.1 * i)
     fig.canvas.draw()
     return lines + points
 
