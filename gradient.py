@@ -13,8 +13,8 @@ def generate_video(nframes, custom=False, step=1):
     canvas_width, canvas_height = fig.canvas.get_width_height()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 
-    fig.set_facecolor('#2E3440') #! add bg argument
-    ax.set_facecolor('#2E3440')   
+    fig.set_facecolor('#252a34') #! add bg argument
+    ax.set_facecolor('#252a34') 
 
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
