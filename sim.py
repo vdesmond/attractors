@@ -15,7 +15,7 @@ ax.axis('off')
 
 # * Lorenz
 # initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15]]
-# attractor_vects = [RK(r, 'lorenz', sigma=5, beta=8/3, rho=28) for r in initial_r_states]
+# attractor_vects = [RK(r, 'lorenz', beta=8/3, sigma=5, rhoo=28) for r in initial_r_states]
 # for vect in attractor_vects:
 #     vect.RK5(0, 50, 6000)
 
