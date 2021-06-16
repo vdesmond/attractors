@@ -193,14 +193,24 @@ ax.axis('off')
 # ax.set_zlim((-10, 5))
 
 # * Moore Spiegel (t=26 -> stable)
-initial_r_states = [[0, 0.8, 0]]
-attractor_vects = [RK(r, 'moore_spiegel', t=20, r=100) for r in initial_r_states]
-for vect in attractor_vects:
-    vect.RK4(0, 100, 20000)
+# initial_r_states = [[0, 0.8, 0]]
+# attractor_vects = [RK(r, 'moore_spiegel', t=20, r=100) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 20000)
 
-ax.set_xlim((-10, 10))
-ax.set_ylim((-20, 20))
-ax.set_zlim((-200, 200))
+# ax.set_xlim((-10, 10))
+# ax.set_ylim((-20, 20))
+# ax.set_zlim((-200, 200))
+
+# * Sakarya
+initial_r_states = [[1, -1, 1]]
+attractor_vects = [RK(r, 'sakarya', a=0.4, b=0.3) for r in initial_r_states]
+for vect in attractor_vects:
+    vect.RK4(0, 200, 20000)
+
+ax.set_xlim((-20, 15))
+ax.set_ylim((-10, 8))
+ax.set_zlim((-8, 10))
 
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
 

@@ -166,6 +166,13 @@ class Attractors(object):
         except:
             raise ValueError("Parameter Argument error")
 
+    def _sakarya_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+        except:
+            raise ValueError("Parameter Argument error")
+
     def lorenz(self, coord):
         x, y, z = coord
         dx = self.sigma * ( y - x )
@@ -286,4 +293,11 @@ class Attractors(object):
         dx = y
         dy = z
         dz = - z - (self.t - self.r*(1 - x*x))*y - self.t*x
+        return np.array([dx , dy , dz], dtype='double')
+
+    def sakarya(self, coord):
+        x, y, z = coord
+        dx = -x + y + y*z
+        dy = - x- y+ self.a*x*z
+        dz = z - self.b*x*y
         return np.array([dx , dy , dz], dtype='double')
