@@ -30,14 +30,14 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Moore Spiegel (t=26 -> stable)
-    r = [0, 0.8, 0]
-    vect = RK(r, 'moore_spiegel', t=20, r=100)
-    vect.RK4(0, 10, nframes)
+    # * Dadras
+    r = [5, 0, -4]
+    vect = RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9)
+    vect.RK4(0, 50, nframes)
 
-    ax.set_xlim((-10, 10))
-    ax.set_ylim((-20, 20))
-    ax.set_zlim((-200, 200))
+    ax.set_xlim((-20, 15))
+    ax.set_ylim((-10, 8))
+    ax.set_zlim((-8, 10))
 
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument
@@ -85,4 +85,4 @@ def generate_video(nframes, custom=False, step=1):
 
     p.communicate()
 
-generate_video(nframes=600, custom=True)
+generate_video(nframes=2000, custom=True)

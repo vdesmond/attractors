@@ -173,6 +173,16 @@ class Attractors(object):
         except:
             raise ValueError("Parameter Argument error")
 
+    def _dadras_params(self):
+        try:
+            self.a = self.params["a"]
+            self.b = self.params["b"]
+            self.c = self.params["c"]
+            self.d = self.params["d"]
+            self.h = self.params["h"]
+        except:
+            raise ValueError("Parameter Argument error")
+
     def lorenz(self, coord):
         x, y, z = coord
         dx = self.sigma * ( y - x )
@@ -301,3 +311,11 @@ class Attractors(object):
         dy = - x- y+ self.a*x*z
         dz = z - self.b*x*y
         return np.array([dx , dy , dz], dtype='double')
+
+    def dadras(self, coord):
+        x, y, z = coord
+        dx = y - self.a*x + self.b*y*z 
+        dy = self.c*y - x*z + z
+        dz = self.d*x*y - self.h*z
+        return np.array([dx , dy , dz], dtype='double')
+

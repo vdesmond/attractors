@@ -203,8 +203,18 @@ ax.axis('off')
 # ax.set_zlim((-200, 200))
 
 # * Sakarya
-initial_r_states = [[1, -1, 1]]
-attractor_vects = [RK(r, 'sakarya', a=0.4, b=0.3) for r in initial_r_states]
+# initial_r_states = [[1, -1, 1]]
+# attractor_vects = [RK(r, 'sakarya', a=0.4, b=0.3) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 200, 20000)
+
+# ax.set_xlim((-20, 15))
+# ax.set_ylim((-10, 8))
+# ax.set_zlim((-8, 10))
+
+# * Dadras
+initial_r_states = [[5, 0, -4]]
+attractor_vects = [RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9) for r in initial_r_states]
 for vect in attractor_vects:
     vect.RK4(0, 200, 20000)
 
@@ -234,7 +244,7 @@ def animate(i):
         else:
             line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
         pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-    ax.view_init(0.001 * i, 0.1 * i)
+    ax.view_init(0.01 * i, 0.1 * i)
     fig.canvas.draw()
     return lines + points
 
