@@ -30,14 +30,14 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Dadras
-    r = [-5, 0, 0]
-    vect = RK(r, 'halvorsen', a=1.89)
-    vect.RK4(0, 50, nframes)
+    # * Chen Lee
+    r = [1, 1, 1]
+    vect = RK(r, 'chen_lee', a=5, b=-10, c=-0.38)
+    vect.RK4(0, 20, nframes)
 
-    ax.set_xlim((-20, 15))
-    ax.set_ylim((-12, 8))
-    ax.set_zlim((-12, 8))
+    ax.set_xlim((-30, 30))
+    ax.set_ylim((-30, 30))
+    ax.set_zlim((-1, 35))
 
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument

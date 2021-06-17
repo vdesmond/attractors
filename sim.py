@@ -235,15 +235,24 @@ ax.set_facecolor('#252a34')
 # ax.set_zlim((-12, 8))
 
 # * Hadley
-initial_r_states = [[0, 0, 1]]
-attractor_vects = [RK(r, 'hadley', a=0.2, b=4, f=8, g=1) for r in initial_r_states]
+# initial_r_states = [[0, 0, 1]]
+# attractor_vects = [RK(r, 'hadley', a=0.2, b=4, f=8, g=1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 200, 20000)
+
+# ax.set_xlim((-2, 4))
+# ax.set_ylim((-3, 2))
+# ax.set_zlim((-2, 2))
+
+# * Chen Lee
+initial_r_states = [[1, 1, 1]]
+attractor_vects = [RK(r, 'chen_lee', a=5, b=-10, c=-0.38) for r in initial_r_states]
 for vect in attractor_vects:
-    vect.RK4(0, 200, 20000)
+    vect.RK4(0, 100, 40000)
 
-ax.set_xlim((-2, 4))
-ax.set_ylim((-3, 2))
-ax.set_zlim((-2, 2))
-
+ax.set_xlim((-30, 30))
+ax.set_ylim((-30, 30))
+ax.set_zlim((-1, 35))
 
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
 

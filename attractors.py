@@ -27,6 +27,7 @@ class Attractors(object):
         "dadras" : ["a", "b", "c", "d", "h"],
         "halvorsen" : ["a"],
         "hadley" : ["a", "b", "f", "g"],
+        "chen_lee" : ["a", "b", "c"],
     }
 
         self.attractor = attractor
@@ -189,4 +190,10 @@ class Attractors(object):
         dy = x*y - self.b*x*z - y + self.g
         dz = self.b*x*y + z*(x-1)
         return np.array([dx , dy , dz], dtype='double')
-    
+     
+    def chen_lee(self, coord):
+        x, y, z = coord
+        dx = self.a*x - y*z
+        dy = self.b*y + x*z
+        dz = self.c*z + x*y/3
+        return np.array([dx , dy , dz], dtype='double')
