@@ -26,6 +26,7 @@ class Attractors(object):
         "sakarya" : ["a", "b"],
         "dadras" : ["a", "b", "c", "d", "h"],
         "halvorsen" : ["a"],
+        "hadley" : ["a", "b", "f", "g"],
     }
 
         self.attractor = attractor
@@ -181,3 +182,11 @@ class Attractors(object):
         dy = -self.a*y - 4*z - 4*x - z*z
         dz = -self.a*z - 4*x - 4*y - x*x
         return np.array([dx , dy , dz], dtype='double')
+
+    def hadley(self, coord):
+        x, y, z = coord
+        dx = -y*y - z*z - self.a*(x - self.f)
+        dy = x*y - self.b*x*z - y + self.g
+        dz = self.b*x*y + z*(x-1)
+        return np.array([dx , dy , dz], dtype='double')
+    

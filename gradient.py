@@ -31,13 +31,13 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_zticks([])
 
     # * Dadras
-    r = [5, 0, -4]
-    vect = RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9)
+    r = [-5, 0, 0]
+    vect = RK(r, 'halvorsen', a=1.89)
     vect.RK4(0, 50, nframes)
 
     ax.set_xlim((-20, 15))
-    ax.set_ylim((-10, 8))
-    ax.set_zlim((-8, 10))
+    ax.set_ylim((-12, 8))
+    ax.set_zlim((-12, 8))
 
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument
@@ -85,4 +85,4 @@ def generate_video(nframes, custom=False, step=1):
 
     p.communicate()
 
-generate_video(nframes=2000, custom=True)
+generate_video(nframes=5000, custom=True)
