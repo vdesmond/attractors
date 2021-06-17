@@ -13,8 +13,8 @@ def generate_video(nframes, custom=False, step=1):
     canvas_width, canvas_height = fig.canvas.get_width_height()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 
-    fig.set_facecolor('#2E3440') #! add bg argument
-    ax.set_facecolor('#2E3440')   
+    fig.set_facecolor('#252a34') #! add bg argument
+    ax.set_facecolor('#252a34') 
 
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
@@ -30,14 +30,14 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Dadras
-    r = [5, 0, -4]
-    vect = RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9)
-    vect.RK4(0, 50, nframes)
+    # * Chen Lee
+    r = [1, 1, 1]
+    vect = RK(r, 'chen_lee', a=5, b=-10, c=-0.38)
+    vect.RK4(0, 20, nframes)
 
-    ax.set_xlim((-20, 15))
-    ax.set_ylim((-10, 8))
-    ax.set_zlim((-8, 10))
+    ax.set_xlim((-30, 30))
+    ax.set_ylim((-30, 30))
+    ax.set_zlim((-1, 35))
 
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument
@@ -85,4 +85,4 @@ def generate_video(nframes, custom=False, step=1):
 
     p.communicate()
 
-generate_video(nframes=2000, custom=True)
+generate_video(nframes=5000, custom=True)

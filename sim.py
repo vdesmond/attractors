@@ -12,10 +12,12 @@ plt.style.use('dark_background')
 fig = plt.figure(figsize=(16, 9), dpi=120)
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 ax.axis('off')
+fig.set_facecolor('#252a34') #! add bg argument
+ax.set_facecolor('#252a34')
 
 # * Lorenz
 # initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15]]
-# attractor_vects = [RK(r, 'lorenz', sigma=5, beta=8/3, rho=28) for r in initial_r_states]
+# attractor_vects = [RK(r, 'lorenz', beta=8/3, sigma=5, rhoo=28) for r in initial_r_states]
 # for vect in attractor_vects:
 #     vect.RK5(0, 50, 6000)
 
@@ -213,14 +215,44 @@ ax.axis('off')
 # ax.set_zlim((-8, 10))
 
 # * Dadras
-initial_r_states = [[5, 0, -4]]
-attractor_vects = [RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9) for r in initial_r_states]
-for vect in attractor_vects:
-    vect.RK4(0, 200, 20000)
+# initial_r_states = [[5, 0, -4]]
+# attractor_vects = [RK(r, 'dadras', a=3, b=2.7, c=1.7, d=2, h=9) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 200, 20000)
 
-ax.set_xlim((-20, 15))
-ax.set_ylim((-10, 8))
-ax.set_zlim((-8, 10))
+# ax.set_xlim((-20, 15))
+# ax.set_ylim((-10, 8))
+# ax.set_zlim((-8, 10))
+
+# * Halvorsen
+# initial_r_states = [[-5, 0, 0]]
+# attractor_vects = [RK(r, 'halvorsen', a=1.89) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 200, 20000)
+
+# ax.set_xlim((-20, 15))
+# ax.set_ylim((-12, 8))
+# ax.set_zlim((-12, 8))
+
+# * Hadley
+# initial_r_states = [[0, 0, 1]]
+# attractor_vects = [RK(r, 'hadley', a=0.2, b=4, f=8, g=1) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 200, 20000)
+
+# ax.set_xlim((-2, 4))
+# ax.set_ylim((-3, 2))
+# ax.set_zlim((-2, 2))
+
+# * Chen Lee
+initial_r_states = [[1, 1, 1]]
+attractor_vects = [RK(r, 'chen_lee', a=5, b=-10, c=-0.38) for r in initial_r_states]
+for vect in attractor_vects:
+    vect.RK4(0, 100, 40000)
+
+ax.set_xlim((-30, 30))
+ax.set_ylim((-30, 30))
+ax.set_zlim((-1, 35))
 
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
 

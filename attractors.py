@@ -3,186 +3,44 @@
 import numpy as np
 
 class Attractors(object):
-    
     def __init__(self, attractor, **kwargs):
+
+        self.param_template = {
+        "lorenz" : ["sigma", "beta", "rho"],
+        "rabinovich_fabrikant" : ["alpha", "gamma"],
+        "lotka_volterra" : ["a", "b", "c"],
+        "rossler": ["a", "b", "c"],
+        "wang_sun": ["a", "b", "c", "d", "e", "f"],
+        "rikitake": ["a", "mu"],
+        "nose_hoover": ["a"],
+        "duffing" : ["alpha", "beta"],
+        "aizawa" : ["a", "b", "c", "d", "e", "f"],
+        "three_cell_cnn": ["p1", "p2", "r", "s"],
+        "bouali_type_1" : ["k", "b", "mu", "p", "q", "s"],
+        "bouali_type_2" : ["a", "b", "c", "s", "alpha", "beta"],
+        "bouali_type_3" : ["gamma","mu","alpha", "beta"],
+        "finance": ["a", "b", "c"],
+        "burke_shaw": ["s", "v"],
+        "ikeda" : ["a", "b", "c", "d"],
+        "moore_spiegel" : {"t", "r"},
+        "sakarya" : ["a", "b"],
+        "dadras" : ["a", "b", "c", "d", "h"],
+        "halvorsen" : ["a"],
+        "hadley" : ["a", "b", "f", "g"],
+        "chen_lee" : ["a", "b", "c"],
+    }
+
         self.attractor = attractor
         self.params = kwargs
-
-        getattr(Attractors, "_"+ self.attractor + "_params")(self)
-
-    def _lorenz_params(self):
-        try:
-            self.sigma = self.params["sigma"]
-            self.beta = self.params["beta"]
-            self.rho = self.params["rho"]
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _rabinovich_fabrikant_params(self):
-        try:
-            self.alpha = self.params["alpha"]
-            self.gamma = self.params["gamma"]
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _lotka_volterra_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-        except:
-            raise ValueError("Parameter Argument error")
+        self._func_params()
     
-    def _rossler_params(self):
+    def _func_params(self):
         try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _wang_sun_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-            self.d = self.params["d"]
-            self.e = self.params["e"]
-            self.f = self.params["f"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _rikitake_params(self):
-        try:
-            self.a = self.params["a"]
-            self.mu = self.params["mu"]
-
-        except:
-            raise ValueError("Parameter Argument error")
+            for prm in self.param_template[self.attractor]:
+                exec("self.{} = {}".format(prm, self.params[prm]))
+        except KeyError as e:
+            raise Exception("Parameter argument error") from e
     
-    def _nose_hoover_params(self):
-        try:
-            self.a = self.params["a"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-    
-    def _duffing_params(self):
-        try:
-            self.alpha = self.params["alpha"]
-            self.beta = self.params["beta"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _aizawa_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-            self.d = self.params["d"]
-            self.e = self.params["e"]
-            self.f = self.params["f"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _three_cell_cnn_params(self):
-        try:
-            self.p1 = self.params["p1"]
-            self.p2 = self.params["p2"]
-            self.r = self.params["rr"]
-            self.s = self.params["s"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _bouali_type_1_params(self):
-        try:
-            self.k = self.params["k"]
-            self.mu = self.params["mu"]
-            self.b = self.params["b"]
-            self.p = self.params["p"]
-            self.q = self.params["q"]
-            self.s = self.params["s"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-    
-    def _bouali_type_2_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-            self.s = self.params["s"]
-            self.alpha = self.params["alpha"]
-            self.beta = self.params["beta"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _bouali_type_3_params(self):
-        try:
-            self.alpha = self.params["alpha"]
-            self.beta = self.params["beta"]
-            self.gamma = self.params["gamma"]
-            self.mu = self.params["mu"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _finance_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-            
-    def _burke_shaw_params(self):
-        try:
-            self.s = self.params["s"]
-            self.v = self.params["v"]
-
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _ikeda_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-            self.d = self.params["d"]
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _moore_spiegel_params(self):
-        try:
-            self.t = self.params["t"]
-            self.r = self.params["r"]
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _sakarya_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-        except:
-            raise ValueError("Parameter Argument error")
-
-    def _dadras_params(self):
-        try:
-            self.a = self.params["a"]
-            self.b = self.params["b"]
-            self.c = self.params["c"]
-            self.d = self.params["d"]
-            self.h = self.params["h"]
-        except:
-            raise ValueError("Parameter Argument error")
-
     def lorenz(self, coord):
         x, y, z = coord
         dx = self.sigma * ( y - x )
@@ -319,3 +177,23 @@ class Attractors(object):
         dz = self.d*x*y - self.h*z
         return np.array([dx , dy , dz], dtype='double')
 
+    def halvorsen(self, coord):
+        x, y, z = coord
+        dx = -self.a*x - 4*y - 4*z - y*y
+        dy = -self.a*y - 4*z - 4*x - z*z
+        dz = -self.a*z - 4*x - 4*y - x*x
+        return np.array([dx , dy , dz], dtype='double')
+
+    def hadley(self, coord):
+        x, y, z = coord
+        dx = -y*y - z*z - self.a*(x - self.f)
+        dy = x*y - self.b*x*z - y + self.g
+        dz = self.b*x*y + z*(x-1)
+        return np.array([dx , dy , dz], dtype='double')
+     
+    def chen_lee(self, coord):
+        x, y, z = coord
+        dx = self.a*x - y*z
+        dy = self.b*y + x*z
+        dz = self.c*z + x*y/3
+        return np.array([dx , dy , dz], dtype='double')
