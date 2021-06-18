@@ -11,7 +11,7 @@ mpl.use("Qt5Cairo")
 plt.style.use('dark_background')
 fig = plt.figure(figsize=(16, 9), dpi=120)
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
-# ax.axis('off')
+ax.axis('off')
 fig.set_facecolor('#252a34') #! add bg argument
 ax.set_facecolor('#252a34')
 
@@ -244,6 +244,16 @@ ax.set_facecolor('#252a34')
 # ax.set_ylim((-3, 2))
 # ax.set_zlim((-2, 2))
 
+# * Chen
+initial_r_states = [[-10, 0, 37]]
+attractor_vects = [RK(r, 'chen', a=35, b=3, c=28) for r in initial_r_states]
+for vect in attractor_vects:
+    vect.RK4(0, 200, 40000)
+
+ax.set_xlim((-30, 30))
+ax.set_ylim((-30, 30))
+ax.set_zlim((5, 45))
+
 # * Chen Lee
 # initial_r_states = [[1, 1, 1]]
 # attractor_vects = [RK(r, 'chen_lee', a=5, b=-10, c=-0.38) for r in initial_r_states]
@@ -264,14 +274,14 @@ ax.set_facecolor('#252a34')
 # ax.set_ylim((-30, 30))
 # ax.set_zlim((-1, 35))
 
-initial_r_states = [[1, 1, 30]]
-attractor_vects = [RK(r, 'chen_celikovsky', a=36, b=3, c=28) for r in initial_r_states]
-for vect in attractor_vects:
-    vect.RK4(0, 100, 40000)
+# initial_r_states = [[1, 1, 30]]
+# attractor_vects = [RK(r, 'chen_celikovsky', a=36, b=3, c=28) for r in initial_r_states]
+# for vect in attractor_vects:
+#     vect.RK4(0, 100, 40000)
 
-ax.set_xlim((-30, 30))
-ax.set_ylim((-30, 30))
-ax.set_zlim((10, 50))
+# ax.set_xlim((-30, 30))
+# ax.set_ylim((-30, 30))
+# ax.set_zlim((10, 50))
 
 
 colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
@@ -296,7 +306,7 @@ def animate(i):
         else:
             line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
         pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-    ax.view_init(0.001 * i, 0.01 * i)
+    ax.view_init(0.001 * i, 0.05 * i)
     fig.canvas.draw()
     return lines + points
 
