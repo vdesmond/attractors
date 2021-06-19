@@ -5,7 +5,7 @@ import subprocess
 import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
-from runge_kutta import RK
+from src.utils.runge_kutta import RK
 
 def generate_video(nframes, custom=False, step=1):
 
@@ -42,7 +42,7 @@ def generate_video(nframes, custom=False, step=1):
     if not custom:
         cmap = plt.cm.get_cmap("hsv") #! add cmap argument
     else:
-        from colortable import get_continuous_cmap
+        from src.utils.colortable import get_continuous_cmap
         cmap = get_continuous_cmap()
 
     line = Line3DCollection([], cmap=cmap) #! add hex argument
@@ -85,4 +85,5 @@ def generate_video(nframes, custom=False, step=1):
 
     p.communicate()
 
-generate_video(nframes=5000, custom=True)
+if __name__ == "__main__":
+    generate_video(nframes=5000, custom=True)

@@ -5,15 +5,25 @@ import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from runge_kutta import RK
+from src.utils.runge_kutta import RK
+
+fig_width = 16
+fig_height = 9
+fig_dpi = 120
+bgcolor = "#252a34"
+
+theme = None
+if theme:
+    fig_bgcolor = theme["bgcolor"]
+else:
+    fig_bgcolor = bgcolor
 
 mpl.use("Qt5Cairo")
-plt.style.use('dark_background')
-fig = plt.figure(figsize=(16, 9), dpi=120)
+fig = plt.figure(figsize=(fig_width, fig_height), dpi=fig_dpi)
 ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 ax.axis('off')
-fig.set_facecolor('#252a34') #! add bg argument
-ax.set_facecolor('#252a34')
+fig.set_facecolor(fig_bgcolor) 
+ax.set_facecolor(fig_bgcolor)
 
 # * Lorenz
 # initial_r_states = [[0.1,0.1,0.1], [0.15,0.1,0.1], [0.1,0.15,0.1], [0.1,0.1,0.15]]
@@ -312,7 +322,7 @@ def animate(i):
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=18000//4, interval=5, blit=False)
-
+                               
 # mywriter = animation.FFMpegWriter(bitrate=5000)
 # anim.save('test2.mp4', writer='fclearfmpeg', fps=20, extra_args=['-vcodec', 'libx264'])
 

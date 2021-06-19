@@ -1,36 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
+import json
+
+ATTRACTOR_PARAMS = json.load(open("src/data/params.json"))
 
 class Attractors(object):
     def __init__(self, attractor, **kwargs):
-
-        self.param_template = {
-        "lorenz" : ["sigma", "beta", "rho"],
-        "rabinovich_fabrikant" : ["alpha", "gamma"],
-        "lotka_volterra" : ["a", "b", "c"],
-        "rossler": ["a", "b", "c"],
-        "wang_sun": ["a", "b", "c", "d", "e", "f"],
-        "rikitake": ["a", "mu"],
-        "nose_hoover": ["a"],
-        "duffing" : ["alpha", "beta"],
-        "aizawa" : ["a", "b", "c", "d", "e", "f"],
-        "three_cell_cnn": ["p1", "p2", "r", "s"],
-        "bouali_type_1" : ["k", "b", "mu", "p", "q", "s"],
-        "bouali_type_2" : ["a", "b", "c", "s", "alpha", "beta"],
-        "bouali_type_3" : ["gamma","mu","alpha", "beta"],
-        "finance": ["a", "b", "c"],
-        "burke_shaw": ["s", "v"],
-        "ikeda" : ["a", "b", "c", "d"],
-        "moore_spiegel" : {"t", "r"},
-        "sakarya" : ["a", "b"],
-        "dadras" : ["a", "b", "c", "d", "h"],
-        "halvorsen" : ["a"],
-        "hadley" : ["a", "b", "f", "g"],
-        "chen" : ["a", "b", "c"],
-        "chen_lee" : ["a", "b", "c"],
-        "chen_celikovsky" : ["a", "b", "c"],
-    }
 
         self.attractor = attractor
         self.params = kwargs
@@ -38,7 +14,7 @@ class Attractors(object):
     
     def _func_params(self):
         try:
-            for prm in self.param_template[self.attractor]:
+            for prm in ATTRACTOR_PARAMS[self.attractor]:
                 exec("self.{} = {}".format(prm, self.params[prm]))
         except KeyError as e:
             raise Exception("Parameter argument error") from e
