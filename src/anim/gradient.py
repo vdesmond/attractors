@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from os import initgroups
 import numpy as np
 import subprocess
 import mpl_toolkits.mplot3d.axes3d as p3
@@ -31,8 +32,8 @@ def generate_video(nframes, custom=False, step=1):
     ax.set_zticks([])
 
     # * Chen
-    r = [-10, 0, 37]
-    vect = RK(r, 'chen', a=35, b=3, c=28)
+    init_coord = [-10, 0, 37]
+    vect = RK(init_coord, 'chen', a=35, b=3, c=28)
     vect.RK4(0, 30, nframes)
 
     ax.set_xlim((-30, 30))
