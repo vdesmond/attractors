@@ -6,16 +6,15 @@ import json
 ATTRACTOR_PARAMS = json.load(open("src/data/params.json"))
 
 class Attractors(object):
-    def __init__(self, attractor, **kwargs):
+    def __init__(self, attractor, params):
 
         self.attractor = attractor
-        self.params = kwargs
-        self._func_params()
+        self._func_params(params)
     
-    def _func_params(self):
+    def _func_params(self, params):
         try:
-            for prm in ATTRACTOR_PARAMS[self.attractor]:
-                exec("self.{} = {}".format(prm, self.params[prm]))
+            for prm in ATTRACTOR_PARAMS[self.attractor]["params"]:
+                exec("self.{} = {}".format(prm, params[prm]))
         except KeyError as e:
             raise Exception("Parameter argument error") from e
     

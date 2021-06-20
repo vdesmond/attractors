@@ -1,6 +1,5 @@
-[
-    {
-        "attractor": "lorenz",
+{
+    "lorenz": {
         "params": [
             "sigma",
             "beta",
@@ -29,8 +28,7 @@
             45
         ]
     },
-    {
-        "attractor": "rabinovich_fabrikant",
+    "rabinovich_fabrikant": {
         "params": [
             "alpha",
             "gamma"
@@ -57,8 +55,7 @@
             1.5
         ]
     },
-    {
-        "attractor": "lotka_volterra",
+    "lotka_volterra": {
         "params": [
             "a",
             "b",
@@ -87,8 +84,7 @@
             1.1
         ]
     },
-    {
-        "attractor": "rossler",
+    "rossler": {
         "params": [
             "a",
             "b",
@@ -117,8 +113,7 @@
             20
         ]
     },
-    {
-        "attractor": "wang_sun",
+    "wang_sun": {
         "params": [
             "a",
             "b",
@@ -153,8 +148,7 @@
             2
         ]
     },
-    {
-        "attractor": "rikitake",
+    "rikitake": {
         "params": [
             "a",
             "mu"
@@ -181,8 +175,7 @@
             9
         ]
     },
-    {
-        "attractor": "nose_hoover",
+    "nose_hoover": {
         "params": [
             "a"
         ],
@@ -207,8 +200,7 @@
             3
         ]
     },
-    {
-        "attractor": "aizawa",
+    "aizawa": {
         "params": [
             "a",
             "b",
@@ -243,8 +235,7 @@
             2
         ]
     },
-    {
-        "attractor": "three_cell_cnn",
+    "three_cell_cnn": {
         "params": [
             "p1",
             "p2",
@@ -275,8 +266,7 @@
             1.5
         ]
     },
-    {
-        "attractor": "bouali_type_1",
+    "bouali_type_1": {
         "params": [
             "k",
             "b",
@@ -311,8 +301,7 @@
             0.2
         ]
     },
-    {
-        "attractor": "bouali_type_2",
+    "bouali_type_2": {
         "params": [
             "a",
             "b",
@@ -347,8 +336,7 @@
             1.5
         ]
     },
-    {
-        "attractor": "bouali_type_3",
+    "bouali_type_3": {
         "params": [
             "gamma",
             "mu",
@@ -379,8 +367,7 @@
             0.15
         ]
     },
-    {
-        "attractor": "finance",
+    "finance": {
         "params": [
             "a",
             "b",
@@ -409,8 +396,7 @@
             1.5
         ]
     },
-    {
-        "attractor": "burke_shaw",
+    "burke_shaw": {
         "params": [
             "s",
             "v"
@@ -437,8 +423,7 @@
             1.5
         ]
     },
-    {
-        "attractor": "moore_spiegel",
+    "moore_spiegel": {
         "params": [
             "t",
             "r"
@@ -465,8 +450,7 @@
             250
         ]
     },
-    {
-        "attractor": "sakarya",
+    "sakarya": {
         "params": [
             "a",
             "b"
@@ -493,8 +477,7 @@
             10
         ]
     },
-    {
-        "attractor": "dadras",
+    "dadras": {
         "params": [
             "a",
             "b",
@@ -527,8 +510,7 @@
             8
         ]
     },
-    {
-        "attractor": "halvorsen",
+    "halvorsen": {
         "params": [
             "a"
         ],
@@ -553,8 +535,7 @@
             8
         ]
     },
-    {
-        "attractor": "hadley",
+    "hadley": {
         "params": [
             "a",
             "b",
@@ -585,8 +566,7 @@
             2
         ]
     },
-    {
-        "attractor": "chen",
+    "chen": {
         "params": [
             "a",
             "b",
@@ -615,8 +595,7 @@
             45
         ]
     },
-    {
-        "attractor": "chen_lee",
+    "chen_lee": {
         "params": [
             "a",
             "b",
@@ -645,8 +624,7 @@
             35
         ]
     },
-    {
-        "attractor": "chen_celikovsky",
+    "chen_celikovsky": {
         "params": [
             "a",
             "b",
@@ -675,4 +653,4 @@
             50
         ]
     }
-]
+}

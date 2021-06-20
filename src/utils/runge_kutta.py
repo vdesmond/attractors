@@ -5,8 +5,8 @@ from src.utils.attractors import Attractors
 
 class RK(Attractors):
 
-    def __init__(self , initial_coord, attractor, **kwargs):
-        super(RK, self).__init__(attractor, **kwargs)
+    def __init__(self , initial_coord, attractor, params):
+        super(RK, self).__init__(attractor, params)
         self.coord = initial_coord
         self.X = []
         self.Y = []
