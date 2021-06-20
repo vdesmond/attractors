@@ -68,13 +68,6 @@ class Attractors(object):
         dz = 1 - y*y
         return np.array([dx , dy , dz], dtype='double')
 
-    def duffing(self, coord):
-        x, y, z = coord
-        dx = y
-        dy = x - (self.alpha * y) - (x ** 3) + self.beta*np.cos(z)
-        dz = 0.5
-        return np.array([dx , dy , dz], dtype='double')
-
     def aizawa(self, coord):
         x, y, z = coord
         dx = (z - self.b)*x - self.d*y
@@ -125,13 +118,6 @@ class Attractors(object):
         dx = -self.s * (x+y)
         dy = -y - self.s*x*z
         dz = self.s*x*y + self.v
-        return np.array([dx , dy , dz], dtype='double')
-
-    def ikeda(self, coord):
-        x, y, z = coord
-        dx = self.a + self.b*(x*np.cos(z) - y*np.sin(z))
-        dy = self.b*(x*np.sin(z) + y*np.cos(z))
-        dz = self.c - (self.d / (1+ x*x + y*y))
         return np.array([dx , dy , dz], dtype='double')
 
     def moore_spiegel(self, coord):
