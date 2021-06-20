@@ -1,130 +1,678 @@
-{
-    "lorenz": [
-        "sigma",
-        "beta",
-        "rho"
-    ],
-    "rabinovich_fabrikant": [
-        "alpha",
-        "gamma"
-    ],
-    "lotka_volterra": [
-        "a",
-        "b",
-        "c"
-    ],
-    "rossler": [
-        "a",
-        "b",
-        "c"
-    ],
-    "wang_sun": [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f"
-    ],
-    "rikitake": [
-        "a",
-        "mu"
-    ],
-    "nose_hoover": [
-        "a"
-    ],
-    "duffing": [
-        "alpha",
-        "beta"
-    ],
-    "aizawa": [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f"
-    ],
-    "three_cell_cnn": [
-        "p1",
-        "p2",
-        "r",
-        "s"
-    ],
-    "bouali_type_1": [
-        "k",
-        "b",
-        "mu",
-        "p",
-        "q",
-        "s"
-    ],
-    "bouali_type_2": [
-        "a",
-        "b",
-        "c",
-        "s",
-        "alpha",
-        "beta"
-    ],
-    "bouali_type_3": [
-        "gamma",
-        "mu",
-        "alpha",
-        "beta"
-    ],
-    "finance": [
-        "a",
-        "b",
-        "c"
-    ],
-    "burke_shaw": [
-        "s",
-        "v"
-    ],
-    "ikeda": [
-        "a",
-        "b",
-        "c",
-        "d"
-    ],
-    "moore_spiegel": [
-        "t",
-        "r"
-    ],
-    "sakarya": [
-        "a",
-        "b"
-    ],
-    "dadras": [
-        "a",
-        "b",
-        "c",
-        "d",
-        "h"
-    ],
-    "halvorsen": [
-        "a"
-    ],
-    "hadley": [
-        "a",
-        "b",
-        "f",
-        "g"
-    ],
-    "chen": [
-        "a",
-        "b",
-        "c"
-    ],
-    "chen_lee": [
-        "a",
-        "b",
-        "c"
-    ],
-    "chen_celikovsky": [
-        "a",
-        "b",
-        "c"
-    ]
-}
+[
+    {
+        "attractor": "lorenz",
+        "params": [
+            "sigma",
+            "beta",
+            "rho"
+        ],
+        "default_params": [
+            5,
+            2.66667,
+            28
+        ],
+        "init_coord": [
+            0.1,
+            0.1,
+            0.1
+        ],
+        "xlim": [
+            -20,
+            20
+        ],
+        "ylim": [
+            -30,
+            30
+        ],
+        "zlim": [
+            5,
+            45
+        ]
+    },
+    {
+        "attractor": "rabinovich_fabrikant",
+        "params": [
+            "alpha",
+            "gamma"
+        ],
+        "default_params": [
+            1.1,
+            0.87
+        ],
+        "init_coord": [
+            -1,
+            0,
+            0.5
+        ],
+        "xlim": [
+            -2,
+            0
+        ],
+        "ylim": [
+            -0.5,
+            3
+        ],
+        "zlim": [
+            0,
+            1.5
+        ]
+    },
+    {
+        "attractor": "lotka_volterra",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            2.9851,
+            3,
+            2
+        ],
+        "init_coord": [
+            1,
+            1,
+            1
+        ],
+        "xlim": [
+            0.7,
+            1.3
+        ],
+        "ylim": [
+            0.8,
+            1.2
+        ],
+        "zlim": [
+            0.4,
+            1.1
+        ]
+    },
+    {
+        "attractor": "rossler",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            0.2,
+            0.2,
+            5.7
+        ],
+        "init_coord": [
+            0.1,
+            0,
+            -0.1
+        ],
+        "xlim": [
+            -15,
+            15
+        ],
+        "ylim": [
+            -15,
+            15
+        ],
+        "zlim": [
+            -1,
+            20
+        ]
+    },
+    {
+        "attractor": "wang_sun",
+        "params": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f"
+        ],
+        "default_params": [
+            0.2,
+            -0.01,
+            1,
+            -0.4,
+            -1,
+            -1
+        ],
+        "init_coord": [
+            0.5,
+            0.1,
+            0.1
+        ],
+        "xlim": [
+            -4,
+            4
+        ],
+        "ylim": [
+            -4,
+            4
+        ],
+        "zlim": [
+            -3,
+            2
+        ]
+    },
+    {
+        "attractor": "rikitake",
+        "params": [
+            "a",
+            "mu"
+        ],
+        "default_params": [
+            5,
+            2
+        ],
+        "init_coord": [
+            -0.7,
+            0,
+            5
+        ],
+        "xlim": [
+            -7,
+            6
+        ],
+        "ylim": [
+            -5,
+            3
+        ],
+        "zlim": [
+            3,
+            9
+        ]
+    },
+    {
+        "attractor": "nose_hoover",
+        "params": [
+            "a"
+        ],
+        "default_params": [
+            1
+        ],
+        "init_coord": [
+            0.1,
+            0,
+            -0.1
+        ],
+        "xlim": [
+            -3,
+            1
+        ],
+        "ylim": [
+            -3,
+            3
+        ],
+        "zlim": [
+            -3,
+            3
+        ]
+    },
+    {
+        "attractor": "aizawa",
+        "params": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f"
+        ],
+        "default_params": [
+            0.95,
+            0.7,
+            0.6,
+            3.5,
+            0.25,
+            0.1
+        ],
+        "init_coord": [
+            0.1,
+            0,
+            0
+        ],
+        "xlim": [
+            -2,
+            2
+        ],
+        "ylim": [
+            -2,
+            2
+        ],
+        "zlim": [
+            -0.5,
+            2
+        ]
+    },
+    {
+        "attractor": "three_cell_cnn",
+        "params": [
+            "p1",
+            "p2",
+            "r",
+            "s"
+        ],
+        "default_params": [
+            1.24,
+            1.1,
+            4.4,
+            3.21
+        ],
+        "init_coord": [
+            0.1,
+            0.1,
+            0.1
+        ],
+        "xlim": [
+            -2,
+            2
+        ],
+        "ylim": [
+            -1.5,
+            1.5
+        ],
+        "zlim": [
+            -2,
+            1.5
+        ]
+    },
+    {
+        "attractor": "bouali_type_1",
+        "params": [
+            "k",
+            "b",
+            "mu",
+            "p",
+            "q",
+            "s"
+        ],
+        "default_params": [
+            0.02,
+            0.2,
+            0.4,
+            10,
+            0.1,
+            50
+        ],
+        "init_coord": [
+            0,
+            -2,
+            -0.25
+        ],
+        "xlim": [
+            -0.05,
+            0.05
+        ],
+        "ylim": [
+            -5,
+            5
+        ],
+        "zlim": [
+            -0.2,
+            0.2
+        ]
+    },
+    {
+        "attractor": "bouali_type_2",
+        "params": [
+            "a",
+            "b",
+            "c",
+            "s",
+            "alpha",
+            "beta"
+        ],
+        "default_params": [
+            4,
+            1,
+            1.4,
+            2.8,
+            1,
+            1
+        ],
+        "init_coord": [
+            0.1,
+            3,
+            0.2
+        ],
+        "xlim": [
+            -3,
+            3
+        ],
+        "ylim": [
+            1,
+            9
+        ],
+        "zlim": [
+            -7,
+            1.5
+        ]
+    },
+    {
+        "attractor": "bouali_type_3",
+        "params": [
+            "gamma",
+            "mu",
+            "alpha",
+            "beta"
+        ],
+        "default_params": [
+            1,
+            0.001,
+            3,
+            2.2
+        ],
+        "init_coord": [
+            1,
+            1,
+            0
+        ],
+        "xlim": [
+            -3,
+            3
+        ],
+        "ylim": [
+            0,
+            3
+        ],
+        "zlim": [
+            -0.15,
+            0.15
+        ]
+    },
+    {
+        "attractor": "finance",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            0.00001,
+            0.1,
+            1
+        ],
+        "init_coord": [
+            0,
+            -10,
+            0.1
+        ],
+        "xlim": [
+            -2,
+            2
+        ],
+        "ylim": [
+            -20,
+            0
+        ],
+        "zlim": [
+            -1.5,
+            1.5
+        ]
+    },
+    {
+        "attractor": "burke_shaw",
+        "params": [
+            "s",
+            "v"
+        ],
+        "default_params": [
+            10,
+            4.272
+        ],
+        "init_coord": [
+            1,
+            0,
+            0
+        ],
+        "xlim": [
+            -2,
+            2
+        ],
+        "ylim": [
+            -2,
+            2
+        ],
+        "zlim": [
+            -1.5,
+            1.5
+        ]
+    },
+    {
+        "attractor": "moore_spiegel",
+        "params": [
+            "t",
+            "r"
+        ],
+        "default_params": [
+            20,
+            100
+        ],
+        "init_coord": [
+            0,
+            0.8,
+            0
+        ],
+        "xlim": [
+            -10,
+            10
+        ],
+        "ylim": [
+            -20,
+            20
+        ],
+        "zlim": [
+            -250,
+            250
+        ]
+    },
+    {
+        "attractor": "sakarya",
+        "params": [
+            "a",
+            "b"
+        ],
+        "default_params": [
+            0.4,
+            0.3
+        ],
+        "init_coord": [
+            1,
+            -1,
+            1
+        ],
+        "xlim": [
+            -20,
+            15
+        ],
+        "ylim": [
+            -10,
+            8
+        ],
+        "zlim": [
+            -6,
+            10
+        ]
+    },
+    {
+        "attractor": "dadras",
+        "params": [
+            "a",
+            "b",
+            "c",
+            "d",
+            "h"
+        ],
+        "default_params": [
+            3,
+            2.7,
+            1.7,
+            2,
+            9
+        ],
+        "init_coord": [
+            5,
+            0,
+            -4
+        ],
+        "xlim": [
+            -15,
+            15
+        ],
+        "ylim": [
+            -8,
+            8
+        ],
+        "zlim": [
+            -8,
+            8
+        ]
+    },
+    {
+        "attractor": "halvorsen",
+        "params": [
+            "a"
+        ],
+        "default_params": [
+            1.89
+        ],
+        "init_coord": [
+            -5,
+            0,
+            0
+        ],
+        "xlim": [
+            -20,
+            15
+        ],
+        "ylim": [
+            -12,
+            8
+        ],
+        "zlim": [
+            -12,
+            8
+        ]
+    },
+    {
+        "attractor": "hadley",
+        "params": [
+            "a",
+            "b",
+            "f",
+            "g"
+        ],
+        "default_params": [
+            0.2,
+            4,
+            8,
+            1
+        ],
+        "init_coord": [
+            0,
+            0,
+            1
+        ],
+        "xlim": [
+            -1,
+            3
+        ],
+        "ylim": [
+            -2,
+            2
+        ],
+        "zlim": [
+            -2,
+            2
+        ]
+    },
+    {
+        "attractor": "chen",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            35,
+            3,
+            28
+        ],
+        "init_coord": [
+            -10,
+            0,
+            37
+        ],
+        "xlim": [
+            -30,
+            30
+        ],
+        "ylim": [
+            -30,
+            30
+        ],
+        "zlim": [
+            -5,
+            45
+        ]
+    },
+    {
+        "attractor": "chen_lee",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            5,
+            -10,
+            -0.38
+        ],
+        "init_coord": [
+            1,
+            1,
+            1
+        ],
+        "xlim": [
+            -30,
+            30
+        ],
+        "ylim": [
+            -30,
+            30
+        ],
+        "zlim": [
+            -1,
+            35
+        ]
+    },
+    {
+        "attractor": "chen_celikovsky",
+        "params": [
+            "a",
+            "b",
+            "c"
+        ],
+        "default_params": [
+            36,
+            3,
+            17
+        ],
+        "init_coord": [
+            1,
+            1,
+            30
+        ],
+        "xlim": [
+            -30,
+            30
+        ],
+        "ylim": [
+            -30,
+            30
+        ],
+        "zlim": [
+            10,
+            50
+        ]
+    }
+]

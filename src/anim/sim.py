@@ -217,14 +217,14 @@ def animate_simulation():
     # ax.set_zlim((-2, 2))
 
     # * Chen
-    # initial_r_states = [[-10, 0, 37]]
-    # attractor_vects = [RK(r, 'chen', a=35, b=3, c=28) for r in initial_r_states]
-    # for vect in attractor_vects:
-    #     vect.RK4(0, 200, 40000)
+    initial_r_states = [[-10, 0, 37]]
+    attractor_vects = [RK(r, 'chen', a=35, b=3, c=28) for r in initial_r_states]
+    for vect in attractor_vects:
+        vect.RK4(0, 200, 40000)
 
-    # ax.set_xlim((-30, 30))
-    # ax.set_ylim((-30, 30))
-    # ax.set_zlim((5, 45))
+    ax.set_xlim((-30, 30))
+    ax.set_ylim((-30, 30))
+    ax.set_zlim((5, 45))
 
     # * Chen Lee
     # initial_r_states = [[1, 1, 1]]
