@@ -10,7 +10,7 @@ from src.utils.runge_kutta import RK
 from src.utils.attractors import ATTRACTOR_PARAMS
 from src.utils.colortable import get_continuous_cmap
 
-def generate_video(attractor, width, height, dpi, bgcolor, palette, sim_time, points):
+def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, points, integrator, rk2_method = "heun"):
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
 
@@ -40,7 +40,14 @@ def generate_video(attractor, width, height, dpi, bgcolor, palette, sim_time, po
     zlim = attr["zlim"]
     
     vect = RK(init_coord, attractor, attr_params)
-    vect.RK5(0, sim_time, points) # ! integerator
+    try:
+        rk = getattr(vect, integrator)
+        if integrator == "RK2":
+            rk(0, sim_time, points, rk2_method)
+        else:
+            rk(0, sim_time, points)
+    except AttributeError as e:
+        raise Exception(f"Integrator Error. {integrator} is not an valid integrator") from e
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -72,14 +79,13 @@ def generate_video(attractor, width, height, dpi, bgcolor, palette, sim_time, po
         ax.elev += 0.0001
         ax.azim += 0.1
 
-    # Open an ffmpeg process
     outf = 'test.mp4'
     cmdstring = ('ffmpeg', 
-                 '-y', '-r', '60', # overwrite, 1fps
-                 '-s', '%dx%d' % (canvas_width, canvas_height),# size of image string
+                 '-y', '-r', '60',
+                 '-s', '%dx%d' % (canvas_width, canvas_height),
                  '-pix_fmt', 'argb', # format
-                 '-f', 'rawvideo',  '-i', '-', # tell ffmpeg to expect raw video from the pipe
-                  '-b:v', '5000k','-vcodec', 'mpeg4', outf) # output encoding
+                 '-f', 'rawvideo',  '-i', '-',
+                  '-b:v', '5000k','-vcodec', 'mpeg4', outf)
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
 
     for frame in range(points):
