@@ -5,11 +5,12 @@ import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+from numpy.lib.function_base import select
 from src.utils.runge_kutta import RK
 from src.utils.attractors import ATTRACTOR_PARAMS
 from src.utils.colortable import get_continuous_cmap
 
-def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points):
+def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator, rk2_method = "heun"):
     
     mpl.use("Qt5Cairo")
     fig = plt.figure(figsize=(width, height), dpi=dpi)
@@ -19,18 +20,26 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     ax.set_facecolor(bgcolor)
 
     attr = ATTRACTOR_PARAMS[attractor]
-    init_coord = attr["init_coord"]
+    init_coord = np.array(attr["init_coord"], dtype='double')
     attr_params = dict(zip(attr["params"], attr["default_params"]))
     xlim = attr["xlim"]
     ylim = attr["ylim"]
     zlim = attr["zlim"]
     
+    init_coords = [init_coord] + [init_coord + np.random.normal(0, 0.01, 3) for _ in range(n-1)]
 
-    init_coords = [init_coord]
-    attractor_vects = [RK(coord, attractor, attr_params) for coord in init_coords]
+    attractor_vects = [RK(xyz, attractor, attr_params) for xyz in init_coords]
+
     for vect in attractor_vects:
-        vect.RK5(0, sim_time, points)
-
+        try:
+            rk = getattr(vect, integrator)
+            if integrator == "RK2":
+                rk(0, sim_time, points, rk2_method)
+            else:
+                rk(0, sim_time, points)
+        except AttributeError as e:
+            raise Exception(f"Integrator Error. {integrator} is not an valid integrator") from e
+    
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_zlim(zlim)
@@ -40,7 +49,7 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     else:
         cmap = get_continuous_cmap(palette)
     
-    colors = cmap(np.linspace(0, 1, len(init_coords)))
+    colors = cmap(np.linspace(0, 0.5, len(init_coords)))
 
     lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
                 for c in colors], [])
@@ -54,8 +63,7 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
         return lines + points
 
     def animate(i):
-        steps = 4
-        i = (steps * i) % len(attractor_vects[0].X)
+        i = i % len(attractor_vects[0].X)
         for line, pt, k in zip(lines, points, attractor_vects):
             if i>15000:
                 line.set_data_3d(k.X[i-15000:i], k.Y[i-15000:i], k.Z[i-15000:i])

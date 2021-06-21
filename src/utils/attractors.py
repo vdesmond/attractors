@@ -16,7 +16,7 @@ class Attractors(object):
             for prm in ATTRACTOR_PARAMS[self.attractor]["params"]:
                 exec("self.{} = {}".format(prm, params[prm]))
         except KeyError as e:
-            raise Exception("Parameter argument error") from e
+            raise Exception(f"Parameter argument error. {prm} is not an valid parameter for {self.attractor} attractor.") from e
     
     def lorenz(self, coord):
         x, y, z = coord

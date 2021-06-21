@@ -25,7 +25,7 @@ class RK(Attractors):
             k1 = h*attractor_func(self, self.coord)
             self.coord += k1
     
-    def RK2(self, a, b, N, method='heun'):
+    def RK2(self, a, b, N, method):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)

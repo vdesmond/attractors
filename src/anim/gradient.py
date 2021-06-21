@@ -63,9 +63,8 @@ def generate_video(attractor, width, height, dpi, bgcolor, palette, sim_time, po
     def update(frame):
 
         #! gets slower over time :/
-        
-        steps = step
-        i = (steps * frame) % len(vect.X)
+
+        i = frame % len(vect.X)
         points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([points[:-1],points[1:]],axis=1)
         line.set_segments(segs)
