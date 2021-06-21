@@ -7,46 +7,51 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 from src.utils.runge_kutta import RK
+from src.utils.attractors import ATTRACTOR_PARAMS
+from src.utils.colortable import get_continuous_cmap
 
-def generate_video(nframes, custom=False, step=1):
+def generate_video(attractor, width, height, dpi, bgcolor, palette, sim_time, points):
 
-    fig = plt.figure(figsize=(16, 9), dpi=120)
+    fig = plt.figure(figsize=(width, height), dpi=dpi)
+
     canvas_width, canvas_height = fig.canvas.get_width_height()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 
-    fig.set_facecolor('#252a34') #! add bg argument
-    ax.set_facecolor('#252a34') 
+    fig.set_facecolor(bgcolor) 
+    ax.set_facecolor(bgcolor)
 
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
     ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
 
-    # Get rid of the spines
     ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
     ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
     ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
 
-    # Get rid of the ticks
     ax.set_xticks([]) 
     ax.set_yticks([]) 
     ax.set_zticks([])
 
-    # * Chen
-    init_coord = [-10, 0, 37]
-    vect = RK(init_coord, 'chen', a=35, b=3, c=28)
-    vect.RK4(0, 30, nframes)
+    attr = ATTRACTOR_PARAMS[attractor]
+    init_coord = attr["init_coord"]
+    attr_params = dict(zip(attr["params"], attr["default_params"]))
+    xlim = attr["xlim"]
+    ylim = attr["ylim"]
+    zlim = attr["zlim"]
+    
+    vect = RK(init_coord, attractor, attr_params)
+    vect.RK5(0, sim_time, points) # ! integerator
 
-    ax.set_xlim((-30, 30))
-    ax.set_ylim((-30, 30))
-    ax.set_zlim((5, 45))
+    ax.set_xlim(xlim)
+    ax.set_ylim(ylim)
+    ax.set_zlim(zlim)
 
-    if not custom:
-        cmap = plt.cm.get_cmap("hsv") #! add cmap argument
+    if isinstance(palette, str):
+        cmap = plt.cm.get_cmap(palette)
     else:
-        from src.utils.colortable import get_continuous_cmap
-        cmap = get_continuous_cmap()
+        cmap = get_continuous_cmap(palette)
 
-    line = Line3DCollection([], cmap=cmap) #! add hex argument
+    line = Line3DCollection([], cmap=cmap)
     ax.add_collection3d(line)
 
     def init():
@@ -78,13 +83,10 @@ def generate_video(nframes, custom=False, step=1):
                   '-b:v', '5000k','-vcodec', 'mpeg4', outf) # output encoding
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
 
-    for frame in range(nframes):
+    for frame in range(points):
         update(frame)
         fig.canvas.draw()
         string = fig.canvas.tostring_argb()
         p.stdin.write(string)
 
     p.communicate()
-
-if __name__ == "__main__":
-    generate_video(nframes=5000, custom=True)

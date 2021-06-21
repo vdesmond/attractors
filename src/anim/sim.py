@@ -7,39 +7,27 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from src.utils.runge_kutta import RK
 from src.utils.attractors import ATTRACTOR_PARAMS
+from src.utils.colortable import get_continuous_cmap
 
-def animate_simulation():
-    fig_width = 16
-    fig_height = 9
-    fig_dpi = 120
-    bgcolor = "#252a34"
-
-    theme = None
-    if theme:
-        fig_bgcolor = theme["bgcolor"]
-    else:
-        fig_bgcolor = bgcolor
-
+def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points):
+    
     mpl.use("Qt5Cairo")
-    fig = plt.figure(figsize=(fig_width, fig_height), dpi=fig_dpi)
+    fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
     ax.axis('off')
-    fig.set_facecolor(fig_bgcolor) 
-    ax.set_facecolor(fig_bgcolor)
+    fig.set_facecolor(bgcolor) 
+    ax.set_facecolor(bgcolor)
 
-
-    attr = ATTRACTOR_PARAMS["lorenz"]
+    attr = ATTRACTOR_PARAMS[attractor]
     init_coord = attr["init_coord"]
     attr_params = dict(zip(attr["params"], attr["default_params"]))
-    sim_time = 50
-    points = 6000
     xlim = attr["xlim"]
     ylim = attr["ylim"]
     zlim = attr["zlim"]
     
 
     init_coords = [init_coord]
-    attractor_vects = [RK(coord, 'lorenz', attr_params) for coord in init_coords]
+    attractor_vects = [RK(coord, attractor, attr_params) for coord in init_coords]
     for vect in attractor_vects:
         vect.RK5(0, sim_time, points)
 
@@ -47,7 +35,12 @@ def animate_simulation():
     ax.set_ylim(ylim)
     ax.set_zlim(zlim)
 
-    colors = plt.cm.hsv(np.linspace(0.1, 1, len(attractor_vects)))
+    if isinstance(palette, str):
+        cmap = plt.cm.get_cmap(palette)
+    else:
+        cmap = get_continuous_cmap(palette)
+    
+    colors = cmap(np.linspace(0, 1, len(init_coords)))
 
     lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
                 for c in colors], [])
