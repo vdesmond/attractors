@@ -8,8 +8,8 @@ from src.anim.sim import animate_simulation
 with open('./src/data/themes.json') as f:
     themes = json.load(f)
 
-attractor = "lorenz"
-theme = themes["Solarized Dark - Patched"]
+attractor = "chen"
+theme = themes["Builtin Solarized Light"]
 
 palette_temp = list(theme.values())
 palette_temp.remove(theme["background"])
@@ -17,14 +17,12 @@ palette_temp.remove(theme["background"])
 width = 16
 height = 9
 dpi = 120
-sim_time = 20
-points = 3000
+sim_time = 10
+points = 5000
 bgcolor = theme["background"] if theme is not None else "#000000"
-palette = palette_temp if theme is not None else "hsv"
+palette = palette_temp if theme is not None else "jet"
 
-
-print(palette)
-n = 3
+n = 6
 integrator = "RK5"
 
 # animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator)

@@ -49,7 +49,7 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     else:
         cmap = get_continuous_cmap(palette)
     
-    colors = cmap(np.linspace(0, 0.5, len(init_coords)))
+    colors = cmap(np.linspace(0, 1, len(init_coords)))
 
     lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
                 for c in colors], [])

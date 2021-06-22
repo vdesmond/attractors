@@ -61,9 +61,12 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
     line = Line3DCollection([], cmap=cmap)
     ax.add_collection3d(line)
 
+    pt = ax.scatter([], [], [])
+    # pt.set_cmap(cmap)
+
     def init():
         line.set_segments([])
-        return line,
+        pt.set_offsets([[],[],[]])
 
     init()
    
@@ -74,10 +77,19 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
         i = frame % len(vect.X)
         points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([points[:-1],points[1:]],axis=1)
-        line.set_segments(segs)
-        line.set_array(np.array(vect.Y)) # set X, Y, Z for gradient
-        ax.elev += 0.0001
-        ax.azim += 0.1
+        
+    
+        pt._offsets3d = ([vect.X[i]], [vect.Y[i]], [vect.Z[i]])
+        pt._facecolor3d = [cmap(vect.Y[i]/max(vect.Y))]
+        pt._edgecolor3d = [cmap(vect.Y[i]/max(vect.Y))]
+
+        # line.set_segments(segs)
+
+        # # set X, Y, Z for gradient
+        # line.set_array(np.array(vect.Y)) 
+        
+        
+        ax.view_init(0.005 * i, 0.05 * i)
 
     outf = 'test.mp4'
     cmdstring = ('ffmpeg', 
