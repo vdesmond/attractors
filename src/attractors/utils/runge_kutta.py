@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-from src.utils.attractors import Attractors
+from src.attractors.utils.attr import Attractors
 
 class RK(Attractors):
 

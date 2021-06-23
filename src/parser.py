@@ -3,8 +3,8 @@
 
 import argparse
 import json
-from src.anim.gradient import animate_gradient
-from src.anim.sim import animate_simulation
+from src.attractors.anim.gradient import animate_gradient
+from src.attractors.anim.sim import animate_simulation
 from argparse import SUPPRESS
 
 parser = argparse.ArgumentParser(add_help=False)

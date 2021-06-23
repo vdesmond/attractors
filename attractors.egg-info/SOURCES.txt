@@ -1,0 +1,9 @@
+.gitignore
+README.md
+setup.py
+attractors.egg-info/PKG-INFO
+attractors.egg-info/SOURCES.txt
+attractors.egg-info/dependency_links.txt
+attractors.egg-info/entry_points.txt
+attractors.egg-info/requires.txt
+attractors.egg-info/top_level.txt

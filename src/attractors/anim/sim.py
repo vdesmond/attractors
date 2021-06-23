@@ -4,10 +4,10 @@ import numpy as np
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
-from src.utils.runge_kutta import RK
-from src.utils.attractors import ATTRACTOR_PARAMS
-from src.utils.colortable import get_continuous_cmap
-from src.utils.video import ffmpeg_video
+from src.attractors.utils.runge_kutta import RK
+from src.attractors.utils.attr import ATTRACTOR_PARAMS
+from src.attractors.utils.colortable import get_continuous_cmap
+from src.attractors.utils.video import ffmpeg_video
 
 def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator, interactive = False, rk2_method = "heun", fps = 60, outf = "output.mp4"):
     
