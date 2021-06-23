@@ -71,13 +71,13 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
         ax.view_init(0.005 * i, 0.05 * i)
-        fig.canvas.draw()
+        # fig.canvas.draw()
         return lines + points
 
     anim = animation.FuncAnimation(fig, animate, init_func=init,
                                 frames=18000//4, interval=5, blit=False)
                                 
-    # mywriter = animation.FFMpegWriter(bitrate=5000)
-    # anim.save('test2.mp4', writer='fclearfmpeg', fps=20, extra_args=['-vcodec', 'libx264'])
+    mywriter = animation.FFMpegWriter(bitrate=5000)
+    anim.save('test10.mp4', writer='ffmpeg', fps=20, extra_args=['-vcodec', 'libx264'])
 
-    plt.show()
+    #plt.show()

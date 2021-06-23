@@ -61,14 +61,18 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
     line = Line3DCollection([], cmap=cmap)
     ax.add_collection3d(line)
 
-    pt = ax.scatter([], [], [])
+    pt, = ax.plot([], [], [], 'o')
     # pt.set_cmap(cmap)
 
     def init():
         line.set_segments([])
-        pt.set_offsets([[],[],[]])
+        pt.set_data_3d([], [], [])
 
     init()
+
+    line.set_array(vect.Y)
+    colors = line.to_rgba(vect.Y)
+    
    
     def update(frame):
 
@@ -78,17 +82,11 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
         points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([points[:-1],points[1:]],axis=1)
         
-    
-        pt._offsets3d = ([vect.X[i]], [vect.Y[i]], [vect.Z[i]])
-        pt._facecolor3d = [cmap(vect.Y[i]/max(vect.Y))]
-        pt._edgecolor3d = [cmap(vect.Y[i]/max(vect.Y))]
-
-        # line.set_segments(segs)
-
-        # # set X, Y, Z for gradient
-        # line.set_array(np.array(vect.Y)) 
+        line.set_segments(segs)
         
-        
+        pt.set_data_3d([vect.X[i]], [vect.Y[i]], [vect.Z[i]])
+        pt.set_color(colors[i])
+
         ax.view_init(0.005 * i, 0.05 * i)
 
     outf = 'test.mp4'
