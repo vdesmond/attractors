@@ -71,8 +71,6 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
        
     def update(frame):
 
-        #! gets slower over time :/
-
         i = frame % len(vect.X)
         pts = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
         segs = np.concatenate([pts[:-1],pts[1:]],axis=1)

@@ -54,6 +54,8 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     pts = sum([ax.plot([], [], [], 'o', c=c)
             for c in colors], [])                   
 
+    trail = 0.9*points
+
     def init():
         for line, pt in zip(lines, pts):
             line.set_data_3d([], [], [])
@@ -63,8 +65,8 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     def update(i):
         i = i % len(attractor_vects[0].X)
         for line, pt, k in zip(lines, pts, attractor_vects):
-            if i>15000:
-                line.set_data_3d(k.X[i-15000:i], k.Y[i-15000:i], k.Z[i-15000:i])
+            if i>trail:
+                line.set_data_3d(k.X[i-trail:i], k.Y[i-trail:i], k.Z[i-trail:i])
             else:
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
@@ -73,7 +75,7 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
 
     if interactive:
         anim = animation.FuncAnimation(fig, update, init_func=init,
-                                frames=18000//4, interval=5, blit=False)
+                                interval=1000/fps, blit=False)
         plt.show()
     else:
         ffmpeg_video(fig, update, points, fps, outf)  
