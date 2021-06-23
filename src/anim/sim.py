@@ -4,15 +4,13 @@ import numpy as np
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-from numpy.lib.function_base import select
 from src.utils.runge_kutta import RK
 from src.utils.attractors import ATTRACTOR_PARAMS
 from src.utils.colortable import get_continuous_cmap
+from src.utils.video import ffmpeg_video
 
-def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator, rk2_method = "heun"):
+def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator, interactive = False, rk2_method = "heun", fps = 60, outf = "output.mp4"):
     
-    mpl.use("Qt5Cairo")
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
     ax.axis('off')
@@ -53,31 +51,29 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
 
     lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
                 for c in colors], [])
-    points = sum([ax.plot([], [], [], 'o', c=c)
+    pts = sum([ax.plot([], [], [], 'o', c=c)
             for c in colors], [])                   
 
     def init():
-        for line, pt in zip(lines, points):
+        for line, pt in zip(lines, pts):
             line.set_data_3d([], [], [])
             pt.set_data_3d([], [], [])
-        return lines + points
+        return lines + pts
 
-    def animate(i):
+    def update(i):
         i = i % len(attractor_vects[0].X)
-        for line, pt, k in zip(lines, points, attractor_vects):
+        for line, pt, k in zip(lines, pts, attractor_vects):
             if i>15000:
                 line.set_data_3d(k.X[i-15000:i], k.Y[i-15000:i], k.Z[i-15000:i])
             else:
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
         ax.view_init(0.005 * i, 0.05 * i)
-        # fig.canvas.draw()
-        return lines + points
+        return lines + pts
 
-    anim = animation.FuncAnimation(fig, animate, init_func=init,
+    if interactive:
+        anim = animation.FuncAnimation(fig, update, init_func=init,
                                 frames=18000//4, interval=5, blit=False)
-                                
-    mywriter = animation.FFMpegWriter(bitrate=5000)
-    anim.save('test10.mp4', writer='ffmpeg', fps=20, extra_args=['-vcodec', 'libx264'])
-
-    #plt.show()
+        plt.show()
+    else:
+        ffmpeg_video(fig, update, points, fps, outf)  

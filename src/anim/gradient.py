@@ -1,20 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from os import initgroups
 import numpy as np
-import subprocess
 import mpl_toolkits.mplot3d.axes3d as p3
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 from src.utils.runge_kutta import RK
 from src.utils.attractors import ATTRACTOR_PARAMS
 from src.utils.colortable import get_continuous_cmap
+from src.utils.video import ffmpeg_video
 
-def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, points, integrator, rk2_method = "heun"):
+def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, points, integrator, rk2_method = "heun", fps = 60, outf="output.mp4"):
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
-
-    canvas_width, canvas_height = fig.canvas.get_width_height()
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
 
     fig.set_facecolor(bgcolor) 
@@ -62,7 +59,6 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
     ax.add_collection3d(line)
 
     pt, = ax.plot([], [], [], 'o')
-    # pt.set_cmap(cmap)
 
     def init():
         line.set_segments([])
@@ -72,15 +68,14 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
 
     line.set_array(vect.Y)
     colors = line.to_rgba(vect.Y)
-    
-   
+       
     def update(frame):
 
         #! gets slower over time :/
 
         i = frame % len(vect.X)
-        points = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
-        segs = np.concatenate([points[:-1],points[1:]],axis=1)
+        pts = np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1,1,3)
+        segs = np.concatenate([pts[:-1],pts[1:]],axis=1)
         
         line.set_segments(segs)
         
@@ -88,20 +83,9 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
         pt.set_color(colors[i])
 
         ax.view_init(0.005 * i, 0.05 * i)
+    
+    ffmpeg_video(fig, update, points, fps, outf)
 
-    outf = 'test.mp4'
-    cmdstring = ('ffmpeg', 
-                 '-y', '-r', '60',
-                 '-s', '%dx%d' % (canvas_width, canvas_height),
-                 '-pix_fmt', 'argb', # format
-                 '-f', 'rawvideo',  '-i', '-',
-                  '-b:v', '5000k','-vcodec', 'mpeg4', outf)
-    p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
+    
 
-    for frame in range(points):
-        update(frame)
-        fig.canvas.draw()
-        string = fig.canvas.tostring_argb()
-        p.stdin.write(string)
 
-    p.communicate()
