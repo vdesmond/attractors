@@ -21,8 +21,8 @@ def case_convert(string):
 
 def cli():
     parser = argparse.ArgumentParser(add_help=False)
-    required = parser.add_argument_group('required arguments')
-    optional = parser.add_argument_group('optional arguments')
+    required = parser.add_argument_group('Required arguments')
+    optional = parser.add_argument_group('Optional arguments')
 
     parser.add_argument(
         '-h',
@@ -39,6 +39,14 @@ def cli():
         type=str,
         choices=["multipoint", "gradient"],
         required=True
+    )
+
+    optional.add_argument(
+        "--des",
+        help=("Differential Equation Solver." " Default: rk4"),
+        type=str,
+        choices=["euler", "rk2", "rk3", "rk4", "rk5" ],
+        default="rk4",
     )
 
     optional.add_argument(
@@ -82,16 +90,44 @@ def cli():
         "--bgcolor",
         help=("Background color for figure in hex. Overrides theme settings."" Default: #000000"),
         type=str,
-        default="#000000"
     )
     optional.add_argument(
         "--cmap",
         help=("Matplotlib cmap for palette. Overrides theme settings."" Default: jet"),
         type=str,
-        default="jet"
+    )
+    optional.add_argument(
+        "--fps",
+        help=("Set FPS for animated video (or interactive plot)"" Default: 60"),
+        type=int,
+        default=60
+    )
+    optional.add_argument(
+        "--n",
+        help=("Number of initial points for Multipoint animation"" Default: 3"),
+        type=int,
+        default=3
+    )
+    optional.add_argument(
+        "--rk2",
+        help=("Method for 2nd order Runge-Kutta if specified to used."" Default: heun"),
+        type=str,
+        default="heun",
+        choices=["heun", "imp_poly", "ralston"]
+    )
+    optional.add_argument(
+        "--outf",
+        help=("Output video filename"" Default: output.mp4"),
+        type=str,
+        default="output.mp4",
+    )
+    optional.add_argument(
+        "--live",
+        help=("Live plotting instead of generating video."),
+        action='store_true'
     )
 
-    subparsers = parser.add_subparsers(title="Attractor settings", description="Choose one of the attractors and specify its parameters", dest="attractor")
+    subparsers = parser.add_subparsers(title="Attractor settings", description="Choose one of the attractors and specify its parameters", dest="attractor", metavar="ATTRACTOR")
     
     for attr, attrparams in ATTRACTOR_PARAMS.items():
         attrparser = subparsers.add_parser(f"{attr}", help=f"{attr} attractor")
@@ -117,55 +153,43 @@ def cli():
 
     args = parser.parse_args()
 
-
-
-
-
-
-
-
-
-
-
-
-
+    # * load theme
     raw_themes_data = pkg_resources.open_text(data, 'themes.json')
     themes = json.load(raw_themes_data)
 
-    attractor = "chen"
-    theme = themes["AtelierSulphurpool"]
+    # print(args)
+    # print(args.bgcolor is not None)
 
-    palette_temp = list(theme.values())
-    palette_temp.remove(theme["background"])
+    # * load args
+    attractor = args.attractor
+    theme = themes[args.theme]
+    bgcolor =  "#000000"
+    palette =  "jet"
+    if theme is not None:
+        palette_temp = list(theme.values())
+        palette_temp.remove(theme["background"])
+        bgcolor = args.bgcolor if args.bgcolor is not None else theme["background"] 
+        palette = args.cmap if args.cmap is not None else palette_temp  
+    width = args.width
+    height = args.height
+    dpi = args.dpi
+    fps = args.fps
+    simtime = args.simtime
+    simpoints = args.simpoints
+    n = args.n
+    des = args.des
+    rk2_method = args.rk2
+    outf = args.outf
+    live = args.live
 
-    width = 16
-    height = 9
-    dpi = 120
-    sim_time = 20
-    points = 5000
-    bgcolor = theme["background"] if theme is not None else "#000000"
-    palette = palette_temp if theme is not None else "jet"
-
-    n = 6
-    integrator = "RK5"
-
-    # animate_simulation(
-    #     attractor,
-    #     width,
-    #     height,
-    #     dpi,
-    #     bgcolor,
-    #     palette,
-    #     sim_time,
-    #     points,
-    #     n,
-    #     integrator,
-    #     interactive=True,
-
-    # )
-    # animate_gradient(
-    #     attractor, width, height, dpi, bgcolor, palette, sim_time, points, integrator
-    # )
+    if args.type == "multipoint":
+        animate_simulation(
+            attractor, width, height, dpi, bgcolor, palette, simtime, simpoints, n, des, live, rk2_method, fps, outf
+        )
+    else:
+        animate_gradient(
+            attractor, width, height, dpi, bgcolor, palette, simtime, simpoints, des, rk2_method, fps, outf
+        )
 
 if __name__ == ' __main__':
     cli()

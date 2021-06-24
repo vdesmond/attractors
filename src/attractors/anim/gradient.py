@@ -9,7 +9,7 @@ from src.attractors.utils.attr import ATTRACTOR_PARAMS
 from src.attractors.utils.colortable import get_continuous_cmap
 from src.attractors.utils.video import ffmpeg_video
 
-def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, points, integrator, rk2_method = "heun", fps = 60, outf="output.mp4"):
+def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, points, des, rk2_method, fps, outf):
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
@@ -38,13 +38,13 @@ def animate_gradient(attractor, width, height, dpi, bgcolor, palette, sim_time, 
     
     vect = RK(init_coord, attractor, attr_params)
     try:
-        rk = getattr(vect, integrator)
-        if integrator == "RK2":
+        rk = getattr(vect, des)
+        if des == "RK2":
             rk(0, sim_time, points, rk2_method)
         else:
             rk(0, sim_time, points)
     except AttributeError as e:
-        raise Exception(f"Integrator Error. {integrator} is not an valid integrator") from e
+        raise Exception(f"Integrator Error. {des} is not an valid integrator") from e
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
