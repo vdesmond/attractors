@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 def hex_to_rgb(value):
@@ -9,7 +8,7 @@ def hex_to_rgb(value):
     Converts hex to normalized rgb colours
     value: string of 6 characters representing a hex colour.
     Returns: list length 3 of RGB values'''
-    value = value.strip("#") # removes hash symbol if present
+    value = value.strip("#")
     lv = len(value)
     rgb_vals =  tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
     return [v/256 for v in rgb_vals]

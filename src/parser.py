@@ -3,7 +3,6 @@
 
 import argparse
 import json
-import re
 from src.attractors.anim.gradient import animate_gradient
 from src.attractors.anim.sim import animate_simulation
 from src.attractors.utils.attr import ATTRACTOR_PARAMS
@@ -11,18 +10,24 @@ from argparse import SUPPRESS
 
 try:
     import importlib.resources as pkg_resources
+    import importlib.metadata as metadata
 except ImportError:
     import importlib_resources as pkg_resources
+    import importlib_metadata as metadata
 
 from src.attractors import data
 
-def case_convert(string):
-    string = re.sub(r"[\-_\.\s]", joiner, str(string))
+def case_convert(snakecase_string):
+    return snakecase_string.replace("_", " ").title().replace("Cnn", "CNN")
 
 def cli():
     parser = argparse.ArgumentParser(add_help=False)
-    required = parser.add_argument_group('Required arguments')
-    optional = parser.add_argument_group('Optional arguments')
+    required = parser.add_argument_group('required arguments')
+    optional = parser.add_argument_group('other arguments')
+
+    parser.add_argument('-v', '--version', 
+                    action='version',                    
+                    version=metadata.version("attractors"))
 
     parser.add_argument(
         '-h',
@@ -35,7 +40,7 @@ def cli():
     required.add_argument(
         "-t",
         "--type",
-        help=("Simulation Type"),
+        help=("choose simulation type"),
         type=str,
         choices=["multipoint", "gradient"],
         required=True
@@ -43,7 +48,7 @@ def cli():
 
     optional.add_argument(
         "--des",
-        help=("Differential Equation Solver." " Default: rk4"),
+        help=("set the Differential Equation Solver." " Default: rk4"),
         type=str,
         choices=["euler", "rk2", "rk3", "rk4", "rk5" ],
         default="rk4",
@@ -51,49 +56,49 @@ def cli():
 
     optional.add_argument(
         "--width",
-        help=("Width of the figure" " Default: 16"),
+        help=("set width of the figure" " Default: 16"),
         type=int,
         default=16,
     )
     optional.add_argument(
         "--height",
-        help=("Height of the figure" " Default: 9"),
+        help=("set height of the figure" " Default: 9"),
         type=int,
         default=9,
     )
     optional.add_argument(
         "--dpi",
-        help=("DPI of the figure" " Default: 120"),
+        help=("set DPI of the figure" " Default: 120"),
         type=int,
         default=120,
     )
     optional.add_argument(
         "--theme",
-        help=("Theme (color palette) to be used"),
+        help=("choose theme (color palette) to be used"),
         type=str
     )
     required.add_argument(
         "-s",
         "--simtime",
-        help=("Simulation time"),
+        help=("set the simulation time"),
         type=int,
         required=True
     )
     required.add_argument(
         "-p",
         "--simpoints",
-        help=("Number of points to be used for the simulation."),
+        help=("set the number of points to be used for the simulation"),
         type=int,
         required=True
     )
     optional.add_argument(
         "--bgcolor",
-        help=("Background color for figure in hex. Overrides theme settings."" Default: #000000"),
+        help=("Background color for figure in hex. Overrides theme settings"" Default: #000000"),
         type=str,
     )
     optional.add_argument(
         "--cmap",
-        help=("Matplotlib cmap for palette. Overrides theme settings."" Default: jet"),
+        help=("Matplotlib cmap for palette. Overrides theme settings"" Default: jet"),
         type=str,
     )
     optional.add_argument(
@@ -130,18 +135,18 @@ def cli():
     subparsers = parser.add_subparsers(title="Attractor settings", description="Choose one of the attractors and specify its parameters", dest="attractor", metavar="ATTRACTOR")
     
     for attr, attrparams in ATTRACTOR_PARAMS.items():
-        attrparser = subparsers.add_parser(f"{attr}", help=f"{attr} attractor")
-        attrgroup = attrparser.add_argument_group(title=f"{attr} attractor parameters")
+        attrparser = subparsers.add_parser(f"{attr}", help=f"{case_convert(attr)} attractor")
+        attrgroup = attrparser.add_argument_group(title=f"{case_convert(attr)} attractor parameters")
 
         for i in range(len(attrparams['params'])):
             attrgroup.add_argument(
                 f"--{attrparams['params'][i]}",
-                help=(f"Parameter for {attr} attractor " f"Default: {attrparams['default_params'][i]}"),
+                help=(f"Parameter for {case_convert(attr)} attractor " f"Default: {attrparams['default_params'][i]}"),
                 type=int,
                 default=attrparams["default_params"][i])
         attrgroup.add_argument(
                 f"--initcoord",
-                help=(f"Initial coordinate for {attr} attractor. Input format: \"x,y,z\" " f"Default: {attrparams['init_coord']}"),
+                help=(f"Initial coordinate for {case_convert(attr)} attractor. Input format: \"x,y,z\" " f"Default: {attrparams['init_coord']}"),
                 type=lambda s: [int(item) for item in s.split(',')],
                 default=attrparams['init_coord'])
         for k in ["x", "y", "z"]:
@@ -156,9 +161,6 @@ def cli():
     # * load theme
     raw_themes_data = pkg_resources.open_text(data, 'themes.json')
     themes = json.load(raw_themes_data)
-
-    # print(args)
-    # print(args.bgcolor is not None)
 
     # * load args
     attractor = args.attractor
