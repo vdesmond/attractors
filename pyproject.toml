@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "attractors"
+version = "0.1.0"
+description = "Simulation and visualization of strange attractors"
+authors = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+matplotlib = {git = "https://github.com/matplotlib/matplotlib.git"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+black = "^21.6b0"
+isort = "^5.9.1"
+
+[tool.poetry.scripts]
+attractors = "src.parser:cli"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
