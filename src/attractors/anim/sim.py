@@ -4,12 +4,12 @@ import numpy as np
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 import matplotlib.pyplot as plt
-from src.utils.runge_kutta import RK
-from src.utils.attractors import ATTRACTOR_PARAMS
-from src.utils.colortable import get_continuous_cmap
-from src.utils.video import ffmpeg_video
+from src.attractors.utils.runge_kutta import RK
+from src.attractors.utils.attr import ATTRACTOR_PARAMS
+from src.attractors.utils.colortable import get_continuous_cmap
+from src.attractors.utils.video import ffmpeg_video
 
-def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, integrator, interactive = False, rk2_method = "heun", fps = 60, outf = "output.mp4"):
+def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, des, live, rk2_method, fps, outf):
     
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
@@ -30,13 +30,13 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
 
     for vect in attractor_vects:
         try:
-            rk = getattr(vect, integrator)
-            if integrator == "RK2":
+            rk = getattr(vect, des)
+            if des == "RK2":
                 rk(0, sim_time, points, rk2_method)
             else:
                 rk(0, sim_time, points)
         except AttributeError as e:
-            raise Exception(f"Integrator Error. {integrator} is not an valid integrator") from e
+            raise Exception(f"Integrator Error. {des} is not an valid integrator") from e
     
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -73,7 +73,7 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
         ax.view_init(0.005 * i, 0.05 * i)
         return lines + pts
 
-    if interactive:
+    if live:
         anim = animation.FuncAnimation(fig, update, init_func=init,
                                 interval=1000/fps, blit=False)
         plt.show()

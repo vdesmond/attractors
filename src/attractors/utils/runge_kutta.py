@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-from src.utils.attractors import Attractors
+from src.attractors.utils.attr import Attractors
 
 class RK(Attractors):
 
@@ -12,7 +12,7 @@ class RK(Attractors):
         self.Y = []
         self.Z = []
 
-    def Euler(self, a, b, N):
+    def euler(self, a, b, N):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)
@@ -25,7 +25,7 @@ class RK(Attractors):
             k1 = h*attractor_func(self, self.coord)
             self.coord += k1
     
-    def RK2(self, a, b, N, method):
+    def rk2(self, a, b, N, method):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)
@@ -66,7 +66,7 @@ class RK(Attractors):
             self.Z.append(self.coord[2])
             eval(method)()
 
-    def RK3(self, a, b, N):
+    def rk3(self, a, b, N):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)
@@ -89,7 +89,7 @@ class RK(Attractors):
 
             self.coord += (k1+4*k2+k3)/6
     
-    def RK4(self, a, b, N):
+    def rk4(self, a, b, N):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)
@@ -116,7 +116,7 @@ class RK(Attractors):
 
             self.coord += (k1+2*k2+2*k3+k4)/6
     
-    def RK5(self, a, b, N):
+    def rk5(self, a, b, N):
         h = (b-a)/N
         time_scale = np.arange(a,b,h)
         attractor_func = getattr(RK, self.attractor)

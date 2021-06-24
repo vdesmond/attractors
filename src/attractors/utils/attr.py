@@ -3,7 +3,15 @@
 import numpy as np
 import json
 
-ATTRACTOR_PARAMS = json.load(open("src/data/params.json"))
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    import importlib_resources as pkg_resources
+
+from src.attractors import data
+
+raw_params_data = pkg_resources.open_text(data, 'params.json')
+ATTRACTOR_PARAMS = json.load(raw_params_data)
 
 class Attractors(object):
     def __init__(self, attractor, params):
