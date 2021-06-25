@@ -13,6 +13,7 @@ matplotlib = {git = "https://github.com/matplotlib/matplotlib.git"}
 pytest = "^6.2.4"
 black = "^21.6b0"
 isort = "^5.9.1"
+flake8 = "^3.9.2"
 
 [tool.poetry.scripts]
 attractors = "src.parser:cli"

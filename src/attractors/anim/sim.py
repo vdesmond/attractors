@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-import mpl_toolkits.mplot3d.axes3d as p3
+import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 from matplotlib import animation
 import matplotlib.pyplot as plt
 from src.attractors.utils.runge_kutta import RK
@@ -9,22 +9,40 @@ from src.attractors.utils.attr import ATTRACTOR_PARAMS
 from src.attractors.utils.colortable import get_continuous_cmap
 from src.attractors.utils.video import ffmpeg_video
 
-def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time, points, n, des, live, rk2_method, fps, outf):
-    
+
+def animate_simulation(
+    attractor,
+    width,
+    height,
+    dpi,
+    bgcolor,
+    palette,
+    sim_time,
+    points,
+    n,
+    des,
+    live,
+    rk2_method,
+    fps,
+    outf,
+):
+
     fig = plt.figure(figsize=(width, height), dpi=dpi)
-    ax = fig.add_axes([0, 0, 1, 1], projection='3d')
-    ax.axis('off')
-    fig.set_facecolor(bgcolor) 
+    ax = fig.add_axes([0, 0, 1, 1], projection="3d")
+    ax.axis("off")
+    fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
 
     attr = ATTRACTOR_PARAMS[attractor]
-    init_coord = np.array(attr["init_coord"], dtype='double')
+    init_coord = np.array(attr["init_coord"], dtype="double")
     attr_params = dict(zip(attr["params"], attr["default_params"]))
     xlim = attr["xlim"]
     ylim = attr["ylim"]
     zlim = attr["zlim"]
-    
-    init_coords = [init_coord] + [init_coord + np.random.normal(0, 0.01, 3) for _ in range(n-1)]
+
+    init_coords = [init_coord] + [
+        init_coord + np.random.normal(0, 0.01, 3) for _ in range(n - 1)
+    ]
 
     attractor_vects = [RK(xyz, attractor, attr_params) for xyz in init_coords]
 
@@ -36,8 +54,10 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
             else:
                 rk(0, sim_time, points)
         except AttributeError as e:
-            raise Exception(f"Integrator Error. {des} is not an valid integrator") from e
-    
+            raise Exception(
+                f"Integrator Error. {des} is not an valid integrator"
+            ) from e
+
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_zlim(zlim)
@@ -46,15 +66,19 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
         cmap = plt.cm.get_cmap(palette)
     else:
         cmap = get_continuous_cmap(palette)
-    
+
     colors = cmap(np.linspace(0, 1, len(init_coords)))
 
-    lines = sum([ax.plot([], [], [], '-', c=c, linewidth=1, antialiased=True)
-                for c in colors], [])
-    pts = sum([ax.plot([], [], [], 'o', c=c)
-            for c in colors], [])                   
+    lines = sum(
+        [
+            ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
+            for c in colors
+        ],
+        [],
+    )
+    pts = sum([ax.plot([], [], [], "o", c=c) for c in colors], [])
 
-    trail = 0.9*points
+    trail = 0.9 * points
 
     def init():
         for line, pt in zip(lines, pts):
@@ -65,8 +89,12 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
     def update(i):
         i = i % len(attractor_vects[0].X)
         for line, pt, k in zip(lines, pts, attractor_vects):
-            if i>trail:
-                line.set_data_3d(k.X[i-trail:i], k.Y[i-trail:i], k.Z[i-trail:i])
+            if i > trail:
+                line.set_data_3d(
+                    k.X[i - trail : i],  # noqa: E203
+                    k.Y[i - trail : i],  # noqa: E203
+                    k.Z[i - trail : i],  # noqa: E203
+                )
             else:
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
@@ -74,8 +102,9 @@ def animate_simulation(attractor, width, height, dpi, bgcolor, palette, sim_time
         return lines + pts
 
     if live:
-        anim = animation.FuncAnimation(fig, update, init_func=init,
-                                interval=1000/fps, blit=False)
+        _ = animation.FuncAnimation(
+            fig, update, init_func=init, interval=1000 / fps, blit=False
+        )
         plt.show()
     else:
-        ffmpeg_video(fig, update, points, fps, outf)  
+        ffmpeg_video(fig, update, points, fps, outf)
