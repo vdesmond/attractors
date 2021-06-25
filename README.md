@@ -2,6 +2,8 @@
 
 Attractors is a package for simulation and visualization of strange attractors.
 
+For complete documentation, see the repository docs at https://github.com/Vignesh-Desmond/attractors
+
 ## Installation
 
 The package is currently hosted on PyPi and can be installed with pip:
@@ -11,6 +13,10 @@ The package is currently hosted on PyPi and can be installed with pip:
 Alternatively, the package can be installed locally after cloning by the following command:
 
 `python -m pip install .`
+
+Note:
+
+The package requires FFMPEG as a prerequisite for generating visualization output. For installation, see [here](https://ffmpeg.org/download.html)
 
 ## Dependencies
 
@@ -139,8 +145,6 @@ Lorenz attractor parameters:
   --zlim ZLIM           z axis limits for figure. Input format: "zmin,zmax"
                         Default: [5, 45]
 ```
-
-For complete documentation, see the repository docs at https://github.com/Vignesh-Desmond/attractors
 
 ## License
 

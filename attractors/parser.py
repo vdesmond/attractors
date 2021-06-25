@@ -5,9 +5,9 @@ import argparse
 import json
 from argparse import SUPPRESS
 
-from src.attractors.anim.gradient import animate_gradient
-from src.attractors.anim.sim import animate_simulation
-from src.attractors.utils.attr import ATTRACTOR_PARAMS
+from attractors.anim.gradient import animate_gradient
+from attractors.anim.sim import animate_simulation
+from attractors.utils.attr import ATTRACTOR_PARAMS
 
 try:
     import importlib.metadata as metadata
@@ -16,7 +16,7 @@ except ImportError:
     import importlib_resources as pkg_resources
     import importlib_metadata as metadata
 
-from src.attractors import data
+from attractors import data
 
 
 def case_convert(snakecase_string):

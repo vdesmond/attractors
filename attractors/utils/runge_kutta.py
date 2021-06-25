@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from src.attractors.utils.attr import Attractors
+from attractors.utils.attr import Attractors
 
 
 class RK(Attractors):

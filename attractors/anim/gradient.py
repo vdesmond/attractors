@@ -5,10 +5,10 @@ import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-from src.attractors.utils.attr import ATTRACTOR_PARAMS
-from src.attractors.utils.colortable import get_continuous_cmap
-from src.attractors.utils.runge_kutta import RK
-from src.attractors.utils.video import ffmpeg_video
+from attractors.utils.attr import ATTRACTOR_PARAMS
+from attractors.utils.colortable import get_continuous_cmap
+from attractors.utils.runge_kutta import RK
+from attractors.utils.video import ffmpeg_video
 
 
 def animate_gradient(

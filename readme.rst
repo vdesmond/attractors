@@ -19,6 +19,12 @@ following command:
 
 ``python -m pip install .``
 
+Note:
+
+The package requires FFMPEG as a prerequisite for generating
+visualization output. For installation, see
+`here <https://ffmpeg.org/download.html>`__
+
 Dependencies
 ------------
 

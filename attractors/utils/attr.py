@@ -9,7 +9,7 @@ try:
 except ImportError:
     import importlib_resources as pkg_resources
 
-from src.attractors import data
+from attractors import data
 
 raw_params_data = pkg_resources.open_text(data, "params.json")
 ATTRACTOR_PARAMS = json.load(raw_params_data)

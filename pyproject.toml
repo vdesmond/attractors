@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attractors"
-version = "0.1.0"
+version = "0.1.2"
 description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
 maintainers = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
@@ -36,7 +36,7 @@ isort = "^5.9.1"
 flake8 = "^3.9.2"
 
 [tool.poetry.scripts]
-attractors = "src.parser:cli"
+attractors = "attractors.parser:cli"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
