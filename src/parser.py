@@ -194,7 +194,7 @@ def cli():
 
     # * load args
     attractor = args.attractor
-    theme = themes[args.theme]
+    theme = themes[args.theme] if args.theme is not None else None
     bgcolor = "#000000"
     palette = "jet"
     if theme is not None:

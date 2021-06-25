@@ -28,7 +28,7 @@ def animate_gradient(
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
-
+    
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
 
@@ -81,7 +81,7 @@ def animate_gradient(
 
     init()
 
-    line.set_array(vect.Y)
+    line.set_array(np.array(vect.Y))
     colors = line.to_rgba(vect.Y)
 
     def update(frame):
