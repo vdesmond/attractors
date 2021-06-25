@@ -54,7 +54,7 @@ def cli():
 
     optional.add_argument(
         "--des",
-        help="set the Differential Equation Solver. Default: rk4",
+        help="choose the Differential Equation Solver. Default: rk4",
         type=str,
         choices=["euler", "rk2", "rk3", "rk4", "rk5"],
         default="rk4",
@@ -98,32 +98,32 @@ def cli():
     optional.add_argument(
         "--bgcolor",
         help=(
-            "Background color for figure in hex. Overrides theme settings"
+            "background color for figure in hex. Overrides theme settings"
             " Default: #000000"
         ),
         type=str,
     )
     optional.add_argument(
         "--cmap",
-        help=("Matplotlib cmap for palette. Overrides theme settings" " Default: jet"),
+        help=("matplotlib cmap for palette. Overrides theme settings" " Default: jet"),
         type=str,
     )
     optional.add_argument(
         "--fps",
-        help="Set FPS for animated video (or interactive plot) Default: 60",
+        help="set FPS for animated video (or interactive plot) Default: 60",
         type=int,
         default=60,
     )
     optional.add_argument(
         "--n",
-        help="Number of initial points for Multipoint animation Default: 3",
+        help="number of initial points for Multipoint animation Default: 3",
         type=int,
         default=3,
     )
     optional.add_argument(
         "--rk2",
         help=(
-            "Method for 2nd order Runge-Kutta if specified to used. Default:" " heun"
+            "method for 2nd order Runge-Kutta if specified to used. Default:" " heun"
         ),
         type=str,
         default="heun",
@@ -131,13 +131,13 @@ def cli():
     )
     optional.add_argument(
         "--outf",
-        help="Output video filename Default: output.mp4",
+        help="output video filename Default: output.mp4",
         type=str,
         default="output.mp4",
     )
     optional.add_argument(
         "--live",
-        help="Live plotting instead of generating video.",
+        help="live plotting instead of generating video.",
         action="store_true",
     )
 

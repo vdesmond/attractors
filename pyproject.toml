@@ -5,8 +5,8 @@ description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
 maintainers = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
 license = "MIT"
-readme = "README.md"
-homepage = ""
+readme = "readme.rst"
+homepage = "https://github.com/Vignesh-Desmond/attractors"
 repository = "https://github.com/Vignesh-Desmond/attractors"
 documentation = "https://github.com/Vignesh-Desmond/attractors"
 keywords = [
@@ -39,7 +39,12 @@ attractors = "src.parser:cli"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.flake8]
+ignore = ['E203', 'E266', 'E501', 'W503', 'F403', 'F401']
+max-line-length = 88
+
 [tool.isort]
+known_third_party = ["matplotlib", "mpl_toolkits", "numpy", "src"]
 multi_line_output = 3
 line_length = 88
 include_trailing_comma = true
