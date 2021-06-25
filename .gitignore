@@ -1,4 +1,5 @@
 __pycache__/
+*.pyc
 *.mp4
 log.txt
 
@@ -16,4 +17,5 @@ var/
 .installed.cfg
 *.egg
 
+.vscode/
 testenv/

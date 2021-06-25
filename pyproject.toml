@@ -2,8 +2,8 @@
 name = "attractors"
 version = "0.1.0"
 description = "Simulation and visualization of strange attractors"
-authors = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
-maintainers = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
+authors = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
+maintainers = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
 license = "MIT"
 readme = "readme.rst"
 homepage = "https://github.com/Vignesh-Desmond/attractors"
@@ -21,10 +21,13 @@ classifiers = [
     "Framework :: Matplotlib",
     "Intended Audience :: Education",
 ]
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-matplotlib = {git = "https://github.com/matplotlib/matplotlib.git"}
+matplotlib = "^3.4.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

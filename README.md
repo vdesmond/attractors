@@ -16,7 +16,7 @@ Alternatively, the package can be installed locally after cloning by the followi
 
 - Python (3.8+)
 - NumPy (1.21.0+)
-- Matplotlib (3.5.0+)
+- Matplotlib (3.4.2+)
 
 ## Usage
 

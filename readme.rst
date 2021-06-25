@@ -4,6 +4,9 @@ Attractors
 Attractors is a package for simulation and visualization of strange
 attractors.
 
+For complete documentation, see the repository docs at
+https://github.com/Vignesh-Desmond/attractors
+
 Installation
 ------------
 
@@ -21,7 +24,7 @@ Dependencies
 
 -  Python (3.8+)
 -  NumPy (1.21.0+)
--  Matplotlib (3.5.0+)
+-  Matplotlib (3.4.2+)
 
 Usage
 -----
@@ -155,9 +158,6 @@ The help message for Lorenz attractors will be as follows:
                            Default: [-30, 30]
      --zlim ZLIM           z axis limits for figure. Input format: "zmin,zmax"
                            Default: [5, 45]
-
-For complete documentation, see the repository docs at
-https://github.com/Vignesh-Desmond/attractors
 
 License
 -------
