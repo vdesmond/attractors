@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import numpy as np
-import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
-from matplotlib import animation
 import matplotlib.pyplot as plt
-from src.attractors.utils.runge_kutta import RK
+import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
+import numpy as np
+from matplotlib import animation
+
 from src.attractors.utils.attr import ATTRACTOR_PARAMS
 from src.attractors.utils.colortable import get_continuous_cmap
+from src.attractors.utils.runge_kutta import RK
 from src.attractors.utils.video import ffmpeg_video
 
 
@@ -70,10 +71,7 @@ def animate_simulation(
     colors = cmap(np.linspace(0, 1, len(init_coords)))
 
     lines = sum(
-        [
-            ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
-            for c in colors
-        ],
+        [ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True) for c in colors],
         [],
     )
     pts = sum([ax.plot([], [], [], "o", c=c) for c in colors], [])

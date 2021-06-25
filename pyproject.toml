@@ -3,7 +3,24 @@ name = "attractors"
 version = "0.1.0"
 description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
+maintainers = ["Vignesh Desmond <vignesh.desmond@gmail.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = ""
+repository = "https://github.com/Vignesh-Desmond/attractors"
+documentation = "https://github.com/Vignesh-Desmond/attractors"
+keywords = [
+    "Attractors",
+    "Strange Attractors",
+    "Lorenz",
+    "Chen",
+    "Chaotic Attractors",
+]
+classifiers = [
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Framework :: Matplotlib",
+    "Intended Audience :: Education",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -21,3 +38,11 @@ attractors = "src.parser:cli"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+multi_line_output = 3
+line_length = 88
+include_trailing_comma = true
+
+[tool.black]
+line_length = 88

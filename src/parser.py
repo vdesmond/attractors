@@ -3,14 +3,15 @@
 
 import argparse
 import json
+from argparse import SUPPRESS
+
 from src.attractors.anim.gradient import animate_gradient
 from src.attractors.anim.sim import animate_simulation
 from src.attractors.utils.attr import ATTRACTOR_PARAMS
-from argparse import SUPPRESS
 
 try:
-    import importlib.resources as pkg_resources
     import importlib.metadata as metadata
+    import importlib.resources as pkg_resources
 except ImportError:
     import importlib_resources as pkg_resources
     import importlib_metadata as metadata
@@ -104,10 +105,7 @@ def cli():
     )
     optional.add_argument(
         "--cmap",
-        help=(
-            "Matplotlib cmap for palette. Overrides theme settings"
-            " Default: jet"
-        ),
+        help=("Matplotlib cmap for palette. Overrides theme settings" " Default: jet"),
         type=str,
     )
     optional.add_argument(
@@ -125,8 +123,7 @@ def cli():
     optional.add_argument(
         "--rk2",
         help=(
-            "Method for 2nd order Runge-Kutta if specified to used. Default:"
-            " heun"
+            "Method for 2nd order Runge-Kutta if specified to used. Default:" " heun"
         ),
         type=str,
         default="heun",
@@ -203,9 +200,7 @@ def cli():
     if theme is not None:
         palette_temp = list(theme.values())
         palette_temp.remove(theme["background"])
-        bgcolor = (
-            args.bgcolor if args.bgcolor is not None else theme["background"]
-        )
+        bgcolor = args.bgcolor if args.bgcolor is not None else theme["background"]
         palette = args.cmap if args.cmap is not None else palette_temp
     width = args.width
     height = args.height

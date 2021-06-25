@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import numpy as np
 import json
+
+import numpy as np
 
 try:
     import importlib.resources as pkg_resources
