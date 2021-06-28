@@ -193,3 +193,10 @@ class Attractors(object):
         dy = -(x * z) + self.c * y
         dz = x * y - self.b * z
         return np.array([dx, dy, dz], dtype="double")
+
+    def thomas_cyclically_symmetric(self, coord):
+        x, y, z = coord
+        dx = np.sin(y) - self.b * x
+        dy = np.sin(z) - self.b * y
+        dz = np.sin(x) - self.b * z
+        return np.array([dx, dy, dz], dtype="double")

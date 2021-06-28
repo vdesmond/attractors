@@ -652,5 +652,30 @@
             10,
             50
         ]
+    },
+    "thomas_cyclically_symmetric": {
+        "params": [
+            "b"
+        ],
+        "default_params": [
+            0.208
+        ],
+        "init_coord": [
+            1,
+            1,
+            1
+        ],
+        "xlim": [
+            -30,
+            30
+        ],
+        "ylim": [
+            -30,
+            30
+        ],
+        "zlim": [
+            -10,
+            10
+        ]
     }
 }
