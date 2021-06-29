@@ -4,6 +4,15 @@ import subprocess
 
 
 def ffmpeg_video(fig, update_func, points, fps, outf):
+    """Generates output video given a animation function via ffmpeg
+
+    Args:
+        fig (matplotlib.figure.Figure): matplotlib figure instance
+        update_func (callable): animation function
+        points (int): number of points used for the simulation
+        fps (int): frames per second for output video
+        outf (str): output video filename
+    """
     canvas_width, canvas_height = fig.canvas.get_width_height()
     cmdstring = (
         "ffmpeg",
