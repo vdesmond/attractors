@@ -30,7 +30,7 @@ def animate_simulation(
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
-    ax.axis("off")
+    # ax.axis("off")
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
 
@@ -76,7 +76,7 @@ def animate_simulation(
     )
     pts = sum([ax.plot([], [], [], "o", c=c) for c in colors], [])
 
-    trail = 0.9 * points
+    trail = int(0.9 * points)
 
     def init():
         for line, pt in zip(lines, pts):
@@ -96,7 +96,7 @@ def animate_simulation(
             else:
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-        ax.view_init(0.005 * i, 0.05 * i)
+        # ax.view_init(0.005 * i, 0.05 * i)
         return lines + pts
 
     if live:

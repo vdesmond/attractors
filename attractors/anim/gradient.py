@@ -10,7 +10,6 @@ from attractors.utils.colortable import get_continuous_cmap
 from attractors.utils.runge_kutta import RK
 from attractors.utils.video import ffmpeg_video
 
-
 def animate_gradient(
     attractor,
     width,
@@ -25,7 +24,6 @@ def animate_gradient(
     fps,
     outf,
 ):
-
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
     
@@ -82,7 +80,7 @@ def animate_gradient(
     init()
 
     line.set_array(np.array(vect.Y))
-    colors = line.to_rgba(vect.Y)
+    colors = line.to_rgba(vect.Z)
 
     def update(frame):
 
