@@ -7,7 +7,7 @@ from matplotlib import animation
 
 from attractors.utils.attr import ATTRACTOR_PARAMS
 from attractors.utils.colortable import get_continuous_cmap
-from attractors.utils.runge_kutta import RK
+from attractors.utils.des import RK
 from attractors.utils.video import ffmpeg_video
 
 
@@ -30,7 +30,7 @@ def animate_simulation(
 
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
-    # ax.axis("off")
+    ax.axis("off")
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
 
@@ -50,7 +50,7 @@ def animate_simulation(
     for vect in attractor_vects:
         try:
             rk = getattr(vect, des)
-            if des == "RK2":
+            if des == "rk2":
                 rk(0, sim_time, points, rk2_method)
             else:
                 rk(0, sim_time, points)
@@ -96,7 +96,7 @@ def animate_simulation(
             else:
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
             pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-        # ax.view_init(0.005 * i, 0.05 * i)
+        ax.view_init(0.005 * i, 0.05 * i)
         return lines + pts
 
     if live:

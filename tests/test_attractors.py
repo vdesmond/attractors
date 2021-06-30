@@ -1,4 +1,4 @@
-from greet import __version__
+from attractors import __version__
 
 
 def test_version():
