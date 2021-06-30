@@ -12,6 +12,11 @@ from attractors.utils.video import ffmpeg_video
 
 def animate_gradient(
     attractor,
+    init_coord,
+    attr_params,
+    xlim,
+    ylim,
+    zlim,
     width,
     height,
     dpi,
@@ -41,13 +46,6 @@ def animate_gradient(
     ax.set_xticks([])
     ax.set_yticks([])
     ax.set_zticks([])
-
-    attr = ATTRACTOR_PARAMS[attractor]
-    init_coord = attr["init_coord"]
-    attr_params = dict(zip(attr["params"], attr["default_params"]))
-    xlim = attr["xlim"]
-    ylim = attr["ylim"]
-    zlim = attr["zlim"]
 
     vect = RK(init_coord, attractor, attr_params)
     try:

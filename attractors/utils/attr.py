@@ -27,7 +27,7 @@ class Attractors(object):
                 exec("self.{} = {}".format(prm, params[prm]))
         except KeyError as e:
             raise Exception(
-                f"Parameter argument error. {prm} is not an valid parameter"
+                f"Parameter argument error. Invalid parameter"
                 f" for {self.attractor} attractor."
             ) from e
 

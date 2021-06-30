@@ -13,6 +13,11 @@ from attractors.utils.video import ffmpeg_video
 
 def animate_simulation(
     attractor,
+    init_coord,
+    attr_params,
+    xlim,
+    ylim,
+    zlim,
     width,
     height,
     dpi,
@@ -33,13 +38,6 @@ def animate_simulation(
     ax.axis("off")
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
-
-    attr = ATTRACTOR_PARAMS[attractor]
-    init_coord = np.array(attr["init_coord"], dtype="double")
-    attr_params = dict(zip(attr["params"], attr["default_params"]))
-    xlim = attr["xlim"]
-    ylim = attr["ylim"]
-    zlim = attr["zlim"]
 
     init_coords = [init_coord] + [
         init_coord + np.random.normal(0, 0.01, 3) for _ in range(n - 1)

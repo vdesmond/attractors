@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import numpy as np
 from argparse import SUPPRESS
 
 from attractors.anim.gradient import animate_gradient
@@ -163,16 +164,17 @@ def cli():
                     f"Parameter for {case_convert(attr)} attractor "
                     f"Default: {attrparams['default_params'][i]}"
                 ),
-                type=int,
+                type=float,
                 default=attrparams["default_params"][i],
             )
         attrgroup.add_argument(
             "--initcoord",
             help=(
                 f"Initial coordinate for {case_convert(attr)} attractor. Input"
-                f" format: \"x,y,z\" Default: {attrparams['init_coord']}"
+                f" format: \"x y z\" Default: {attrparams['init_coord']}"
             ),
-            type=lambda s: [int(item) for item in s.split(",")],
+            type=float,
+            nargs=3,
             default=attrparams["init_coord"],
         )
         for k in ["x", "y", "z"]:
@@ -180,9 +182,10 @@ def cli():
                 f"--{k}lim",
                 help=(
                     f"{k} axis limits for figure. Input format:"
-                    f" \"{k}min,{k}max\" Default: {attrparams[f'{k}lim']}"
+                    f" \"{k}min {k}max\" Default: {attrparams[f'{k}lim']}"
                 ),
-                type=lambda s: [int(item) for item in s.split(",")],
+                type=float,
+                nargs=2,
                 default=attrparams[f"{k}lim"],
             )
 
@@ -214,9 +217,23 @@ def cli():
     outf = args.outf
     live = args.live
 
+    attr = ATTRACTOR_PARAMS[attractor]
+    init_coord = np.array(args.initcoord, dtype="double")
+    attr_params = {p:getattr(args, p) for p in attr["params"]}
+    xlim = args.xlim
+    ylim = args.ylim
+    zlim = args.zlim
+
+    print(attr_params)
+
     if args.type == "multipoint":
         animate_simulation(
             attractor,
+            init_coord,
+            attr_params,
+            xlim,
+            ylim,
+            zlim,
             width,
             height,
             dpi,
@@ -234,6 +251,11 @@ def cli():
     else:
         animate_gradient(
             attractor,
+            init_coord,
+            attr_params,
+            xlim,
+            ylim,
+            zlim,
             width,
             height,
             dpi,
