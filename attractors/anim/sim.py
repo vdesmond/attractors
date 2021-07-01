@@ -5,9 +5,8 @@ import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
 
-from attractors.utils.attr import ATTRACTOR_PARAMS
 from attractors.utils.colortable import get_continuous_cmap
-from attractors.utils.des import RK
+from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
 
 
@@ -43,7 +42,7 @@ def animate_simulation(
         init_coord + np.random.normal(0, 0.01, 3) for _ in range(n - 1)
     ]
 
-    attractor_vects = [RK(xyz, attractor, attr_params) for xyz in init_coords]
+    attractor_vects = [DES(xyz, attractor, attr_params) for xyz in init_coords]
 
     for vect in attractor_vects:
         try:

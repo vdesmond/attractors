@@ -15,7 +15,7 @@ raw_params_data = pkg_resources.open_text(data, "params.json")
 ATTRACTOR_PARAMS = json.load(raw_params_data)
 
 
-class Attractors(object):
+class BaseAttractors(object):
     def __init__(self, attractor, params):
 
         self.attractor = attractor

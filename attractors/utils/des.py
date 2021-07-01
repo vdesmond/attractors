@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-from attractors.utils.attr import Attractors
+from attractors.utils.base import BaseAttractors
 
-
-class RK(Attractors):
+class DES(BaseAttractors):
     def __init__(self, initial_coord, attractor, params):
-        super(RK, self).__init__(attractor, params)
+        super(DES, self).__init__(attractor, params)
         self.coord = initial_coord
         self.X = []
         self.Y = []
@@ -15,7 +14,7 @@ class RK(Attractors):
     def _unwrap(self, a, b, N):
         h = (b - a) / N
         timescale = np.arange(a, b, h)
-        attractor_func = getattr(RK, self.attractor)
+        attractor_func = getattr(DES, self.attractor)
         return h, timescale, attractor_func
 
     def euler(self, a, b, N):

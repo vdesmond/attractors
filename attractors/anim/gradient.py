@@ -5,9 +5,8 @@ import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-from attractors.utils.attr import ATTRACTOR_PARAMS
 from attractors.utils.colortable import get_continuous_cmap
-from attractors.utils.des import RK
+from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
 
 def animate_gradient(
@@ -47,7 +46,7 @@ def animate_gradient(
     ax.set_yticks([])
     ax.set_zticks([])
 
-    vect = RK(init_coord, attractor, attr_params)
+    vect = DES(init_coord, attractor, attr_params)
     try:
         rk = getattr(vect, des)
         if des == "rk2":

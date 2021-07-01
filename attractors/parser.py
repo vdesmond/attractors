@@ -8,7 +8,7 @@ from argparse import SUPPRESS
 
 from attractors.anim.gradient import animate_gradient
 from attractors.anim.sim import animate_simulation
-from attractors.utils.attr import ATTRACTOR_PARAMS
+from attractors.utils.base import ATTRACTOR_PARAMS
 
 try:
     import importlib.metadata as metadata
@@ -223,8 +223,6 @@ def cli():
     xlim = args.xlim
     ylim = args.ylim
     zlim = args.zlim
-
-    print(attr_params)
 
     if args.type == "multipoint":
         animate_simulation(
