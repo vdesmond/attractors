@@ -30,21 +30,9 @@ def animate_gradient(
 ):
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
-    
+    ax.axis("off")
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
-
-    ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-
-    ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
 
     vect = DES(init_coord, attractor, attr_params)
     try:
