@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attractors"
-version = "0.1.2"
+version = "1.0.0-alpha.0"
 description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
 maintainers = ["Vignesh Mohan <vignesh.desmond@gmail.com>", "Sriram R <sriramkraja@gmail.com>"]
