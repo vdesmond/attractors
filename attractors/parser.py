@@ -99,14 +99,14 @@ def cli():
     optional.add_argument(
         "--bgcolor",
         help=(
-            "background color for figure in hex. Overrides theme settings"
+            "background color for figure in hex. Overrides theme settings if specified"
             " Default: #000000"
         ),
         type=str,
     )
     optional.add_argument(
         "--cmap",
-        help=("matplotlib cmap for palette. Overrides theme settings" " Default: jet"),
+        help=("matplotlib cmap for palette. Overrides theme settings if specified" " Default: jet"),
         type=str,
     )
     optional.add_argument(
@@ -124,7 +124,7 @@ def cli():
     optional.add_argument(
         "--rk2",
         help=(
-            "method for 2nd order Runge-Kutta if specified to used. Default:" " heun"
+            "method for 2nd order Runge-Kutta if specified to be used. Default:" " heun"
         ),
         type=str,
         default="heun",
