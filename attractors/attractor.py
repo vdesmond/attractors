@@ -11,6 +11,7 @@ import json
 from attractors import data
 from attractors.utils.video import ffmpeg_video
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
+
 try:
     import importlib.metadata as metadata
     import importlib.resources as pkg_resources
@@ -29,15 +30,22 @@ class Attractor(DES):
     palette = None
     fig, ax = None, None
 
-    def __init__(self, initial_coord, attractor, params):
+    def __init__(self, initial_coord, attractor, **kwargs):
+        self.attr = ATTRACTOR_PARAMS[attractor]
+        params = {
+            self.attr["params"][i]: kwargs.get(
+                self.attr["params"][i], self.attr["default_params"][i]
+            )
+            for i in range(len(self.attr["params"]))
+        }
         super(Attractor, self).__init__(initial_coord, attractor, params)
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         if not isinstance(other, Attractor):
-                return NotImplemented
+            return NotImplemented
         return self.attractor == other.attractor
 
-    @classmethod 
+    @classmethod
     def set_theme(cls, theme, bgcolor, palette):
         if all(v is None for v in [theme, bgcolor, palette]):
             cls.bgcolor = "#000000"
@@ -53,7 +61,7 @@ class Attractor(DES):
             if palette is not None:
                 cls.palette = palette
 
-    @classmethod   
+    @classmethod
     def set_figure(cls, width, height, dpi):
         cls.fig = plt.figure(figsize=(width, height), dpi=dpi)
         cls.ax = cls.fig.add_axes([0, 0, 1, 1], projection="3d")
@@ -66,7 +74,7 @@ class Attractor(DES):
             cls.cmap = plt.cm.get_cmap(cls.palette)
         else:
             cls.cmap = get_continuous_cmap(cls.palette)
-    
+
     @classmethod
     def set_limits(cls, xlim, ylim, zlim):
         cls.ax.set_xlim(xlim)
@@ -75,28 +83,47 @@ class Attractor(DES):
 
     @classmethod
     def _wrap_set(cls, objs, kwargs):
-        
-        assert all(x==objs[0] for x in objs), "All objects must be of the same attractor type"
-        
+
+        assert all(
+            x == objs[0] for x in objs
+        ), "All objects must be of the same attractor type"
+
         try:
-            theme = themes[kwargs.get('theme')]
+            theme = themes[kwargs.get("theme")]
         except KeyError:
             theme = None
 
-        Attractor.set_theme(theme, bgcolor=kwargs.get('bgcolor', None), palette=kwargs.get('palette', None))
-        Attractor.set_figure(width=kwargs.get('width',16), height=kwargs.get('width',9), dpi=kwargs.get('dpi',120))
-        
-        attr = ATTRACTOR_PARAMS[objs[0].attractor]
-        Attractor.set_limits(xlim=kwargs.get('xlim', attr["xlim"]), ylim=kwargs.get('ylim', attr["ylim"]),zlim=kwargs.get('zlim', attr["zlim"]))
+        Attractor.set_theme(
+            theme,
+            bgcolor=kwargs.get("bgcolor", None),
+            palette=kwargs.get("palette", None),
+        )
+        Attractor.set_figure(
+            width=kwargs.get("width", 16),
+            height=kwargs.get("width", 9),
+            dpi=kwargs.get("dpi", 120),
+        )
 
-    @classmethod 
+        attr = ATTRACTOR_PARAMS[objs[0].attractor]
+        Attractor.set_limits(
+            xlim=kwargs.get("xlim", attr["xlim"]),
+            ylim=kwargs.get("ylim", attr["ylim"]),
+            zlim=kwargs.get("zlim", attr["zlim"]),
+        )
+
+    @classmethod
     def set_animate_multipoint(cls, *objs, **kwargs):
-      
+
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
-       
+
         lines = sum(
-            [cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True) for c in colors],
+            [
+                cls.ax.plot(
+                    [], [], [], "-", c=c, linewidth=1, antialiased=True
+                )
+                for c in colors
+            ],
             [],
         )
         pts = sum([cls.ax.plot([], [], [], "o", c=c) for c in colors], [])
@@ -118,11 +145,11 @@ class Attractor(DES):
         points = len(max(objs).X)
         return update, points, init
 
-    @classmethod 
+    @classmethod
     def set_animate_gradient(cls, obj, **kwargs):
-      
+
         Attractor._wrap_set([obj], kwargs)
-       
+
         line = Line3DCollection([], cmap=cls.cmap)
         cls.ax.add_collection3d(line)
 
@@ -138,7 +165,9 @@ class Attractor(DES):
         def update(i):
             i = i % len(obj.X)
             pts = (
-                np.array([obj.X[:i], obj.Y[:i], obj.Z[:i]]).transpose().reshape(-1, 1, 3)
+                np.array([obj.X[:i], obj.Y[:i], obj.Z[:i]])
+                .transpose()
+                .reshape(-1, 1, 3)
             )
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
@@ -149,15 +178,23 @@ class Attractor(DES):
 
         points = len(obj.X)
         return update, points, init
-    
+
     @classmethod
     def animate(cls, update, points, init=None, **kwargs):
-        if kwargs.get('live', False):
+        if kwargs.get("live", False):
             _ = animation.FuncAnimation(
-                cls.fig, update, init_func=init, interval=1000 / kwargs.get('fps', 60), blit=False,
+                cls.fig,
+                update,
+                init_func=init,
+                interval=1000 / kwargs.get("fps", 60),
+                blit=False,
             )
             plt.show()
         else:
-            ffmpeg_video(cls.fig, update, points, kwargs.get('fps', 60), kwargs.get('outf', "output.mp4"))
-        
-
+            ffmpeg_video(
+                cls.fig,
+                update,
+                points,
+                kwargs.get("fps", 60),
+                kwargs.get("outf", "output.mp4"),
+            )

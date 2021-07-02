@@ -99,14 +99,17 @@ def cli():
     optional.add_argument(
         "--bgcolor",
         help=(
-            "background color for figure in hex. Overrides theme settings if specified"
-            " Default: #000000"
+            "background color for figure in hex. Overrides theme settings if"
+            " specified Default: #000000"
         ),
         type=str,
     )
     optional.add_argument(
         "--cmap",
-        help=("matplotlib cmap for palette. Overrides theme settings if specified" " Default: jet"),
+        help=(
+            "matplotlib cmap for palette. Overrides theme settings if"
+            " specified Default: jet"
+        ),
         type=str,
     )
     optional.add_argument(
@@ -124,7 +127,8 @@ def cli():
     optional.add_argument(
         "--rk2",
         help=(
-            "method for 2nd order Runge-Kutta if specified to be used. Default:" " heun"
+            "method for 2nd order Runge-Kutta if specified to be used."
+            " Default: heun"
         ),
         type=str,
         default="heun",
@@ -203,7 +207,9 @@ def cli():
     if theme is not None:
         palette_temp = list(theme.values())
         palette_temp.remove(theme["background"])
-        bgcolor = args.bgcolor if args.bgcolor is not None else theme["background"]
+        bgcolor = (
+            args.bgcolor if args.bgcolor is not None else theme["background"]
+        )
         palette = args.cmap if args.cmap is not None else palette_temp
     width = args.width
     height = args.height
@@ -219,7 +225,7 @@ def cli():
 
     attr = ATTRACTOR_PARAMS[attractor]
     init_coord = np.array(args.initcoord, dtype="double")
-    attr_params = {p:getattr(args, p) for p in attr["params"]}
+    attr_params = {p: getattr(args, p) for p in attr["params"]}
     xlim = args.xlim
     ylim = args.ylim
     zlim = args.zlim

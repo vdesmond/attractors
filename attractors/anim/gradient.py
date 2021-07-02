@@ -9,6 +9,7 @@ from attractors.utils.colortable import get_continuous_cmap
 from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
 
+
 def animate_gradient(
     attractor,
     init_coord,
@@ -42,7 +43,9 @@ def animate_gradient(
         else:
             rk(0, sim_time, points)
     except AttributeError as e:
-        raise Exception(f"Integrator Error. {des} is not an valid integrator") from e
+        raise Exception(
+            f"Integrator Error. {des} is not an valid integrator"
+        ) from e
 
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
@@ -71,7 +74,9 @@ def animate_gradient(
 
         i = frame % len(vect.X)
         pts = (
-            np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]]).transpose().reshape(-1, 1, 3)
+            np.array([vect.X[:i], vect.Y[:i], vect.Z[:i]])
+            .transpose()
+            .reshape(-1, 1, 3)
         )
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
 

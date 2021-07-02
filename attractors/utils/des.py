@@ -3,6 +3,7 @@
 import numpy as np
 from attractors.utils.base import BaseAttractors
 
+
 class DES(BaseAttractors):
     def __init__(self, initial_coord, attractor, params):
         super(DES, self).__init__(attractor, params)
@@ -10,15 +11,15 @@ class DES(BaseAttractors):
         self.X = []
         self.Y = []
         self.Z = []
-    
+
     def __lt__(self, other):
         if not isinstance(other, DES):
-                return NotImplemented
+            return NotImplemented
         return len(self.X) < len(other.X)
 
     def __eq__(self, other):
         if not isinstance(other, DES):
-                return NotImplemented
+            return NotImplemented
         return self.X == other.X and self.Y == other.Y and self.Z == other.Z
 
     def _unwrap(self, a, b, N):
@@ -28,9 +29,8 @@ class DES(BaseAttractors):
         return h, timescale, attractor_func
 
     def euler(self, a, b, N):
-        h ,ts, afunc = self._unwrap(a, b, N)
+        h, ts, afunc = self._unwrap(a, b, N)
 
-        
         for _ in ts:
             self.X.append(self.coord[0])
             self.Y.append(self.coord[1])
@@ -40,8 +40,7 @@ class DES(BaseAttractors):
             self.coord += k1
 
     def rk2(self, a, b, N, method):
-        h ,ts, afunc = self._unwrap(a, b, N)
-
+        h, ts, afunc = self._unwrap(a, b, N)
 
         def heun():
             rt = self.coord
@@ -80,8 +79,7 @@ class DES(BaseAttractors):
             eval(method)()
 
     def rk3(self, a, b, N):
-        h ,ts, afunc = self._unwrap(a, b, N)
-
+        h, ts, afunc = self._unwrap(a, b, N)
 
         for _ in ts:
             self.X.append(self.coord[0])
@@ -102,7 +100,7 @@ class DES(BaseAttractors):
             self.coord += (k1 + 4 * k2 + k3) / 6
 
     def rk4(self, a, b, N):
-        h ,ts, afunc = self._unwrap(a, b, N)
+        h, ts, afunc = self._unwrap(a, b, N)
 
         for _ in ts:
             self.X.append(self.coord[0])
@@ -127,7 +125,7 @@ class DES(BaseAttractors):
             self.coord += (k1 + 2 * k2 + 2 * k3 + k4) / 6
 
     def rk5(self, a, b, N):
-        h ,ts, afunc = self._unwrap(a, b, N)
+        h, ts, afunc = self._unwrap(a, b, N)
 
         for _ in ts:
             self.X.append(self.coord[0])
