@@ -3,8 +3,9 @@
 
 import argparse
 import json
-import numpy as np
 from argparse import SUPPRESS
+
+import numpy as np
 
 from attractors.anim.gradient import animate_gradient
 from attractors.anim.sim import animate_simulation

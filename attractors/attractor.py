@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from attractors.utils.des import DES
+import json
+
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
+
+from attractors import data
 from attractors.utils.base import ATTRACTOR_PARAMS
 from attractors.utils.colortable import get_continuous_cmap
-import json
-from attractors import data
+from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 try:
     import importlib.metadata as metadata
     import importlib.resources as pkg_resources
 except ImportError:
-    import importlib_resources as pkg_resources
     import importlib_metadata as metadata
+    import importlib_resources as pkg_resources
 
 # * load theme
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
