@@ -68,4 +68,5 @@ jobs:
       - name: Check linting
         run: poetry run flake8 attractors
       - name: Build artifacts
+        id: build-status
         run: poetry build
