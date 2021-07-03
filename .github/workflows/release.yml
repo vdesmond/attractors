@@ -35,15 +35,14 @@ jobs:
         run: |
           PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
-      - name: Check if tag version matches project version
-        run: |
           TAG=$(git describe HEAD --tags --abbrev=0)
-          echo $TAG
-          echo $PROJECT_VERSION
-          if [[ "$TAG" != "$PROJECT_VERSION" ]]; then exit 1; fi
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Get Poetry version
-        run: poetry --version
+      - name: Check if tag version matches project version
+        if: env.TAG == env.PROJECT_VERSION
+        run: |
+          echo "Tag matches project version $PROJECT_VERSION"
+
       - name: Check pyproject.toml validity
         run: poetry check --no-interaction
       - name: Cache dependencies
