@@ -5,13 +5,18 @@ import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-from attractors.utils.attr import ATTRACTOR_PARAMS
 from attractors.utils.colortable import get_continuous_cmap
-from attractors.utils.des import RK
+from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
+
 
 def animate_gradient(
     attractor,
+    init_coord,
+    attr_params,
+    xlim,
+    ylim,
+    zlim,
     width,
     height,
     dpi,
@@ -26,30 +31,11 @@ def animate_gradient(
 ):
     fig = plt.figure(figsize=(width, height), dpi=dpi)
     ax = fig.add_axes([0, 0, 1, 1], projection="3d")
-    
+    ax.axis("off")
     fig.set_facecolor(bgcolor)
     ax.set_facecolor(bgcolor)
 
-    ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-
-    ax.w_xaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_yaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-    ax.w_zaxis.line.set_color((1.0, 1.0, 1.0, 0.0))
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_zticks([])
-
-    attr = ATTRACTOR_PARAMS[attractor]
-    init_coord = attr["init_coord"]
-    attr_params = dict(zip(attr["params"], attr["default_params"]))
-    xlim = attr["xlim"]
-    ylim = attr["ylim"]
-    zlim = attr["zlim"]
-
-    vect = RK(init_coord, attractor, attr_params)
+    vect = DES(init_coord, attractor, attr_params)
     try:
         rk = getattr(vect, des)
         if des == "rk2":

@@ -5,9 +5,11 @@ import argparse
 import json
 from argparse import SUPPRESS
 
+import numpy as np
+
 from attractors.anim.gradient import animate_gradient
 from attractors.anim.sim import animate_simulation
-from attractors.utils.attr import ATTRACTOR_PARAMS
+from attractors.utils.base import ATTRACTOR_PARAMS
 
 try:
     import importlib.metadata as metadata
@@ -98,14 +100,17 @@ def cli():
     optional.add_argument(
         "--bgcolor",
         help=(
-            "background color for figure in hex. Overrides theme settings"
-            " Default: #000000"
+            "background color for figure in hex. Overrides theme settings if"
+            " specified Default: #000000"
         ),
         type=str,
     )
     optional.add_argument(
         "--cmap",
-        help=("matplotlib cmap for palette. Overrides theme settings" " Default: jet"),
+        help=(
+            "matplotlib cmap for palette. Overrides theme settings if"
+            " specified Default: jet"
+        ),
         type=str,
     )
     optional.add_argument(
@@ -123,7 +128,7 @@ def cli():
     optional.add_argument(
         "--rk2",
         help=(
-            "method for 2nd order Runge-Kutta if specified to used. Default:" " heun"
+            "method for 2nd order Runge-Kutta if specified to be used." " Default: heun"
         ),
         type=str,
         default="heun",
@@ -163,16 +168,17 @@ def cli():
                     f"Parameter for {case_convert(attr)} attractor "
                     f"Default: {attrparams['default_params'][i]}"
                 ),
-                type=int,
+                type=float,
                 default=attrparams["default_params"][i],
             )
         attrgroup.add_argument(
             "--initcoord",
             help=(
                 f"Initial coordinate for {case_convert(attr)} attractor. Input"
-                f" format: \"x,y,z\" Default: {attrparams['init_coord']}"
+                f" format: \"x y z\" Default: {attrparams['init_coord']}"
             ),
-            type=lambda s: [int(item) for item in s.split(",")],
+            type=float,
+            nargs=3,
             default=attrparams["init_coord"],
         )
         for k in ["x", "y", "z"]:
@@ -180,9 +186,10 @@ def cli():
                 f"--{k}lim",
                 help=(
                     f"{k} axis limits for figure. Input format:"
-                    f" \"{k}min,{k}max\" Default: {attrparams[f'{k}lim']}"
+                    f" \"{k}min {k}max\" Default: {attrparams[f'{k}lim']}"
                 ),
-                type=lambda s: [int(item) for item in s.split(",")],
+                type=float,
+                nargs=2,
                 default=attrparams[f"{k}lim"],
             )
 
@@ -214,9 +221,21 @@ def cli():
     outf = args.outf
     live = args.live
 
+    attr = ATTRACTOR_PARAMS[attractor]
+    init_coord = np.array(args.initcoord, dtype="double")
+    attr_params = {p: getattr(args, p) for p in attr["params"]}
+    xlim = args.xlim
+    ylim = args.ylim
+    zlim = args.zlim
+
     if args.type == "multipoint":
         animate_simulation(
             attractor,
+            init_coord,
+            attr_params,
+            xlim,
+            ylim,
+            zlim,
             width,
             height,
             dpi,
@@ -234,6 +253,11 @@ def cli():
     else:
         animate_gradient(
             attractor,
+            init_coord,
+            attr_params,
+            xlim,
+            ylim,
+            zlim,
             width,
             height,
             dpi,

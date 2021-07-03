@@ -17,8 +17,7 @@ def hex_to_rgb(value):
     value = value.strip("#")
     lv = len(value)
     rgb_vals = tuple(
-        int(value[i : i + lv // 3], 16)
-        for i in range(0, lv, lv // 3)  # noqa: E203
+        int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3)  # noqa: E203
     )
     return [v / 256 for v in rgb_vals]
 
@@ -32,7 +31,7 @@ def get_continuous_cmap(hex_list, float_list=None):
 
     Args:
         hex_list (list[str]): list of hex code strings
-        float_list (list[float], optional): list of floats between 0 and 1, 
+        float_list (list[float], optional): list of floats between 0 and 1,
             same length as hex_list. Must start with 0 and end with 1. Defaults to None.
 
     Returns:

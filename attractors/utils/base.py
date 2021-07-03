@@ -15,7 +15,7 @@ raw_params_data = pkg_resources.open_text(data, "params.json")
 ATTRACTOR_PARAMS = json.load(raw_params_data)
 
 
-class Attractors(object):
+class BaseAttractors(object):
     def __init__(self, attractor, params):
 
         self.attractor = attractor
@@ -27,7 +27,7 @@ class Attractors(object):
                 exec("self.{} = {}".format(prm, params[prm]))
         except KeyError as e:
             raise Exception(
-                f"Parameter argument error. {prm} is not an valid parameter"
+                "Parameter argument error. Invalid parameter"
                 f" for {self.attractor} attractor."
             ) from e
 
