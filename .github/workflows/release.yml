@@ -40,7 +40,7 @@ jobs:
           TAG=$(git describe HEAD --tags --abbrev=0)
           echo $TAG
           echo $PROJECT_VERSION
-          if [[ "$TAG" != "v$PROJECT_VERSION" ]]; then exit 1; fi
+          if [[ "$TAG" != "$PROJECT_VERSION" ]]; then exit 1; fi
 
       - name: Get Poetry version
         run: poetry --version
