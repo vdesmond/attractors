@@ -128,8 +128,7 @@ def cli():
     optional.add_argument(
         "--rk2",
         help=(
-            "method for 2nd order Runge-Kutta if specified to be used."
-            " Default: heun"
+            "method for 2nd order Runge-Kutta if specified to be used." " Default: heun"
         ),
         type=str,
         default="heun",
@@ -208,9 +207,7 @@ def cli():
     if theme is not None:
         palette_temp = list(theme.values())
         palette_temp.remove(theme["background"])
-        bgcolor = (
-            args.bgcolor if args.bgcolor is not None else theme["background"]
-        )
+        bgcolor = args.bgcolor if args.bgcolor is not None else theme["background"]
         palette = args.cmap if args.cmap is not None else palette_temp
     width = args.width
     height = args.height

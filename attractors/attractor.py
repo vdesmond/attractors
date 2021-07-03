@@ -15,10 +15,8 @@ from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
 
 try:
-    import importlib.metadata as metadata
     import importlib.resources as pkg_resources
 except ImportError:
-    import importlib_metadata as metadata
     import importlib_resources as pkg_resources
 
 # * load theme
@@ -121,9 +119,7 @@ class Attractor(DES):
 
         lines = sum(
             [
-                cls.ax.plot(
-                    [], [], [], "-", c=c, linewidth=1, antialiased=True
-                )
+                cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
                 for c in colors
             ],
             [],

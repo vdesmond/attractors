@@ -68,10 +68,7 @@ def animate_simulation(
     colors = cmap(np.linspace(0, 1, len(init_coords)))
 
     lines = sum(
-        [
-            ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
-            for c in colors
-        ],
+        [ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True) for c in colors],
         [],
     )
     pts = sum([ax.plot([], [], [], "o", c=c) for c in colors], [])

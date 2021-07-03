@@ -17,8 +17,7 @@ def hex_to_rgb(value):
     value = value.strip("#")
     lv = len(value)
     rgb_vals = tuple(
-        int(value[i : i + lv // 3], 16)
-        for i in range(0, lv, lv // 3)  # noqa: E203
+        int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3)  # noqa: E203
     )
     return [v / 256 for v in rgb_vals]
 
