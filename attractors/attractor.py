@@ -204,7 +204,7 @@ class Attractor(DES):
             )
 
     @classmethod
-    def plot_gradient(cls, obj, index, **kwargs):
+    def plot_gradient(cls, index, obj, **kwargs):
 
         Attractor._wrap_set([obj], kwargs)
 
@@ -225,5 +225,27 @@ class Attractor(DES):
         pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])
         pt.set_color(colors[index])
         # cls.ax.view_init(0.005 * index, 0.05 * index)
+        cls.fig.canvas.draw()
+        return cls.ax
+
+    @classmethod
+    def plot_multipoint(cls, index, *objs, **kwargs):
+
+        Attractor._wrap_set(objs, kwargs)
+        colors = cls.cmap(np.linspace(0, 1, len(objs)))
+
+        lines = sum(
+            [
+                cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
+                for c in colors
+            ],
+            [],
+        )
+        pts = sum([cls.ax.plot([], [], [], "o", c=c) for c in colors], [])
+
+        for line, pt, k in zip(lines, pts, objs):
+            line.set_data_3d(k.X[:index], k.Y[:index], k.Z[:index])
+            pt.set_data_3d(k.X[index], k.Y[index], k.Z[index])
+        # cls.ax.view_init(0.005 * i, 0.05 * i)
         cls.fig.canvas.draw()
         return cls.ax
