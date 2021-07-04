@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
@@ -45,6 +46,11 @@ class Attractor(DES):
             return NotImplemented
         return self.attractor == other.attractor
 
+    def slice_(self, start, stop, step=1):
+        self.X = self.X[slice(start, stop, step)]
+        self.Y = self.Y[slice(start, stop, step)]
+        self.Z = self.Z[slice(start, stop, step)]
+    
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):
         if all(v is None for v in [theme, bgcolor, palette]):
@@ -196,3 +202,28 @@ class Attractor(DES):
                 kwargs.get("fps", 60),
                 kwargs.get("outf", "output.mp4"),
             )
+
+    @classmethod
+    def plot_gradient(cls, obj, index, **kwargs):
+
+        Attractor._wrap_set([obj], kwargs)
+
+        line = Line3DCollection([], cmap=cls.cmap)
+        cls.ax.add_collection3d(line)
+
+        (pt,) = cls.ax.plot([], [], [], "o")
+        line.set_array(np.array(obj.Z))
+        colors = line.to_rgba(obj.Z)
+
+        pts = (
+                np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
+                .transpose()
+                .reshape(-1, 1, 3)
+            )
+        segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
+        line.set_segments(segs)
+        pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])
+        pt.set_color(colors[index])
+        # cls.ax.view_init(0.005 * index, 0.05 * index)
+        cls.fig.canvas.draw()
+        return cls.ax

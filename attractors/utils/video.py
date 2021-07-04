@@ -35,7 +35,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
     )
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
 
-    for frame in range(points):
+    for frame in range(0, points, 10000):
         update_func(frame)
         fig.canvas.draw()
         string = fig.canvas.tostring_argb()
