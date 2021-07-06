@@ -24,6 +24,8 @@ except ImportError:
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
 themes = json.load(raw_themes_data)
 
+import matplotlib
+matplotlib.use('Agg')
 
 class Attractor(DES):
 
@@ -49,7 +51,11 @@ class Attractor(DES):
     def slice_(self, start, stop, step=1):
         self.X = self.X[slice(start, stop, step)]
         self.Y = self.Y[slice(start, stop, step)]
-        self.Z = self.Z[slice(start, stop, step)]
+        self.Z = self.Z[slice(start, stop, step)]        
+    
+    @staticmethod
+    def all_themes():
+        return themes
     
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):

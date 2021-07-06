@@ -28,6 +28,8 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 matplotlib = "^3.4.2"
+tqdm = "^4.61.2"
+pathos = "^0.2.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
