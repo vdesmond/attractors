@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
@@ -23,6 +24,8 @@ except ImportError:
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
 themes = json.load(raw_themes_data)
 
+import matplotlib
+matplotlib.use('Agg')
 
 class Attractor(DES):
 
@@ -30,21 +33,41 @@ class Attractor(DES):
     palette = None
     fig, ax = None, None
 
-    def __init__(self, initial_coord, attractor, **kwargs):
+    def __init__(self, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
-        params = {
+        self._data_len = None
+        self.init_coord = kwargs.get("init_coord", self.attr["init_coord"])
+        self.params = {
             self.attr["params"][i]: kwargs.get(
                 self.attr["params"][i], self.attr["default_params"][i]
             )
             for i in range(len(self.attr["params"]))
         }
-        super(Attractor, self).__init__(initial_coord, attractor, params)
+        super(Attractor, self).__init__(attractor, self.init_coord, self.params)
 
     def __eq__(self, other):
         if not isinstance(other, Attractor):
             return NotImplemented
         return self.attractor == other.attractor
 
+    def slice_(self, start, stop, step=1):
+        self.X = self.X[slice(start, stop, step)]
+        self.Y = self.Y[slice(start, stop, step)]
+        self.Z = self.Z[slice(start, stop, step)]        
+    
+    @staticmethod
+    def list_themes():
+        return themes
+
+    @staticmethod
+    def list_des():
+        des_methods =  (set(dir(DES.__mro__[0])) - set(dir(DES.__mro__[1])))
+        return [x for x in des_methods if not x.startswith('_')]
+
+    @staticmethod
+    def list_attractors():
+        return [x for x in dir(DES.__mro__[1]) if not x.startswith('_')]
+    
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):
         if all(v is None for v in [theme, bgcolor, palette]):
@@ -132,8 +155,9 @@ class Attractor(DES):
                 pt.set_data_3d([], [], [])
             return lines + pts
 
+        maxlen = len(max(objs, key=len))
         def update(i):
-            i = i % len(objs[0].X)
+            i = i % maxlen
             for line, pt, k in zip(lines, pts, objs):
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
                 pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
@@ -161,7 +185,7 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-            i = i % len(obj.X)
+            i = i % len(obj)
             pts = (
                 np.array([obj.X[:i], obj.Y[:i], obj.Z[:i]])
                 .transpose()
@@ -196,3 +220,50 @@ class Attractor(DES):
                 kwargs.get("fps", 60),
                 kwargs.get("outf", "output.mp4"),
             )
+
+    @classmethod
+    def plot_gradient(cls, index, obj, **kwargs):
+
+        Attractor._wrap_set([obj], kwargs)
+
+        line = Line3DCollection([], cmap=cls.cmap)
+        cls.ax.add_collection3d(line)
+
+        (pt,) = cls.ax.plot([], [], [], "o")
+        line.set_array(np.array(obj.Z))
+        colors = line.to_rgba(obj.Z)
+
+        pts = (
+                np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
+                .transpose()
+                .reshape(-1, 1, 3)
+            )
+        segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
+        line.set_segments(segs)
+        pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])
+        pt.set_color(colors[index])
+        # cls.ax.view_init(0.005 * index, 0.05 * index)
+        cls.fig.canvas.draw()
+        return cls.ax
+
+    @classmethod
+    def plot_multipoint(cls, index, *objs, **kwargs):
+
+        Attractor._wrap_set(objs, kwargs)
+        colors = cls.cmap(np.linspace(0, 1, len(objs)))
+
+        lines = sum(
+            [
+                cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
+                for c in colors
+            ],
+            [],
+        )
+        pts = sum([cls.ax.plot([], [], [], "o", c=c) for c in colors], [])
+
+        for line, pt, k in zip(lines, pts, objs):
+            line.set_data_3d(k.X[:index], k.Y[:index], k.Z[:index])
+            pt.set_data_3d(k.X[index], k.Y[index], k.Z[index])
+        # cls.ax.view_init(0.005 * i, 0.05 * i)
+        cls.fig.canvas.draw()
+        return cls.ax

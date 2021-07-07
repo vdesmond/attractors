@@ -1,7 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import subprocess
+from pathos.pools import SerialPool, ProcessPool, ThreadPool, ParallelPool
+from itertools import repeat
+from tqdm import tqdm
+import os
 
+def drawer(frame, fig, ufunc):
+    # proc = os.getpid()
+    # print('{} by process {}'.format(frame,proc))
+    ufunc(frame)
+    fig.canvas.draw()
+    canvas_string = fig.canvas.tostring_argb()
+    return canvas_string
 
 def ffmpeg_video(fig, update_func, points, fps, outf):
     """Generates output video given a animation function via ffmpeg
@@ -13,6 +24,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         fps (int): frames per second for output video
         outf (str): output video filename
     """
+    outf="pathos.mp4"
     canvas_width, canvas_height = fig.canvas.get_width_height()
     cmdstring = (
         "ffmpeg",
@@ -31,14 +43,26 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "5000k",
         "-vcodec",
         "mpeg4",
+        "-threads",
+        "12",
+        "-loglevel",
+        "quiet",
         outf,
     )
+    
+    import time
+    x = time.time()
+
+    pool = SerialPool()
+    results = pool.imap(drawer, range(0, points), repeat(fig), repeat(update_func))
+
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
 
-    for frame in range(points):
-        update_func(frame)
-        fig.canvas.draw()
-        string = fig.canvas.tostring_argb()
-        p.stdin.write(string)
+    for frame in tqdm(results, total=points):
+        p.stdin.write(frame)
 
     p.communicate()
+    pool.close()
+    pool.terminate()
+
+    print(time.time() - x)

@@ -6,9 +6,9 @@ from attractors.utils.base import BaseAttractors
 
 
 class DES(BaseAttractors):
-    def __init__(self, initial_coord, attractor, params):
+    def __init__(self, attractor, init_coord, params):
         super(DES, self).__init__(attractor, params)
-        self.coord = initial_coord
+        self.coord = init_coord
         self.X = []
         self.Y = []
         self.Z = []
@@ -22,6 +22,9 @@ class DES(BaseAttractors):
         if not isinstance(other, DES):
             return NotImplemented
         return self.X == other.X and self.Y == other.Y and self.Z == other.Z
+    
+    def __len__(self):
+        return len(self.X)
 
     def _unwrap(self, a, b, N):
         h = (b - a) / N

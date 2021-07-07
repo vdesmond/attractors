@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attractors"
-version = "1.0.0"
+version = "1.1.0"
 description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
 maintainers = ["Vignesh Mohan <vignesh.desmond@gmail.com>", "Sriram R <sriramkraja@gmail.com>"]
@@ -28,6 +28,8 @@ include = [
 [tool.poetry.dependencies]
 python = "^3.8"
 matplotlib = "^3.4.2"
+tqdm = "^4.61.2"
+pathos = "^0.2.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
