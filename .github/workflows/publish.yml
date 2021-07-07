@@ -46,16 +46,16 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry install --no-interaction
 
-      # - name: Publish to Test PyPI
-      #   env:
-      #     POETRY_HTTP_BASIC_TEST_USERNAME: __token__
-      #     POETRY_HTTP_BASIC_TEST_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-      #   run: |
-      #     poetry config repositories.testpypi https://test.pypi.org/legacy/
-      #     poetry config http-basic.testpypi $POETRY_HTTP_BASIC_TEST_USERNAME $POETRY_HTTP_BASIC_TEST_PASSWORD
-      #     poetry build
-      #     poetry publish -r testpypi
-      #     echo ::set-output name=exit_code::$?
+      - name: Publish to Test PyPI
+        env:
+          POETRY_HTTP_BASIC_TEST_USERNAME: __token__
+          POETRY_HTTP_BASIC_TEST_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry config http-basic.testpypi $POETRY_HTTP_BASIC_TEST_USERNAME $POETRY_HTTP_BASIC_TEST_PASSWORD
+          poetry build
+          poetry publish -r testpypi
+          echo ::set-output name=exit_code::$?
 
       - name: Publish to PyPI
         if: steps.build.outputs.exit_code == 0
@@ -63,4 +63,4 @@ jobs:
           PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         run: |
           poetry config pypi-token.pypi $PYPI_API_TOKEN
-          poetry publish --no-interaction -vvv --build
+          poetry publish
