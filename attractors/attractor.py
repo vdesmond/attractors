@@ -33,16 +33,17 @@ class Attractor(DES):
     palette = None
     fig, ax = None, None
 
-    def __init__(self, initial_coord, attractor, **kwargs):
+    def __init__(self, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
         self._data_len = None
-        params = {
+        self.init_coord = kwargs.get("init_coord", self.attr["init_coord"])
+        self.params = {
             self.attr["params"][i]: kwargs.get(
                 self.attr["params"][i], self.attr["default_params"][i]
             )
             for i in range(len(self.attr["params"]))
         }
-        super(Attractor, self).__init__(initial_coord, attractor, params)
+        super(Attractor, self).__init__(attractor, self.init_coord, self.params)
 
     def __eq__(self, other):
         if not isinstance(other, Attractor):
@@ -55,8 +56,17 @@ class Attractor(DES):
         self.Z = self.Z[slice(start, stop, step)]        
     
     @staticmethod
-    def all_themes():
+    def list_themes():
         return themes
+
+    @staticmethod
+    def list_des():
+        des_methods =  (set(dir(DES.__mro__[0])) - set(dir(DES.__mro__[1])))
+        return [x for x in des_methods if not x.startswith('_')]
+
+    @staticmethod
+    def list_attractors():
+        return [x for x in dir(DES.__mro__[1]) if not x.startswith('_')]
     
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):

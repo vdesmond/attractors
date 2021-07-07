@@ -6,9 +6,9 @@ from attractors.utils.base import BaseAttractors
 
 
 class DES(BaseAttractors):
-    def __init__(self, initial_coord, attractor, params):
+    def __init__(self, attractor, init_coord, params):
         super(DES, self).__init__(attractor, params)
-        self.coord = initial_coord
+        self.coord = init_coord
         self.X = []
         self.Y = []
         self.Z = []
