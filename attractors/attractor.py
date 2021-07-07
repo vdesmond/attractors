@@ -1,8 +1,8 @@
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
 
+import matplotlib
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
@@ -24,8 +24,8 @@ except ImportError:
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
 themes = json.load(raw_themes_data)
 
-import matplotlib
-matplotlib.use('Agg')
+matplotlib.use("Agg")
+
 
 class Attractor(DES):
 
@@ -53,21 +53,21 @@ class Attractor(DES):
     def slice_(self, start, stop, step=1):
         self.X = self.X[slice(start, stop, step)]
         self.Y = self.Y[slice(start, stop, step)]
-        self.Z = self.Z[slice(start, stop, step)]        
-    
+        self.Z = self.Z[slice(start, stop, step)]
+
     @staticmethod
     def list_themes():
         return themes
 
     @staticmethod
     def list_des():
-        des_methods =  (set(dir(DES.__mro__[0])) - set(dir(DES.__mro__[1])))
-        return [x for x in des_methods if not x.startswith('_')]
+        des_methods = set(dir(DES.__mro__[0])) - set(dir(DES.__mro__[1]))
+        return [x for x in des_methods if not x.startswith("_")]
 
     @staticmethod
     def list_attractors():
-        return [x for x in dir(DES.__mro__[1]) if not x.startswith('_')]
-    
+        return [x for x in dir(DES.__mro__[1]) if not x.startswith("_")]
+
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):
         if all(v is None for v in [theme, bgcolor, palette]):
@@ -156,6 +156,7 @@ class Attractor(DES):
             return lines + pts
 
         maxlen = len(max(objs, key=len))
+
         def update(i):
             i = i % maxlen
             for line, pt, k in zip(lines, pts, objs):
@@ -234,10 +235,10 @@ class Attractor(DES):
         colors = line.to_rgba(obj.Z)
 
         pts = (
-                np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
-                .transpose()
-                .reshape(-1, 1, 3)
-            )
+            np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
+            .transpose()
+            .reshape(-1, 1, 3)
+        )
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
         line.set_segments(segs)
         pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])

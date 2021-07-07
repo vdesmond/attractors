@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import subprocess
-from pathos.pools import SerialPool, ProcessPool, ThreadPool, ParallelPool
-from itertools import repeat
-from tqdm import tqdm
 import os
+import subprocess
+from itertools import repeat
+
+from pathos.pools import ParallelPool, ProcessPool, SerialPool, ThreadPool
+from tqdm import tqdm
+
 
 def drawer(frame, fig, ufunc):
     # proc = os.getpid()
@@ -13,6 +15,7 @@ def drawer(frame, fig, ufunc):
     fig.canvas.draw()
     canvas_string = fig.canvas.tostring_argb()
     return canvas_string
+
 
 def ffmpeg_video(fig, update_func, points, fps, outf):
     """Generates output video given a animation function via ffmpeg
@@ -24,7 +27,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         fps (int): frames per second for output video
         outf (str): output video filename
     """
-    outf="pathos.mp4"
+    outf = "pathos.mp4"
     canvas_width, canvas_height = fig.canvas.get_width_height()
     cmdstring = (
         "ffmpeg",
@@ -49,8 +52,9 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "quiet",
         outf,
     )
-    
+
     import time
+
     x = time.time()
 
     pool = SerialPool()
