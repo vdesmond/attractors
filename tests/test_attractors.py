@@ -3,11 +3,6 @@ import matplotlib.pyplot as plt
 from attractors import __version__
 from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 
-
-def test_version():
-    assert __version__ == "1.1.0"
-
-
 def test_des_methods():
     for des in Attractor.list_des():
         if des == "rk2":
