@@ -35,6 +35,7 @@ class Attractor(DES):
 
     def __init__(self, initial_coord, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
+        self._data_len = None
         params = {
             self.attr["params"][i]: kwargs.get(
                 self.attr["params"][i], self.attr["default_params"][i]
@@ -144,8 +145,9 @@ class Attractor(DES):
                 pt.set_data_3d([], [], [])
             return lines + pts
 
+        maxlen = len(max(objs, key=len))
         def update(i):
-            i = i % len(objs[0].X)
+            i = i % maxlen
             for line, pt, k in zip(lines, pts, objs):
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
                 pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
@@ -173,7 +175,7 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-            i = i % len(obj.X)
+            i = i % len(obj)
             pts = (
                 np.array([obj.X[:i], obj.Y[:i], obj.Z[:i]])
                 .transpose()

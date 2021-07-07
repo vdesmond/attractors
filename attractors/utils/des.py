@@ -22,6 +22,9 @@ class DES(BaseAttractors):
         if not isinstance(other, DES):
             return NotImplemented
         return self.X == other.X and self.Y == other.Y and self.Z == other.Z
+    
+    def __len__(self):
+        return len(self.X)
 
     def _unwrap(self, a, b, N):
         h = (b - a) / N

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import subprocess
-from pathos.multiprocessing import ProcessingPool
-from pathos.pp import ParallelPool
+from pathos.pools import SerialPool, ProcessPool, ThreadPool, ParallelPool
 from itertools import repeat
+from tqdm import tqdm
 import os
 
 def drawer(frame, fig, ufunc):
@@ -45,19 +45,20 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "mpeg4",
         "-threads",
         "12",
-        # "-loglevel",
-        # "quiet",
+        "-loglevel",
+        "quiet",
         outf,
     )
     
     import time
     x = time.time()
-    pool = ProcessingPool(12)
-    results = pool.amap(drawer, range(0, 1000), repeat(fig), repeat(update_func))
-    r = results.get()
-    
+
+    pool = SerialPool()
+    results = pool.imap(drawer, range(0, points), repeat(fig), repeat(update_func))
+
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
-    for frame in r:
+
+    for frame in tqdm(results, total=points):
         p.stdin.write(frame)
 
     p.communicate()
