@@ -4,17 +4,28 @@ import os
 import subprocess
 from itertools import repeat
 
-from pathos.pools import ParallelPool, ProcessPool, SerialPool, ThreadPool
+from pathos.pools import SerialPool
 from tqdm import tqdm
 
 
 def drawer(frame, fig, ufunc):
+    """Update function for pathos pool map 
+    which returns an ARBG byte string of the canvas
+    for ffmpeg pipe
+
+    Args:
+        frame (int): index to set data and draw canvas
+        fig (matplotlib.figure.Figure): matplotlib figure instance
+        ufunc (callable): animation function
+
+    Returns:
+        bytes: canvas as ARGB byte-string
+    """
     # proc = os.getpid()
     # print('{} by process {}'.format(frame,proc))
     ufunc(frame)
     fig.canvas.draw()
-    canvas_string = fig.canvas.tostring_argb()
-    return canvas_string
+    return fig.canvas.tostring_argb()
 
 
 def ffmpeg_video(fig, update_func, points, fps, outf):
@@ -27,7 +38,6 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         fps (int): frames per second for output video
         outf (str): output video filename
     """
-    outf = "pathos.mp4"
     canvas_width, canvas_height = fig.canvas.get_width_height()
     cmdstring = (
         "ffmpeg",
@@ -52,11 +62,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "quiet",
         outf,
     )
-
-    import time
-
-    x = time.time()
-
+    
     pool = SerialPool()
     results = pool.imap(drawer, range(0, points), repeat(fig), repeat(update_func))
 
@@ -68,5 +74,3 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
     p.communicate()
     pool.close()
     pool.terminate()
-
-    print(time.time() - x)
