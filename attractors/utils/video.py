@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 def drawer(frame, fig, ufunc):
-    """Update function for pathos pool map 
+    """Update function for pathos pool map
     which returns an ARBG byte string of the canvas
     for ffmpeg pipe
 
@@ -62,7 +62,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "quiet",
         outf,
     )
-    
+
     pool = SerialPool()
     results = pool.imap(drawer, range(0, points), repeat(fig), repeat(update_func))
 

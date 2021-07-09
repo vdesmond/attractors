@@ -7,8 +7,7 @@ from argparse import SUPPRESS
 
 import numpy as np
 
-from attractors.attractor import Attractor
-from attractors.attractor import ATTRACTOR_PARAMS
+from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 
 try:
     import importlib.metadata as metadata
@@ -126,7 +125,7 @@ def cli():
         ),
         type=str,
         choices=["heun", "imp_poly", "ralston"],
-        default="heun"
+        default="heun",
     )
     optional.add_argument(
         "--outf",
@@ -147,7 +146,8 @@ def cli():
 
     for attr, attrparams in ATTRACTOR_PARAMS.items():
         attrparser = subparsers.add_parser(
-            f"{attr}", help=f"{case_convert(attr)} attractor",
+            f"{attr}",
+            help=f"{case_convert(attr)} attractor",
             argument_default=argparse.SUPPRESS,
         )
         attrgroup = attrparser.add_argument_group(
@@ -206,6 +206,7 @@ def cli():
             func(0, args.simtime, args.simpoints)
         update, points, init = Attractor.set_animate_gradient(obj, **kwargs)
         Attractor.animate(update, points, init, **kwargs)
+
 
 if __name__ == " __main__":
     cli()
