@@ -25,7 +25,7 @@ def drawer(frame, fig, ufunc):
     # print('{} by process {}'.format(frame,proc))
     ufunc(frame)
     fig.canvas.draw()
-    return fig.canvas.tostring_argb()
+    return fig.canvas.tostring_rgb()
 
 
 def ffmpeg_video(fig, update_func, points, fps, outf):
@@ -47,7 +47,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "-s",
         "%dx%d" % (canvas_width, canvas_height),
         "-pix_fmt",
-        "argb",  # format
+        "rgb24",  # format
         "-f",
         "rawvideo",
         "-i",
@@ -55,7 +55,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
         "-b:v",
         "5000k",
         "-vcodec",
-        "mpeg4",
+        "libx264",
         "-threads",
         "12",
         "-loglevel",
@@ -70,6 +70,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
 
     for frame in tqdm(results, total=points):
         p.stdin.write(frame)
+        p.stdin.flush()
 
     p.communicate()
     pool.close()

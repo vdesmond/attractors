@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import json
+from random import shuffle
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -23,9 +24,6 @@ except ImportError:
 # * load theme
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
 themes = json.load(raw_themes_data)
-
-matplotlib.use("Agg")
-
 
 class Attractor(DES):
 
@@ -76,6 +74,8 @@ class Attractor(DES):
         elif all(v is None for v in [bgcolor, palette]) and theme is not None:
             palette_temp = list(theme.values())
             palette_temp.remove(theme["background"])
+            palette_temp.insert(0, palette_temp.pop(-1))
+            shuffle(palette_temp)
             cls.bgcolor = theme["background"]
             cls.palette = palette_temp
         else:
@@ -214,6 +214,7 @@ class Attractor(DES):
             )
             plt.show()
         else:
+            matplotlib.use("Agg")
             ffmpeg_video(
                 cls.fig,
                 update,
