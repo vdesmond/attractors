@@ -25,6 +25,7 @@ except ImportError:
 raw_themes_data = pkg_resources.open_text(data, "themes.json")
 themes = json.load(raw_themes_data)
 
+
 class Attractor(DES):
 
     bgcolor = None

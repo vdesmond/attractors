@@ -190,7 +190,11 @@ def cli():
     if args.type == "multipoint":
         objs = [Attractor(attractor, kwargs=kwargs) for _ in range(args.n)]
         for i in range(args.n):
-            objs[i].coord = np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)] if i != 0 else np.array(objs[i].coord)
+            objs[i].coord = (
+                np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)]
+                if i != 0
+                else np.array(objs[i].coord)
+            )
         for obj in objs:
             func = getattr(obj, args.des)
             if args.des == "rk2":
