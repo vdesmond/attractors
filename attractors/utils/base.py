@@ -200,3 +200,10 @@ class BaseAttractors(object):
         dy = np.sin(z) - self.b * y
         dz = np.sin(x) - self.b * z
         return np.array([dx, dy, dz], dtype="double")
+
+    def dequan_li(self, coord):
+        x, y, z = coord
+        dx = self.a*(y - x) + self.d*x*z 
+        dy = self.k*x + self.f*y - x*z
+        dz = self.c*z + x*y - self.e*x*x
+        return np.array([dx, dy, dz], dtype="double")
