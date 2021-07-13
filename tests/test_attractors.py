@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
+import matplotlib
 import pytest
 
 from attractors import __version__
 from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 
 SIMTIME = 10
-SIMPOINTS = 10000
+SIMPOINTS = 1000
 
 
 @pytest.fixture()
@@ -55,14 +56,25 @@ def test_attractors_des_rk2(attr, attractor_obj_des_rk2):
 
 
 @pytest.mark.parametrize("attr", Attractor.list_attractors())
-@pytest.mark.parametrize("type", ["multipoint", "gradient"])
-def test_fig_defaults(attr, type):
+@pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
+def test_fig_defaults(attr, plottype):
     attrparams = ATTRACTOR_PARAMS[attr]
     obj = Attractor(attr)
     obj.rk4(0, SIMTIME, SIMPOINTS)
-    animfunc = getattr(Attractor, f"set_animate_{type}")
+    animfunc = getattr(Attractor, f"set_animate_{plottype}")
     animfunc(obj)
     assert list(Attractor.ax.get_xlim()) == attrparams["xlim"]
     assert list(Attractor.ax.get_ylim()) == attrparams["ylim"]
     assert list(Attractor.ax.get_zlim()) == attrparams["zlim"]
+    plt.close(Attractor.fig)
+
+@pytest.mark.parametrize("attr", Attractor.list_attractors())
+@pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
+def test_live_fig(attr, plottype):
+    obj = Attractor(attr)
+    obj.rk4(0, SIMTIME, SIMPOINTS)
+    animfunc = getattr(Attractor, f"set_animate_{plottype}")
+    anim = animfunc(obj).animate(live=True, show=False)
+    assert type(anim) == matplotlib.animation.FuncAnimation
+    plt.draw()
     plt.close(Attractor.fig)

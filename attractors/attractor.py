@@ -27,10 +27,13 @@ themes = json.load(raw_themes_data)
 
 
 class Attractor(DES):
-
     bgcolor = None
     palette = None
     fig, ax = None, None
+
+    _update_func = None
+    _points = None
+    _init_func = None
 
     def __init__(self, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
@@ -167,7 +170,10 @@ class Attractor(DES):
             return lines + pts
 
         points = len(max(objs).X)
-        return update, points, init
+        cls._update_func = update
+        cls._init_func = init
+        cls._points = points
+        return cls
 
     @classmethod
     def set_animate_gradient(cls, obj, **kwargs):
@@ -201,25 +207,31 @@ class Attractor(DES):
             return line, pt
 
         points = len(obj.X)
-        return update, points, init
+        cls._update_func = update
+        cls._init_func = init
+        cls._points = points
+        return cls
 
     @classmethod
-    def animate(cls, update, points, init=None, **kwargs):
+    def animate(cls, **kwargs):
         if kwargs.get("live", False):
-            _ = animation.FuncAnimation(
+            anim = animation.FuncAnimation(
                 cls.fig,
-                update,
-                init_func=init,
+                cls._update_func,
+                init_func=cls._init_func,
                 interval=1000 / kwargs.get("fps", 60),
                 blit=False,
             )
-            plt.show()
+            if kwargs.get("show", True):
+                plt.show()
+            else:
+                return anim
         else:
             matplotlib.use("Agg")
             ffmpeg_video(
                 cls.fig,
-                update,
-                points,
+                cls._update_func,
+                cls._points,
                 kwargs.get("fps", 60),
                 kwargs.get("outf", "output.mp4"),
             )
@@ -245,7 +257,6 @@ class Attractor(DES):
         line.set_segments(segs)
         pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])
         pt.set_color(colors[index])
-        # cls.ax.view_init(0.005 * index, 0.05 * index)
         cls.fig.canvas.draw()
         return cls.ax
 
@@ -267,6 +278,5 @@ class Attractor(DES):
         for line, pt, k in zip(lines, pts, objs):
             line.set_data_3d(k.X[:index], k.Y[:index], k.Z[:index])
             pt.set_data_3d(k.X[index], k.Y[index], k.Z[index])
-        # cls.ax.view_init(0.005 * i, 0.05 * i)
         cls.fig.canvas.draw()
         return cls.ax
