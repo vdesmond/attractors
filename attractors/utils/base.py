@@ -207,3 +207,10 @@ class BaseAttractors(object):
         dy = self.k*x + self.f*y - x*z
         dz = self.c*z + x*y - self.e*x*x
         return np.array([dx, dy, dz], dtype="double")
+
+    def yu_wang(self, coord):
+        x, y, z = coord
+        dx = self.a*(y-x) 
+        dy = self.b*x - self.c*x*z 
+        dz = np.exp(x*y) - self.d*z
+        return np.array([dx, dy, dz], dtype="double")
