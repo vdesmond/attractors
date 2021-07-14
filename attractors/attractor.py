@@ -144,14 +144,19 @@ class Attractor(DES):
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
 
+        linekwargs = kwargs.get("linekwargs", {})
+        pointkwargs = kwargs.get("pointkwargs", {})
+
         lines = sum(
             [
-                cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
+                cls.ax.plot([], [], [], "-", c=c, antialiased=True, **linekwargs)
                 for c in colors
             ],
             [],
         )
-        pts = sum([cls.ax.plot([], [], [], "o", c=c) for c in colors], [])
+        pts = sum(
+            [cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors], []
+        )
 
         def init():
             for line, pt in zip(lines, pts):
@@ -180,10 +185,13 @@ class Attractor(DES):
 
         Attractor._wrap_set([obj], kwargs)
 
-        line = Line3DCollection([], cmap=cls.cmap)
+        linekwargs = kwargs.get("linekwargs", {})
+        pointkwargs = kwargs.get("pointkwargs", {})
+
+        line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
-        (pt,) = cls.ax.plot([], [], [], "o")
+        (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
         line.set_array(np.array(obj.Z))
         colors = line.to_rgba(obj.Z)
 
@@ -241,10 +249,13 @@ class Attractor(DES):
 
         Attractor._wrap_set([obj], kwargs)
 
-        line = Line3DCollection([], cmap=cls.cmap)
+        linekwargs = kwargs.get("linekwargs", {})
+        pointkwargs = kwargs.get("pointkwargs", {})
+
+        line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
-        (pt,) = cls.ax.plot([], [], [], "o")
+        (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
         line.set_array(np.array(obj.Z))
         colors = line.to_rgba(obj.Z)
 
@@ -266,14 +277,19 @@ class Attractor(DES):
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
 
+        linekwargs = kwargs.get("linekwargs", {})
+        pointkwargs = kwargs.get("pointkwargs", {})
+
         lines = sum(
             [
-                cls.ax.plot([], [], [], "-", c=c, linewidth=1, antialiased=True)
+                cls.ax.plot([], [], [], "-", c=c, antialiased=True, **linekwargs)
                 for c in colors
             ],
             [],
         )
-        pts = sum([cls.ax.plot([], [], [], "o", c=c) for c in colors], [])
+        pts = sum(
+            [cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors], []
+        )
 
         for line, pt, k in zip(lines, pts, objs):
             line.set_data_3d(k.X[:index], k.Y[:index], k.Z[:index])

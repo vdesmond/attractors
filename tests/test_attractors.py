@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.pyplot as plt
 import pytest
 
 from attractors import __version__
@@ -67,6 +67,7 @@ def test_fig_defaults(attr, plottype):
     assert list(Attractor.ax.get_ylim()) == attrparams["ylim"]
     assert list(Attractor.ax.get_zlim()) == attrparams["zlim"]
     plt.close(Attractor.fig)
+
 
 @pytest.mark.parametrize("attr", Attractor.list_attractors())
 @pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
