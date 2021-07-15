@@ -1,83 +1,295 @@
-Attractors
-==========
+.. container::
 
-Attractors is a package for simulation and visualization of strange
-attractors.
+   .. raw:: html
 
-|PyPI license| |PyPI version| |image1|
+      <p>
 
-.. |PyPI license| image:: https://img.shields.io/github/workflow/status/Vignesh-Desmond/attractors/Build?style=flat-square&logo=GitHub
-   :target: https://github.com/Vignesh-Desmond/attractors/actions/workflows/build.yml
-.. |PyPI version| image:: https://img.shields.io/pypi/v/attractors?color=blue&style=flat-square
-   :target: https://pypi.python.org/pypi/attractors/
-.. |image1| image:: https://img.shields.io/pypi/l/attractors?style=flat-square&color=orange
-   :target: https://lbesson.mit-license.org/
+   .. raw:: html
 
-For complete documentation, see the repository docs at
-https://github.com/Vignesh-Desmond/attractors
+      </p>
+
+   .. raw:: html
+
+      <h1>
+
+   Attractors - Python package
+
+   .. raw:: html
+
+      </h1>
+
+   |PyPI license| |PyPI version| |PyPI license|
+
+   Attractors is a package for simulation and visualization of strange
+   attractors.
 
 Installation
-------------
+============
 
-The package is currently hosted on PyPi and can be installed with pip:
+The simplest way to install the module is via PyPi using pip
 
 ``pip install attractors``
 
-Alternatively, the package can be installed locally after cloning by the
-following command:
+Alternatively, the package can be installed via github as follows
 
-``python -m pip install .``
+.. code:: shell
 
-Note:
+   git clone https://github.com/Vignesh-Desmond/attractors
+   cd attractors
+   python -m pip install .
 
-The package requires FFMPEG as a prerequisite for generating
-visualization output. For installation, see
-`here <https://ffmpeg.org/download.html>`__
+To set up the package for development and debugging, it is recommended
+to use `Poetry <https://python-poetry.org/>`__. Just install with
+``poetry install`` and let Poetry manage the environment and
+dependencies.
 
-Dependencies
-------------
+Prerequisites
+-------------
 
--  Python (3.8+)
--  NumPy (1.21.0+)
--  Matplotlib (3.4.2+)
+To generate video output, the package uses
+`ffmpeg <https://ffmpeg.org/>`__. Download and install from
+`here <https://ffmpeg.org/download.html>`__ according to your os and
+distribution and set PATH accordingly. Note that this is only required
+for generating video output.
 
-Usage
------
+Basic Usage
+===========
 
-The package is intended to be used mainly via the command-line
-interface. The simplest way to visualize an Lorenz attractor is given
-below:
+A simple code snippet using the attractors package
 
-::
+.. code:: python
+
+   from attractors.attractor import Attractor
+
+   obj = Attractor("lorenz")
+   obj.rk3(0, 100, 10000)          #rk3(starttime, endtime, simpoints)
+
+In the above snippet, ``obj`` is an Attractor instance with X, Y, and Z
+attributes, each being a 1D list of length *simpoints (number of points
+used for the simulation)*.
+
+The parameters of each attractor can be given as kwargs as follows:
+
+.. code:: python
+
+   obj = Attractor("lorenz", sigma = 5, rho = 28.5, init_coord = [0.2,0.1,0.1])
+
+When parameters are not given, the default parameters are loaded for
+each attractor. In the above example, since ``beta`` is not given, the
+default value of 2.66667 is loaded.
+
+To obtain the 3D coordinates of an attractor, we need to solve (usually)
+3 non-linear ODE, one for each dimension. The solution can be derived
+via approximation using the
+`Runge-Kutta <https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods>`__
+methods. Currently, this package consists of the following iterative
+explicit RK methods:
+
+-  Euler
+-  RK2 (Heun, Ralston, Improved Polygon)
+-  RK3
+-  RK4
+-  RK5
+
+For 2nd order Runge-Kutta, the method can be specified via the
+positional argument ``rk2_method``
+
+.. code:: python
+
+   obj.rk3(0, 100, 10000, rk2_method="heun")  #methods = "heun", "ralston", "imp_poly"
+
+A list of attractors and ODE solvers can be obtained via the static
+methods ``list_attractors()`` and ``list_des()`` respectively.
+
+Plotting and Animation
+======================
+
+The attractors package also comes with plotting and animation functions
+using `Matplotlib <https://matplotlib.org/>`__. There are 2 plotting
+types, **Multipoint** and **Gradient**.
+
+Plot
+----
+
+Multipoint plot can be used to visualize multiple attractor objects
+which can be used to demonstrate the chaotic nature based on
+perturbances in initial conditions and parameters
+
+The following sample code shows the usage of ``plot_multipoint()``
+
+.. code:: python
+
+   from attractors.attractor import Attractor
+   import numpy as np
+
+   n = 3
+   a = "rossler"
+   simtime = 100
+   simpoints = simtime * 100
+
+   # Create a list of n attractor instances
+   objs = [Attractor(a) for _ in range(n)]
+
+   # Change the initial coordinates randomly for n-1 objects
+   for i in range(n):
+       objs[i].coord = (
+           np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)]
+           if i != 0
+           else np.array(objs[i].coord)
+       )
+
+   # Solve the ODE equations
+   for obj in objs:
+       func = getattr(obj, "rk3")
+       func(0, simtime, simpoints)
+
+   # Use plot_multipoint to plot all the objects
+   ax = Attractor.plot_multipoint(
+       simpoints - 1,
+       *objs,
+       dpi=240,
+       bgcolor="#FFFFFF",
+       palette=["#616161", "#7a7a7a", "#2e2e2e", "#1c1c1c"],
+       linekwargs={"linewidth": 0.5, "alpha": 0.7},
+       pointkwargs={"markersize": 1}
+   )
+
+.. container::
+
+   .. raw:: html
+
+      <p>
+
+   .. raw:: html
+
+      <h5>
+
+   The output figure generated for the code snippet
+
+   .. raw:: html
+
+      </h5>
+
+   ::
+
+      <img src="./docs/plot.png">   
+
+   .. raw:: html
+
+      </p>
+
+``plot_multipoint()`` is a class method that requires 2 arguments:
+
+-  *index* : timestep of the attractor objects on plot
+-  *\*objs* : attractor objects to plot
+
+Additionally, it also takes in multiple kwargs that
+
+-  set the figure parameters: *width, height, dpi*
+-  set the axes limits: *xlim, ylim, zlim*
+-  set line and point parameters via *linekwargs, pointkwargs* (pass to
+   matplotlib kwargs)
+-  set color
+
+   -  by *theme*
+   -  by manually by specifying *bgcolor* (single hexcode) and *palette*
+      (list of hexcodes). Overrides theme settings if given.
+
+The figure parameters, axes limits and theme can also be set via
+``set_figure()``, ``set_limits()`` and ``set_theme()`` methods
+respectively
+
+``plot_gradient()`` is similar to ``plot_multipoint()``, however it can
+only take one attractor instance as input. And it also takes an extra
+kwarg: *gradientaxis* to specify the axis along which the gradient is
+applied. (X, Y or Z).
+
+Both ``plot_gradient()`` and ``plot_multipoint()`` returns an
+Matplotlib.axes object which can be used to display or save the figure
+and also change axes parameters after plotting.
+
+Animate
+-------
+
+The Animate functions ``set_animate_multipoint()`` and
+``set_animate_gradient()`` are similar to their plot function
+counterparts. By default, the visualization output will be saved in an
+MPEG4 encoded video. An example for gradient animation is as follows
+
+.. code:: python
+
+   from attractors.attractor import Attractor
+
+   obj = Attractor("dequan_li")
+   obj.rk3(0, 10, 10000)
+
+   Attractor.set_animate_gradient(obj,
+       width=10,
+       height=10,
+       theme="nord").animate(outf="example.mp4")
+
+The above code generates a video ``example.mp4`` in the directory that
+it was run from. ``animate`` is a class method acting on the Attractor
+class instance. It has no required argmunents and it takes the following
+kwargs
+
+-  *live*: boolean arg to show the animated plot in a window
+   interactively or save as output video.
+-  *fps*: frames per second of animation
+-  *outf*: filename of output video if generated
+-  *show*: boolean arg to disable ``plt.show()`` and return the
+   Matplotlib.FuncAnimation instance (only when *live* is True)
+
+Both ``set_animate_gradient()`` and ``set_animate_multipoint()`` have 2
+addititonal parameters: *elevationrate* and *azimuthrate* which control
+the rate of change of eleveation and azimuth angle for the duration of
+the animation respectively.
+
+.. container::
+
+   .. raw:: html
+
+      <p>
+
+   .. raw:: html
+
+      <h5>
+
+   Output animation (converted to gif and sliced for README)
+
+   .. raw:: html
+
+      </h5>
+
+   ::
+
+      <img src="./docs/animate.gif">   
+
+   .. raw:: html
+
+      </p>
+
+CLI
+===
+
+The attractors package also comes with its own command-line parser.
+Simply type ``attractors -h`` to display the help message. The parser
+wraps the Attractor class and currently only supports animation.
+
+The simplest way to visualize an Lorenz attractor is
+
+.. code:: shell
 
    attractors -p 100000 -s 100 -t multipoint lorenz
 
-``-p`` : Number of points for the simulation
+Full help:
+----------
 
-``-s`` : Simulation time
+.. code:: console
 
-``-t`` : Type of visualization
-
-There are two types of visualizations:
-
-``multipoint`` visualization can simulate multiple initial coordinates,
-useful to infer the chaotic nature of the attractors. Use ``--n`` to set
-the number of initial points.
-
-``gradient`` visualization uses gradient color for the 3D plot, given a
-specific axis.
-
-By default, the visualization output will be saved in an MPEG4 encoded
-video. To show a live plot, use the ``--live`` flag (only supported for
-multipoint).
-
-The full list of possible settings can be obtained by the help command:
-``attractors -h``
-
-::
-
+   $ attractors -h
    usage: attractors [-v] [-h] -t {multipoint,gradient}
-                     [--des {euler,rk2,rk3,rk4,rk5}] [--width WIDTH]
+                     [--des {rk2,rk3,euler,rk5,rk4}] [--width WIDTH]
                      [--height HEIGHT] [--dpi DPI] [--theme THEME] -s SIMTIME -p
                      SIMPOINTS [--bgcolor BGCOLOR] [--cmap CMAP] [--fps FPS]
                      [--n N] [--rk2 {heun,imp_poly,ralston}] [--outf OUTF]
@@ -97,25 +309,25 @@ The full list of possible settings can be obtained by the help command:
                            set the number of points to be used for the simulation
 
    other arguments:
-     --des {euler,rk2,rk3,rk4,rk5}
-                           set the Differential Equation Solver. Default: rk4
+     --des {rk2,rk3,euler,rk5,rk4}
+                           choose the Differential Equation Solver. Default: rk4
      --width WIDTH         set width of the figure Default: 16
      --height HEIGHT       set height of the figure Default: 9
      --dpi DPI             set DPI of the figure Default: 120
      --theme THEME         choose theme (color palette) to be used
-     --bgcolor BGCOLOR     Background color for figure in hex. Overrides theme
-                           settings Default: #000000
-     --cmap CMAP           Matplotlib cmap for palette. Overrides theme settings
-                           Default: jet
-     --fps FPS             Set FPS for animated video (or interactive plot)
+     --bgcolor BGCOLOR     background color for figure in hex. Overrides theme
+                           settings if specified Default: #000000
+     --cmap CMAP           matplotlib cmap for palette. Overrides theme settings
+                           if specified Default: jet
+     --fps FPS             set FPS for animated video (or interactive plot)
                            Default: 60
-     --n N                 Number of initial points for Multipoint animation
+     --n N                 number of initial points for Multipoint animation
                            Default: 3
      --rk2 {heun,imp_poly,ralston}
-                           Method for 2nd order Runge-Kutta if specified to used.
-                           Default: heun
-     --outf OUTF           Output video filename Default: output.mp4
-     --live                Live plotting instead of generating video.
+                           method for 2nd order Runge-Kutta if specified to be
+                           used. Default: heun
+     --outf OUTF           output video filename Default: output.mp4
+     --live                live plotting instead of generating video.
 
    Attractor settings:
      Choose one of the attractors and specify its parameters
@@ -144,37 +356,59 @@ The full list of possible settings can be obtained by the help command:
        chen                Chen attractor
        chen_lee            Chen Lee attractor
        chen_celikovsky     Chen Celikovsky attractor
+       thomas_cyclically_symmetric
+                           Thomas Cyclically Symmetric attractor
+       dequan_li           Dequan Li attractor
+       yu_wang             Yu Wang attractor
 
 Each attractor also has its own parameters to set. The settings for each
 attractor can be obtained by the help command:
 ``attractors ATTRACTOR -h``
 
-The help message for Lorenz attractors will be as follows:
+Attractor help
+--------------
 
-::
+.. code:: console
 
-   usage: attractors lorenz [-h] [--sigma SIGMA] [--beta BETA] [--rho RHO]
-                            [--initcoord INITCOORD] [--xlim XLIM] [--ylim YLIM]
-                            [--zlim ZLIM]
+   $ attractors finance -h
+   usage: attractors finance [-h] [--a A] [--b B] [--c C]
+                             [--initcoord INITCOORD INITCOORD INITCOORD]
+                             [--xlim XLIM XLIM] [--ylim YLIM YLIM]
+                             [--zlim ZLIM ZLIM]
 
    optional arguments:
      -h, --help            show this help message and exit
 
-   Lorenz attractor parameters:
-     --sigma SIGMA         Parameter for Lorenz attractor Default: 5
-     --beta BETA           Parameter for Lorenz attractor Default: 2.66667
-     --rho RHO             Parameter for Lorenz attractor Default: 28
-     --initcoord INITCOORD
-                           Initial coordinate for Lorenz attractor. Input format:
-                           "x,y,z" Default: [0.1, 0.1, 0.1]
-     --xlim XLIM           x axis limits for figure. Input format: "xmin,xmax"
-                           Default: [-20, 20]
-     --ylim YLIM           y axis limits for figure. Input format: "ymin,ymax"
-                           Default: [-30, 30]
-     --zlim ZLIM           z axis limits for figure. Input format: "zmin,zmax"
-                           Default: [5, 45]
+   Finance attractor parameters:
+     --a A                 Parameter for Finance attractor Default: 1e-05
+     --b B                 Parameter for Finance attractor Default: 0.1
+     --c C                 Parameter for Finance attractor Default: 1.0
+     --initcoord INITCOORD INITCOORD INITCOORD
+                           Initial coordinate for Finance attractor. Input
+                           format: "x y z" Default: [0.0, -10.0, 0.1]
+     --xlim XLIM XLIM      x axis limits for figure. Input format: "xmin xmax"
+                           Default: [-3.0, 3.0]
+     --ylim YLIM YLIM      y axis limits for figure. Input format: "ymin ymax"
+                           Default: [-5.0, -15.0]
+     --zlim ZLIM ZLIM      z axis limits for figure. Input format: "zmin zmax"
+                           Default: [-1.5, 1.5]
+
+Changelog
+=========
+
+See
+`changelog <https://github.com/Vignesh-Desmond/attractors/blob/main/CHANGELOG.md>`__
+for previous versions
 
 License
--------
+=======
 
-This package is licensed under the MIT License
+This package is licensed under the `MIT
+License <https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE.md>`__
+
+.. |PyPI license| image:: https://img.shields.io/github/workflow/status/Vignesh-Desmond/attractors/Build?style=flat-square&logo=GitHub
+   :target: https://github.com/Vignesh-Desmond/attractors/actions/workflows/build.yml
+.. |PyPI version| image:: https://img.shields.io/pypi/v/attractors?color=blue&style=flat-square
+   :target: https://pypi.python.org/pypi/attractors/
+.. |PyPI license| image:: https://img.shields.io/pypi/l/attractors?style=flat-square&color=orange
+   :target: https://lbesson.mit-license.org/
