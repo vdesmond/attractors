@@ -1,3 +1,20 @@
+<a name="1.2.0"></a>
+# [attractors v1.2.0 (1.2.0)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.2.0) - 15 Jul 2021
+
+# Announcements
+* Minor version bump adding 2 new attractors
+
+# Changes
+* Added 2 new attractors : Dequan Li and Yu Wang
+* Removed legacy animate functions `animate_gradient()` and `animate_sim()`
+* Added kwargs to control gradient axis, elevation and azimuth rate.
+* Added line and point kwargs to pass to matplotlib
+* Tweaked default params for multiple attractors
+* Minor bugfixes
+
+[Changes][1.2.0]
+
+
 <a name="1.1.1"></a>
 # [attractors v1.1.1 (1.1.1)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.1.1) - 09 Jul 2021
 
@@ -43,6 +60,7 @@
 [Changes][1.0.0]
 
 
+[1.2.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/Vignesh-Desmond/attractors/tree/1.0.0
