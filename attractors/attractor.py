@@ -174,7 +174,10 @@ class Attractor(DES):
             for line, pt, k in zip(lines, pts, objs):
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
                 pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-            cls.ax.view_init(kwargs.get("elevationrate", 0.005) * i, kwargs.get("azimuthrate", 0.05) * i)
+            cls.ax.view_init(
+                kwargs.get("elevationrate", 0.005) * i,
+                kwargs.get("azimuthrate", 0.05) * i,
+            )
             return lines + pts
 
         points = len(max(objs).X)
@@ -216,7 +219,10 @@ class Attractor(DES):
             line.set_segments(segs)
             pt.set_data_3d([obj.X[i]], [obj.Y[i]], [obj.Z[i]])
             pt.set_color(colors[i])
-            cls.ax.view_init(kwargs.get("elevationrate", 0.005) * i, kwargs.get("azimuthrate", 0.05) * i)
+            cls.ax.view_init(
+                kwargs.get("elevationrate", 0.005) * i,
+                kwargs.get("azimuthrate", 0.05) * i,
+            )
             return line, pt
 
         points = len(obj.X)
