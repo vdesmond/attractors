@@ -37,7 +37,6 @@ class Attractor(DES):
 
     def __init__(self, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
-        self._data_len = None
         self.init_coord = kwargs.get("init_coord", self.attr["init_coord"])
         self.params = {
             self.attr["params"][i]: kwargs.get(
@@ -68,7 +67,11 @@ class Attractor(DES):
 
     @staticmethod
     def list_attractors():
-        return [x for x in dir(DES.__mro__[1]) if not x.startswith("_")]
+        return list(ATTRACTOR_PARAMS.keys())
+
+    @staticmethod
+    def list_params(attr):
+        return ATTRACTOR_PARAMS[attr]["params"]
 
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):
@@ -171,7 +174,7 @@ class Attractor(DES):
             for line, pt, k in zip(lines, pts, objs):
                 line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
                 pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
-            cls.ax.view_init(0.005 * i, 0.05 * i)
+            cls.ax.view_init(kwargs.get("elevationrate", 0.005) * i, kwargs.get("azimuthrate", 0.05) * i)
             return lines + pts
 
         points = len(max(objs).X)
@@ -188,12 +191,14 @@ class Attractor(DES):
         linekwargs = kwargs.get("linekwargs", {})
         pointkwargs = kwargs.get("pointkwargs", {})
 
+        val = getattr(obj, kwargs.get("gradientaxis", "Z"))
+
         line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
         (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
-        line.set_array(np.array(obj.Z))
-        colors = line.to_rgba(obj.Z)
+        line.set_array(np.array(val))
+        colors = line.to_rgba(val)
 
         def init():
             line.set_segments([])
@@ -211,7 +216,7 @@ class Attractor(DES):
             line.set_segments(segs)
             pt.set_data_3d([obj.X[i]], [obj.Y[i]], [obj.Z[i]])
             pt.set_color(colors[i])
-            cls.ax.view_init(0.005 * i, 0.05 * i)
+            cls.ax.view_init(kwargs.get("elevationrate", 0.005) * i, kwargs.get("azimuthrate", 0.05) * i)
             return line, pt
 
         points = len(obj.X)
@@ -252,12 +257,14 @@ class Attractor(DES):
         linekwargs = kwargs.get("linekwargs", {})
         pointkwargs = kwargs.get("pointkwargs", {})
 
+        val = getattr(obj, kwargs.get("gradientaxis", "Z"))
+
         line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
         (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
-        line.set_array(np.array(obj.Z))
-        colors = line.to_rgba(obj.Z)
+        line.set_array(np.array(val))
+        colors = line.to_rgba(val)
 
         pts = (
             np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
