@@ -9,6 +9,7 @@ import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
+from more_itertools import peekable
 
 from attractors import data
 from attractors.utils.base import ATTRACTOR_PARAMS
@@ -50,12 +51,7 @@ class Attractor(DES):
         if not isinstance(other, Attractor):
             return NotImplemented
         return self.attractor == other.attractor
-
-    def slice_(self, start, stop, step=1):
-        self.X = self.X[slice(start, stop, step)]
-        self.Y = self.Y[slice(start, stop, step)]
-        self.Z = self.Z[slice(start, stop, step)]
-
+        
     @staticmethod
     def list_themes():
         return themes
@@ -115,7 +111,7 @@ class Attractor(DES):
     def _wrap_set(cls, objs, kwargs):
 
         assert all(
-            x == objs[0] for x in objs
+            x.peek().attractor == objs[0].peek().attractor for x in objs
         ), "All objects must be of the same attractor type"
 
         try:
@@ -134,7 +130,7 @@ class Attractor(DES):
             dpi=kwargs.get("dpi", 120),
         )
 
-        attr = ATTRACTOR_PARAMS[objs[0].attractor]
+        attr = ATTRACTOR_PARAMS[objs[0].peek().attractor]
         Attractor.set_limits(
             xlim=kwargs.get("xlim", attr["xlim"]),
             ylim=kwargs.get("ylim", attr["ylim"]),
@@ -143,6 +139,8 @@ class Attractor(DES):
 
     @classmethod
     def set_animate_multipoint(cls, *objs, **kwargs):
+
+        objs = [peekable(obj) for obj in objs]
 
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
@@ -167,23 +165,25 @@ class Attractor(DES):
                 pt.set_data_3d([], [], [])
             return lines + pts
 
-        maxlen = len(max(objs, key=len))
+        maxlen = len(max([obj.peek() for obj in objs], key=len))
 
         def update(i):
             i = i % maxlen
             for line, pt, k in zip(lines, pts, objs):
-                line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
-                pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
+                s = next(k)
+                line.set_data_3d(np.hstack((np.array(line.get_data_3d(), np.atleast_2d(np.array([s.X, s.Y, s.Z])).T))))
+                pt.set_data_3d(s.X, s.Y, s.Z)
+                
             cls.ax.view_init(
                 kwargs.get("elevationrate", 0.005) * i,
                 kwargs.get("azimuthrate", 0.05) * i,
             )
+            
             return lines + pts
 
-        points = len(max(objs).X)
         cls._update_func = update
         cls._init_func = init
-        cls._points = points
+        cls._points = maxlen
         return cls
 
     @classmethod
