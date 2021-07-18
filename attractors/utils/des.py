@@ -81,11 +81,16 @@ class DES(BaseAttractors):
 
             self.coord += (k1 + 2 * k2) / 3
 
-        for _ in range(N):
-            self.X.append(self.coord[0])
-            self.Y.append(self.coord[1])
-            self.Z.append(self.coord[2])
+        for ts in range(N):
+            
+            self.X = self.coord[0]
+            self.Y = self.coord[1]
+            self.Z = self.coord[2]
+            
             eval(method)()
+
+            self.ts = ts
+            yield self
 
     def rk3(self, a, b, N):
         h, afunc = self._unwrap(a, b, N)
