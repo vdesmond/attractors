@@ -82,11 +82,11 @@ class DES(BaseAttractors):
             self.coord += (k1 + 2 * k2) / 3
 
         for ts in range(N):
-            
+
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
-            
+
             eval(method)()
 
             self.ts = ts

@@ -31,12 +31,11 @@ des_list.remove("rk2")
 @pytest.mark.parametrize("des", des_list)
 def test_attractors_des(attr, attractor_obj_des):
     attrparams = ATTRACTOR_PARAMS[attr]
-    for aod in attractor_obj_des:   
+    for aod in attractor_obj_des:
         assert aod.init_coord == attrparams["init_coord"]
         for i in range(len(attrparams["params"])):
             assert (
-                getattr(aod, attrparams["params"][i])
-                == attrparams["default_params"][i]
+                getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
             )
 
 
@@ -48,8 +47,7 @@ def test_attractors_des_rk2(attr, attractor_obj_des_rk2):
         assert aod.init_coord == attrparams["init_coord"]
         for i in range(len(attrparams["params"])):
             assert (
-                getattr(aod, attrparams["params"][i])
-                == attrparams["default_params"][i]
+                getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
             )
 
 

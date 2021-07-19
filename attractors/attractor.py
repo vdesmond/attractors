@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
 from more_itertools import peekable
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 from attractors import data
 from attractors.utils.base import ATTRACTOR_PARAMS
@@ -51,7 +51,7 @@ class Attractor(DES):
         if not isinstance(other, Attractor):
             return NotImplemented
         return self.attractor == other.attractor
-        
+
     @staticmethod
     def list_themes():
         return themes
@@ -172,16 +172,25 @@ class Attractor(DES):
                 s = next(k, None)
                 if not s:
                     continue
-                if i == maxlen-1:
-                    plt.close(line.axes.figure) # Manually closing figure after all attractors have been animated
-                line.set_data_3d(np.hstack((np.array(line.get_data_3d()), np.atleast_2d(np.array([s.X, s.Y, s.Z])).T)))
+                if i == maxlen - 1:
+                    plt.close(
+                        line.axes.figure
+                    )  # Manually closing figure after all attractors have been animated
+                line.set_data_3d(
+                    np.hstack(
+                        (
+                            np.array(line.get_data_3d()),
+                            np.atleast_2d(np.array([s.X, s.Y, s.Z])).T,
+                        )
+                    )
+                )
                 pt.set_data_3d(s.X, s.Y, s.Z)
-                
+
             cls.ax.view_init(
                 kwargs.get("elevationrate", 0.005) * i,
                 kwargs.get("azimuthrate", 0.05) * i,
             )
-            
+
             return lines + pts
 
         cls._update_func = update
@@ -208,7 +217,7 @@ class Attractor(DES):
         cls.ax.add_collection3d(line)
 
         val = {"X": 0, "Y": 1, "Z": 2}
-        colorarray = objlist[:,val[kwargs.get("gradientaxis", "Z")]]
+        colorarray = objlist[:, val[kwargs.get("gradientaxis", "Z")]]
 
         (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
         line.set_array(np.array(colorarray))
@@ -222,14 +231,11 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-            
-            pts = (
-                np.array(objlist[:i])
-                .reshape(-1, 1, 3)
-            )
+
+            pts = np.array(objlist[:i]).reshape(-1, 1, 3)
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
-            pt.set_data_3d([objlist[i,0]], [objlist[i,1]], [objlist[i,2]])
+            pt.set_data_3d([objlist[i, 0]], [objlist[i, 1]], [objlist[i, 2]])
             pt.set_color(colors[i])
             cls.ax.view_init(
                 kwargs.get("elevationrate", 0.005) * i,
@@ -285,19 +291,16 @@ class Attractor(DES):
         cls.ax.add_collection3d(line)
 
         val = {"X": 0, "Y": 1, "Z": 2}
-        colorarray = objlist[:,val[kwargs.get("gradientaxis", "Z")]]
+        colorarray = objlist[:, val[kwargs.get("gradientaxis", "Z")]]
 
         (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
         line.set_array(np.array(colorarray))
         colors = line.to_rgba(colorarray)
 
-        pts = (
-                np.array(objlist[:index])
-                .reshape(-1, 1, 3)
-            )
+        pts = np.array(objlist[:index]).reshape(-1, 1, 3)
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
         line.set_segments(segs)
-        pt.set_data_3d([objlist[index,0]], [objlist[index,1]], [objlist[index,2]])
+        pt.set_data_3d([objlist[index, 0]], [objlist[index, 1]], [objlist[index, 2]])
         pt.set_color(colors[index])
         cls.fig.canvas.draw()
         return cls.ax
@@ -332,7 +335,7 @@ class Attractor(DES):
                 tx += [s.X]
                 ty += [s.Y]
                 tz += [s.Z]
-            
+
             line.set_data_3d(tx, ty, tz)
             pt.set_data_3d(s.X, s.Y, s.Z)
         cls.fig.canvas.draw()
