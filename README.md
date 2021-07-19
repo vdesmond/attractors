@@ -2,7 +2,7 @@
 <p>
     <img width="400" src="./docs/logoblack.svg">
 </p>
-<h1>Attractors - Python package</h1>
+<h1>attractors</h1>
 
 [![Build status](https://img.shields.io/github/workflow/status/Vignesh-Desmond/attractors/Build?style=flat-square&logo=GitHub)](https://github.com/Vignesh-Desmond/attractors/actions/workflows/build.yml)
 [![PyPI version](https://img.shields.io/pypi/v/attractors?color=blue&style=flat-square)](https://pypi.python.org/pypi/attractors/)
@@ -38,18 +38,17 @@ To generate video output, the package uses [ffmpeg](https://ffmpeg.org/). Downlo
 A simple code snippet using the attractors package
 
 ```python
-from attractors.attractor import Attractor
+from attractors import Attractor
 
-obj = Attractor("lorenz")
-obj.rk3(0, 100, 10000)          #rk3(starttime, endtime, simpoints)
+obj = Attractor("lorenz").rk3(0, 100, 10000) #rk3(starttime, endtime, simpoints)
 ```
 
-In the above snippet, `obj` is an Attractor instance with X, Y, and Z attributes, each being a 1D list of length _simpoints (number of points used for the simulation)_.
+In the above snippet, `obj` is an generator instance yielding an attractor instance with X, Y, and Z attributes. The generator reaches `StopIteration` after iterating _simpoints (number of points used for the simulation)_ times.
 
 The parameters of each attractor can be given as kwargs as follows:
 
 ```python
-obj = Attractor("lorenz", sigma = 5, rho = 28.5, init_coord = [0.2,0.1,0.1])
+attr = Attractor("lorenz", sigma = 5, rho = 28.5, init_coord = [0.2,0.1,0.1])
 ```
 
 When parameters are not given, the default parameters are loaded for each attractor. In the above example, since `beta` is not given, the default value of 2.66667 is loaded.
@@ -65,7 +64,7 @@ To obtain the 3D coordinates of an attractor, we need to solve (usually) 3 non-l
 For 2nd order Runge-Kutta, the method can be specified via the positional argument `rk2_method`
 
 ```python
-obj.rk3(0, 100, 10000, rk2_method="heun")  #methods = "heun", "ralston", "imp_poly"
+obj = attr.rk3(0, 100, 10000, rk2_method="heun")  #methods = "heun", "ralston", "imp_poly"
 ```
 
 A list of attractors and ODE solvers can be obtained via the static methods `list_attractors()` and `list_des()` respectively.
@@ -81,7 +80,7 @@ Multipoint plot can be used to visualize multiple attractor objects which can be
 The following sample code shows the usage of `plot_multipoint()`
 
 ```python
-from attractors.attractor import Attractor
+from attractors import Attractor
 import numpy as np
 
 n = 3
@@ -90,22 +89,23 @@ simtime = 100
 simpoints = simtime * 100
 
 # Create a list of n attractor instances
-objs = [Attractor(a) for _ in range(n)]
+attrs = [Attractor(a) for _ in range(n)]
 
 # Change the initial coordinates randomly for n-1 objects
 for i in range(n):
-    objs[i].coord = (
+    attrs[i].coord = (
         np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)]
         if i != 0
-        else np.array(objs[i].coord)
+        else np.array(attrs[i].coord)
     )
 
-# Solve the ODE equations
-for obj in objs:
-    func = getattr(obj, "rk3")
-    func(0, simtime, simpoints)
+# Solve the ODE equations and store the generators
+objs = []
+for a in attrs:
+    func = getattr(a, "rk3")
+    objs.append(func(0, simtime, simpoints))
 
-# Use plot_multipoint to plot all the objects
+# Use plot_multipoint with necessary kwargs
 ax = Attractor.plot_multipoint(
     simpoints - 1,
     *objs,
@@ -127,7 +127,7 @@ ax = Attractor.plot_multipoint(
 `plot_multipoint()` is a class method that requires 2 arguments:
 
 - _index_ : timestep of the attractor objects on plot
-- _\*objs_ : attractor objects to plot
+- _\*objs_ : generator list
 
 Additionally, it also takes in multiple kwargs that
 
@@ -140,7 +140,7 @@ Additionally, it also takes in multiple kwargs that
 
 The figure parameters, axes limits and theme can also be set via `set_figure()`, `set_limits()` and `set_theme()` methods respectively
 
-`plot_gradient()` is similar to `plot_multipoint()`, however it can only take one attractor instance as input. And it also takes an extra kwarg: _gradientaxis_ to specify the axis along which the gradient is applied. (X, Y or Z).
+`plot_gradient()` is similar to `plot_multipoint()`, however it can only take one generator as input. And it also takes an extra kwarg: _gradientaxis_ to specify the axis along which the gradient is applied. (X, Y or Z).
 
 Both `plot_gradient()` and `plot_multipoint()` returns an Matplotlib.axes object which can be used to display or save the figure and also change axes parameters after plotting.
 
@@ -149,10 +149,9 @@ Both `plot_gradient()` and `plot_multipoint()` returns an Matplotlib.axes object
 The Animate functions `set_animate_multipoint()` and `set_animate_gradient()` are similar to their plot function counterparts. By default, the visualization output will be saved in an MPEG4 encoded video. An example for gradient animation is as follows
 
 ```python
-from attractors.attractor import Attractor
+from attractors import Attractor
 
-obj = Attractor("dequan_li")
-obj.rk3(0, 10, 10000)
+obj = Attractor("dequan_li").rk3(0, 10, 10000)
 
 Attractor.set_animate_gradient(obj,
     width=10,
@@ -160,7 +159,7 @@ Attractor.set_animate_gradient(obj,
     theme="nord").animate(outf="example.mp4")
 ```
 
-The above code generates a video `example.mp4` in the directory that it was run from. `animate` is a class method acting on the Attractor class instance. It has no required argmunents and it takes the following kwargs
+The above code generates a video `example.mp4` in the directory that it was run from. `animate` is a class method acting on the `Attractor` class instance. It has no required argmunents and it takes the following kwargs
 
 - _live_: boolean arg to show the animated plot in a window interactively or save as output video.
 - _fps_: frames per second of animation
@@ -178,7 +177,7 @@ Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 addititonal 
 
 ## CLI
 
-The attractors package also comes with its own command-line parser. Simply type `attractors -h` to display the help message. The parser wraps the Attractor class and currently only supports animation.
+The attractors package also comes with its own command-line parser as a legacy interface (from v1.0.0). Simply type `attractors -h` to display the help message. The parser wraps the Attractor class and **only supports animation**.
 
 The simplest way to visualize an Lorenz attractor is
 
@@ -298,6 +297,10 @@ Finance attractor parameters:
 
 See [changelog](https://github.com/Vignesh-Desmond/attractors/blob/main/CHANGELOG.md) for previous versions
 
+## Development
+
+This package is under early stages of development it's open to any constructive suggestions. Please send bug reports and feature requests through issue trackers and pull requests.
+
 ## License
 
-This package is licensed under the [MIT License](https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE.md)
+This package is licensed under the [MIT License](https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE)
