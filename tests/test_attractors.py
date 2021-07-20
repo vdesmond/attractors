@@ -1,5 +1,8 @@
+import random
+
 import matplotlib
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d.axes3d as p3
 import pytest
 
 from attractors import __version__
@@ -11,18 +14,14 @@ SIMPOINTS = 1000
 
 @pytest.fixture()
 def attractor_obj_des(attr, des):
-    obj = Attractor(attr)
-    func = getattr(obj, des)
-    func(0, SIMTIME, SIMPOINTS)
-    return obj
+    func = getattr(Attractor(attr), des)
+    return func(0, SIMTIME, SIMPOINTS)
 
 
 @pytest.fixture
 def attractor_obj_des_rk2(attr, rk2_method):
-    obj = Attractor(attr)
-    func = getattr(obj, "rk2")
-    func(0, SIMTIME, SIMPOINTS, rk2_method)
-    return obj
+    func = getattr(Attractor(attr), "rk2")
+    return func(0, SIMTIME, SIMPOINTS, rk2_method)
 
 
 des_list = Attractor.list_des()
@@ -33,34 +32,31 @@ des_list.remove("rk2")
 @pytest.mark.parametrize("des", des_list)
 def test_attractors_des(attr, attractor_obj_des):
     attrparams = ATTRACTOR_PARAMS[attr]
-    assert len(attractor_obj_des) == SIMPOINTS
-    assert attractor_obj_des.init_coord == attrparams["init_coord"]
-    for i in range(len(attrparams["params"])):
-        assert (
-            getattr(attractor_obj_des, attrparams["params"][i])
-            == attrparams["default_params"][i]
-        )
+    for aod in attractor_obj_des:
+        assert aod.init_coord == attrparams["init_coord"]
+        for i in range(len(attrparams["params"])):
+            assert (
+                getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
+            )
 
 
 @pytest.mark.parametrize("attr", Attractor.list_attractors())
 @pytest.mark.parametrize("rk2_method", ["heun", "imp_poly", "ralston"])
 def test_attractors_des_rk2(attr, attractor_obj_des_rk2):
     attrparams = ATTRACTOR_PARAMS[attr]
-    assert len(attractor_obj_des_rk2) == SIMPOINTS
-    assert attractor_obj_des_rk2.init_coord == attrparams["init_coord"]
-    for i in range(len(attrparams["params"])):
-        assert (
-            getattr(attractor_obj_des_rk2, attrparams["params"][i])
-            == attrparams["default_params"][i]
-        )
+    for aod in attractor_obj_des_rk2:
+        assert aod.init_coord == attrparams["init_coord"]
+        for i in range(len(attrparams["params"])):
+            assert (
+                getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
+            )
 
 
 @pytest.mark.parametrize("attr", Attractor.list_attractors())
 @pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
 def test_fig_defaults(attr, plottype):
     attrparams = ATTRACTOR_PARAMS[attr]
-    obj = Attractor(attr)
-    obj.rk4(0, SIMTIME, SIMPOINTS)
+    obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
     animfunc = getattr(Attractor, f"set_animate_{plottype}")
     animfunc(obj)
     assert list(Attractor.ax.get_xlim()) == attrparams["xlim"]
@@ -72,10 +68,19 @@ def test_fig_defaults(attr, plottype):
 @pytest.mark.parametrize("attr", Attractor.list_attractors())
 @pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
 def test_live_fig(attr, plottype):
-    obj = Attractor(attr)
-    obj.rk4(0, SIMTIME, SIMPOINTS)
+    obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
     animfunc = getattr(Attractor, f"set_animate_{plottype}")
     anim = animfunc(obj).animate(live=True, show=False)
     assert type(anim) == matplotlib.animation.FuncAnimation
     plt.draw()
+    plt.close(Attractor.fig)
+
+
+@pytest.mark.parametrize("attr", Attractor.list_attractors())
+@pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
+def test_plot(attr, plottype):
+    obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
+    plotfunc = getattr(Attractor, f"plot_{plottype}")
+    ax = plotfunc(SIMPOINTS - random.randint(1, SIMPOINTS), obj)
+    assert type(ax) == p3.Axes3D
     plt.close(Attractor.fig)

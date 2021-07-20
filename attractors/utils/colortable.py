@@ -38,17 +38,14 @@ def get_continuous_cmap(hex_list, float_list=None):
         LinearSegmentedColormap: Colormap of given hex list.
     """
     rgb_list = [hex_to_rgb(i) for i in hex_list]
-    if float_list:
-        pass
-    else:
+    if not float_list:
         float_list = list(np.linspace(0, 1, len(rgb_list)))
 
-    cdict = dict()
+    cdict = {}
     for num, col in enumerate(["red", "green", "blue"]):
         col_list = [
             [float_list[i], rgb_list[i][num], rgb_list[i][num]]
             for i in range(len(float_list))
         ]
         cdict[col] = col_list
-    cmp = mcolors.LinearSegmentedColormap("my_cmp", segmentdata=cdict, N=256)
-    return cmp
+    return mcolors.LinearSegmentedColormap("my_cmp", segmentdata=cdict, N=256)

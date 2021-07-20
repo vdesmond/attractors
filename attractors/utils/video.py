@@ -64,7 +64,7 @@ def ffmpeg_video(fig, update_func, points, fps, outf):
     )
 
     pool = SerialPool()
-    results = pool.imap(drawer, range(0, points), repeat(fig), repeat(update_func))
+    results = pool.imap(drawer, range(points), repeat(fig), repeat(update_func))
 
     p = subprocess.Popen(cmdstring, stdin=subprocess.PIPE)
 

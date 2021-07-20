@@ -69,6 +69,14 @@ jobs:
         run: poetry run isort . --check
       - name: Check linting
         run: poetry run flake8 attractors
+      - name: Generate coverage report
+        run: poetry run pytest --cov=attractors --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true
       - name: Build artifacts
         id: build-status
         run: poetry build

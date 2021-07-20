@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
+from more_itertools import peekable
 from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 from attractors import data
@@ -50,11 +51,6 @@ class Attractor(DES):
         if not isinstance(other, Attractor):
             return NotImplemented
         return self.attractor == other.attractor
-
-    def slice_(self, start, stop, step=1):
-        self.X = self.X[slice(start, stop, step)]
-        self.Y = self.Y[slice(start, stop, step)]
-        self.Z = self.Z[slice(start, stop, step)]
 
     @staticmethod
     def list_themes():
@@ -115,7 +111,7 @@ class Attractor(DES):
     def _wrap_set(cls, objs, kwargs):
 
         assert all(
-            x == objs[0] for x in objs
+            x.peek().attractor == objs[0].peek().attractor for x in objs
         ), "All objects must be of the same attractor type"
 
         try:
@@ -134,7 +130,7 @@ class Attractor(DES):
             dpi=kwargs.get("dpi", 120),
         )
 
-        attr = ATTRACTOR_PARAMS[objs[0].attractor]
+        attr = ATTRACTOR_PARAMS[objs[0].peek().attractor]
         Attractor.set_limits(
             xlim=kwargs.get("xlim", attr["xlim"]),
             ylim=kwargs.get("ylim", attr["ylim"]),
@@ -143,6 +139,8 @@ class Attractor(DES):
 
     @classmethod
     def set_animate_multipoint(cls, *objs, **kwargs):
+
+        objs = [peekable(obj) for obj in objs]
 
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
@@ -167,41 +165,65 @@ class Attractor(DES):
                 pt.set_data_3d([], [], [])
             return lines + pts
 
-        maxlen = len(max(objs, key=len))
+        maxlen = len(max([obj.peek() for obj in objs], key=len))
 
         def update(i):
-            i = i % maxlen
             for line, pt, k in zip(lines, pts, objs):
-                line.set_data_3d(k.X[:i], k.Y[:i], k.Z[:i])
-                pt.set_data_3d(k.X[i], k.Y[i], k.Z[i])
+                s = next(k, None)
+                if not s:
+                    continue
+                if i == maxlen - 1:
+                    plt.close(
+                        line.axes.figure
+                    )  # Manually closing figure after all attractors have been animated
+                line.set_data_3d(
+                    np.hstack(
+                        (
+                            np.array(line.get_data_3d()),
+                            np.atleast_2d(np.array([s.X, s.Y, s.Z])).T,
+                        )
+                    )
+                )
+                pt.set_data_3d(s.X, s.Y, s.Z)
+
             cls.ax.view_init(
                 kwargs.get("elevationrate", 0.005) * i,
                 kwargs.get("azimuthrate", 0.05) * i,
             )
+
             return lines + pts
 
-        points = len(max(objs).X)
         cls._update_func = update
         cls._init_func = init
-        cls._points = points
+        cls._points = maxlen
         return cls
 
     @classmethod
     def set_animate_gradient(cls, obj, **kwargs):
 
+        obj = peekable(obj)
         Attractor._wrap_set([obj], kwargs)
+
+        # Find a way to skip these steps? (need the full list for color array)
+        objlist = []
+        for s in obj:
+            objlist.append([s.X, s.Y, s.Z])
+        objlist = np.array(objlist)
 
         linekwargs = kwargs.get("linekwargs", {})
         pointkwargs = kwargs.get("pointkwargs", {})
 
-        val = getattr(obj, kwargs.get("gradientaxis", "Z"))
-
         line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
+        val = {"X": 0, "Y": 1, "Z": 2}
+        colorarray = objlist[:, val[kwargs.get("gradientaxis", "Z")]]
+
         (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
-        line.set_array(np.array(val))
-        colors = line.to_rgba(val)
+        line.set_array(np.array(colorarray))
+        colors = line.to_rgba(colorarray)
+
+        del colorarray
 
         def init():
             line.set_segments([])
@@ -209,15 +231,11 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-            i = i % len(obj)
-            pts = (
-                np.array([obj.X[:i], obj.Y[:i], obj.Z[:i]])
-                .transpose()
-                .reshape(-1, 1, 3)
-            )
+
+            pts = np.array(objlist[:i]).reshape(-1, 1, 3)
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
-            pt.set_data_3d([obj.X[i]], [obj.Y[i]], [obj.Z[i]])
+            pt.set_data_3d([objlist[i, 0]], [objlist[i, 1]], [objlist[i, 2]])
             pt.set_color(colors[i])
             cls.ax.view_init(
                 kwargs.get("elevationrate", 0.005) * i,
@@ -225,7 +243,7 @@ class Attractor(DES):
             )
             return line, pt
 
-        points = len(obj.X)
+        points = len(objlist)
         cls._update_func = update
         cls._init_func = init
         cls._points = points
@@ -257,35 +275,37 @@ class Attractor(DES):
 
     @classmethod
     def plot_gradient(cls, index, obj, **kwargs):
-
+        obj = peekable(obj)
         Attractor._wrap_set([obj], kwargs)
+
+        objlist = [[s.X, s.Y, s.Z] for s in obj]
+        objlist = np.array(objlist)
 
         linekwargs = kwargs.get("linekwargs", {})
         pointkwargs = kwargs.get("pointkwargs", {})
 
-        val = getattr(obj, kwargs.get("gradientaxis", "Z"))
-
         line = Line3DCollection([], cmap=cls.cmap, **linekwargs)
         cls.ax.add_collection3d(line)
 
-        (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
-        line.set_array(np.array(val))
-        colors = line.to_rgba(val)
+        val = {"X": 0, "Y": 1, "Z": 2}
+        colorarray = objlist[:, val[kwargs.get("gradientaxis", "Z")]]
 
-        pts = (
-            np.array([obj.X[:index], obj.Y[:index], obj.Z[:index]])
-            .transpose()
-            .reshape(-1, 1, 3)
-        )
+        (pt,) = cls.ax.plot([], [], [], "o", **pointkwargs)
+        line.set_array(np.array(colorarray))
+        colors = line.to_rgba(colorarray)
+
+        pts = np.array(objlist[:index]).reshape(-1, 1, 3)
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
         line.set_segments(segs)
-        pt.set_data_3d([obj.X[index]], [obj.Y[index]], [obj.Z[index]])
+        pt.set_data_3d([objlist[index, 0]], [objlist[index, 1]], [objlist[index, 2]])
         pt.set_color(colors[index])
         cls.fig.canvas.draw()
         return cls.ax
 
     @classmethod
     def plot_multipoint(cls, index, *objs, **kwargs):
+
+        objs = [peekable(obj) for obj in objs]
 
         Attractor._wrap_set(objs, kwargs)
         colors = cls.cmap(np.linspace(0, 1, len(objs)))
@@ -294,18 +314,27 @@ class Attractor(DES):
         pointkwargs = kwargs.get("pointkwargs", {})
 
         lines = sum(
-            [
+            (
                 cls.ax.plot([], [], [], "-", c=c, antialiased=True, **linekwargs)
                 for c in colors
-            ],
+            ),
             [],
         )
+
         pts = sum(
-            [cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors], []
+            (cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors), []
         )
 
         for line, pt, k in zip(lines, pts, objs):
-            line.set_data_3d(k.X[:index], k.Y[:index], k.Z[:index])
-            pt.set_data_3d(k.X[index], k.Y[index], k.Z[index])
+            tx, ty, tz = [], [], []
+            for s in k:
+                if s.ts == index:
+                    break
+                tx += [s.X]
+                ty += [s.Y]
+                tz += [s.Z]
+
+            line.set_data_3d(tx, ty, tz)
+            pt.set_data_3d(s.X, s.Y, s.Z)
         cls.fig.canvas.draw()
         return cls.ax

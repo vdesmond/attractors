@@ -195,23 +195,23 @@ def cli():
                 if i != 0
                 else np.array(objs[i].coord)
             )
+        itrs = []
         for obj in objs:
             func = getattr(obj, args.des)
             if args.des == "rk2":
-                func(0, args.simtime, args.simpoints, args.rk2)
+                itr = func(0, args.simtime, args.simpoints, args.rk2)
             else:
-                func(0, args.simtime, args.simpoints)
-        update, points, init = Attractor.set_animate_multipoint(*objs, **kwargs)
-        Attractor.animate(update, points, init, **kwargs)
+                itr = func(0, args.simtime, args.simpoints)
+            itrs.append(itr)
+        Attractor.set_animate_multipoint(*itrs, **kwargs).animate(**kwargs)
     else:
         obj = Attractor(attractor, kwargs=kwargs)
         func = getattr(obj, args.des)
         if args.des == "rk2":
-            func(0, args.simtime, args.simpoints, args.rk2)
+            itr = func(0, args.simtime, args.simpoints, args.rk2)
         else:
-            func(0, args.simtime, args.simpoints)
-        update, points, init = Attractor.set_animate_gradient(obj, **kwargs)
-        Attractor.animate(update, points, init, **kwargs)
+            itr = func(0, args.simtime, args.simpoints)
+        Attractor.set_animate_gradient(itr, **kwargs).animate(**kwargs)
 
 
 if __name__ == " __main__":
