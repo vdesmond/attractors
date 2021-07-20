@@ -12,15 +12,13 @@ SIMPOINTS = 1000
 @pytest.fixture()
 def attractor_obj_des(attr, des):
     func = getattr(Attractor(attr), des)
-    obj = func(0, SIMTIME, SIMPOINTS)
-    return obj
+    return func(0, SIMTIME, SIMPOINTS)
 
 
 @pytest.fixture
 def attractor_obj_des_rk2(attr, rk2_method):
     func = getattr(Attractor(attr), "rk2")
-    obj = func(0, SIMTIME, SIMPOINTS, rk2_method)
-    return obj
+    return func(0, SIMTIME, SIMPOINTS, rk2_method)
 
 
 des_list = Attractor.list_des()

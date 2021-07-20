@@ -317,15 +317,17 @@ class Attractor(DES):
         pointkwargs = kwargs.get("pointkwargs", {})
 
         lines = sum(
-            [
+            (
                 cls.ax.plot([], [], [], "-", c=c, antialiased=True, **linekwargs)
                 for c in colors
-            ],
+            ),
             [],
         )
+
         pts = sum(
-            [cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors], []
+            (cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors), []
         )
+
 
         for line, pt, k in zip(lines, pts, objs):
             tx, ty, tz = [], [], []
