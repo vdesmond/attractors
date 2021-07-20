@@ -278,9 +278,7 @@ class Attractor(DES):
         obj = peekable(obj)
         Attractor._wrap_set([obj], kwargs)
 
-        objlist = []
-        for s in obj:
-            objlist.append([s.X, s.Y, s.Z])
+        objlist = [[s.X, s.Y, s.Z] for s in obj]
         objlist = np.array(objlist)
 
         linekwargs = kwargs.get("linekwargs", {})
