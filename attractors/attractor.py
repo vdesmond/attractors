@@ -327,7 +327,6 @@ class Attractor(DES):
             (cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors), []
         )
 
-
         for line, pt, k in zip(lines, pts, objs):
             tx, ty, tz = [], [], []
             for s in k:

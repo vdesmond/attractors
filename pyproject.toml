@@ -37,6 +37,7 @@ pytest = "^6.2.4"
 black = "^21.6b0"
 isort = "^5.9.1"
 flake9 = "^3.8.3"
+pytest-cov = "^2.12.1"
 
 [tool.poetry.scripts]
 attractors = "attractors.parser:cli"
