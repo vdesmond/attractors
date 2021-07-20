@@ -1,7 +1,7 @@
 attractors
 ==========
 
-|Build status| |PyPI version| |PyPI license|
+|Build status| |PyPI version| |PyPI license| |PyPI downloads| |CodeCov|
 
 attractors is a package for simulation and visualization of strange
 attractors.
@@ -67,3 +67,8 @@ License <https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE.md>`__
    :target: https://pypi.python.org/pypi/attractors/
 .. |PyPI license| image:: https://img.shields.io/pypi/l/attractors?style=flat-square&color=orange
    :target: https://lbesson.mit-license.org/
+.. |PyPI license| image:: https://img.shields.io/pypi/dm/attractors?color=informational&style=flat-square
+   :target: https://pypi.python.org/pypi/attractors/
+.. |CodeCov| image:: https://codecov.io/gh/Vignesh-Desmond/attractors/branch/main/graph/badge.svg?token=2VKMZ5EYVS
+:target: https://codecov.io/gh/Vignesh-Desmond/attractors
+    

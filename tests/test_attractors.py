@@ -81,6 +81,6 @@ def test_live_fig(attr, plottype):
 def test_plot(attr, plottype):
     obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
     plotfunc = getattr(Attractor, f"plot_{plottype}")
-    ax = plotfunc(SIMPOINTS - random.randint(0, SIMPOINTS), obj)
+    ax = plotfunc(SIMPOINTS - random.randint(1, SIMPOINTS), obj)
     assert type(ax) == p3.Axes3D
     plt.close(Attractor.fig)

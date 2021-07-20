@@ -5,8 +5,10 @@
 <h1>attractors</h1>
 
 [![Build status](https://img.shields.io/github/workflow/status/Vignesh-Desmond/attractors/Build?style=flat-square&logo=GitHub)](https://github.com/Vignesh-Desmond/attractors/actions/workflows/build.yml)
-[![PyPI version](https://img.shields.io/pypi/v/attractors?color=blue&style=flat-square)](https://pypi.python.org/pypi/attractors/)
+[![PyPI version](https://img.shields.io/pypi/v/attractors?color=informational&style=flat-square)](https://pypi.python.org/pypi/attractors/)
 [![PyPI license](https://img.shields.io/pypi/l/attractors?style=flat-square&color=orange)](https://lbesson.mit-license.org/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/attractors?color=informational&style=flat-square)](https://pypi.python.org/pypi/attractors/)
+[![codecov](https://codecov.io/gh/Vignesh-Desmond/attractors/branch/main/graph/badge.svg?token=2VKMZ5EYVS&style=flat-square)](https://codecov.io/gh/Vignesh-Desmond/attractors)
 
 Attractors is a package for simulation and visualization of strange attractors.
 
