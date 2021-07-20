@@ -280,7 +280,6 @@ class Attractor(DES):
 
         objlist = []
         for s in obj:
-            print(s.ts)
             objlist.append([s.X, s.Y, s.Z])
         objlist = np.array(objlist)
 

@@ -1,5 +1,8 @@
+import random
+
 import matplotlib
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d.axes3d as p3
 import pytest
 
 from attractors import __version__
@@ -70,4 +73,14 @@ def test_live_fig(attr, plottype):
     anim = animfunc(obj).animate(live=True, show=False)
     assert type(anim) == matplotlib.animation.FuncAnimation
     plt.draw()
+    plt.close(Attractor.fig)
+
+
+@pytest.mark.parametrize("attr", Attractor.list_attractors())
+@pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
+def test_plot(attr, plottype):
+    obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
+    plotfunc = getattr(Attractor, f"plot_{plottype}")
+    ax = plotfunc(SIMPOINTS - random.randint(0, SIMPOINTS), obj)
+    assert type(ax) == p3.Axes3D
     plt.close(Attractor.fig)
