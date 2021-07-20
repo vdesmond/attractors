@@ -50,7 +50,7 @@ See
 for previous versions
 
 Development
-=========
+===========
 
 This package is under early stages of development it's open to any constructive suggestions. 
 Please send bug reports and feature requests through issue trackers and pull requests.
@@ -67,8 +67,7 @@ License <https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE.md>`__
    :target: https://pypi.python.org/pypi/attractors/
 .. |PyPI license| image:: https://img.shields.io/pypi/l/attractors?style=flat-square&color=orange
    :target: https://lbesson.mit-license.org/
-.. |PyPI license| image:: https://img.shields.io/pypi/dm/attractors?color=informational&style=flat-square
+.. |PyPI downloads| image:: https://img.shields.io/pypi/dm/attractors?color=informational&style=flat-square
    :target: https://pypi.python.org/pypi/attractors/
 .. |CodeCov| image:: https://codecov.io/gh/Vignesh-Desmond/attractors/branch/main/graph/badge.svg?token=2VKMZ5EYVS
-:target: https://codecov.io/gh/Vignesh-Desmond/attractors
-    
+   :target: https://codecov.io/gh/Vignesh-Desmond/attractors

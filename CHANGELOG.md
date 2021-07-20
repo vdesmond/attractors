@@ -1,3 +1,19 @@
+<a name="1.3.0"></a>
+# [attractors v1.3.0 (1.3.0)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.3.0) - 20 Jul 2021
+
+# Announcements
+* Minor release with breaking changes (not backwards compatible)
+
+# Changes
+* DES methods now return a generator instead of an `Attractor` instance
+* X, Y, Z attributes of the `Attractor` are now single-valued floats instead of lists
+* Modified plotting and animation methods to support generators
+* Removed slice method
+* (Dev) Coverage tests
+
+[Changes][1.3.0]
+
+
 <a name="1.2.0"></a>
 # [attractors v1.2.0 (1.2.0)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.2.0) - 15 Jul 2021
 
@@ -60,6 +76,7 @@
 [Changes][1.0.0]
 
 
+[1.3.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.0.0...1.1.0
