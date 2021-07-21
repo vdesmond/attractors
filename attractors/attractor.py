@@ -4,6 +4,10 @@ import json
 from random import shuffle
 
 import matplotlib
+
+# Setting TKAgg to avoid no attribute 'renderer' error
+matplotlib.use("TKAgg")
+
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
@@ -264,8 +268,6 @@ class Attractor(DES):
             else:
                 return anim
         else:
-            # Setting TKAgg to avoid no attribute 'renderer' error
-            matplotlib.use("TKAgg")
             ffmpeg_video(
                 cls.fig,
                 cls._update_func,
