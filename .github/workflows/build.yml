@@ -1,8 +1,6 @@
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
 
 name: Build
 
@@ -30,6 +28,11 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{matrix.python-version}}
+      - name: Setup ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        id: setup-ffmpeg
       - name: Cache Poetry
         id: cache-poetry
         uses: actions/cache@v2.1.6
