@@ -264,7 +264,8 @@ class Attractor(DES):
             else:
                 return anim
         else:
-            matplotlib.use("Agg")
+            # Setting TKAgg to avoid no attribute 'renderer' error
+            matplotlib.use("TKAgg")
             ffmpeg_video(
                 cls.fig,
                 cls._update_func,
