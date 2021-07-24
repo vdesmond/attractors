@@ -94,12 +94,8 @@ simpoints = simtime * 100
 attrs = [Attractor(a) for _ in range(n)]
 
 # Change the initial coordinates randomly for n-1 objects
-for i in range(n):
-    attrs[i].coord = (
-        np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)]
-        if i != 0
-        else np.array(attrs[i].coord)
-    )
+for attr in attrs[1:]:
+    attr.coord += np.random.normal(0, 0.01, size=3)
 
 # Solve the ODE equations and store the generators
 objs = []

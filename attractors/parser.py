@@ -120,9 +120,7 @@ def cli():
     )
     optional.add_argument(
         "--rk2",
-        help=(
-            "method for 2nd order Runge-Kutta if specified to be used." " Default: heun"
-        ),
+        help="method for 2nd order Runge-Kutta if specified to be used. Default: heun",
         type=str,
         choices=["heun", "imp_poly", "ralston"],
         default="heun",
@@ -189,12 +187,8 @@ def cli():
     attractor = args.attractor
     if args.type == "multipoint":
         objs = [Attractor(attractor, kwargs=kwargs) for _ in range(args.n)]
-        for i in range(args.n):
-            objs[i].coord = (
-                np.array(objs[i].coord) + [np.random.normal(0, 0.01) for _ in range(3)]
-                if i != 0
-                else np.array(objs[i].coord)
-            )
+        for obj in objs[1:]:
+            obj.coord += np.random.normal(0, 0.01, size=3)
         itrs = []
         for obj in objs:
             func = getattr(obj, args.des)
