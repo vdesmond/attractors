@@ -4,10 +4,6 @@ import json
 from random import shuffle
 
 import matplotlib
-
-# Setting TKAgg to avoid no attribute 'renderer' error
-matplotlib.use("TKAgg")
-
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
@@ -235,7 +231,6 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-
             pts = np.array(objlist[:i]).reshape(-1, 1, 3)
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
@@ -268,6 +263,7 @@ class Attractor(DES):
             else:
                 return anim
         else:
+            matplotlib.use("Agg")
             ffmpeg_video(
                 cls.fig,
                 cls._update_func,

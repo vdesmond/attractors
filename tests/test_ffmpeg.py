@@ -26,7 +26,7 @@ def attractor_obj_des(attr, des):
     return func(0, SIMTIME, SIMPOINTS)
 
 
-@pytest.mark.parametrize("attr", Attractor.list_attractors()[0:2])
+@pytest.mark.parametrize("attr", Attractor.list_attractors())
 @pytest.mark.parametrize("plottype", ["multipoint", "gradient"])
 def test_ffmpeg(attr, plottype):
     obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
