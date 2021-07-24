@@ -231,7 +231,6 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-
             pts = np.array(objlist[:i]).reshape(-1, 1, 3)
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
