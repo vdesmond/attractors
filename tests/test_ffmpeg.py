@@ -1,10 +1,10 @@
 import shlex
+import shutil
 import subprocess
 
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 import pytest
-import shutil
 
 from attractors import __version__
 from attractors.attractor import ATTRACTOR_PARAMS, Attractor
@@ -26,7 +26,8 @@ def attractor_obj_des(attr, des):
     func = getattr(Attractor(attr), des)
     return func(0, SIMTIME, SIMPOINTS)
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def video_folder(tmp_path_factory):
     videodir = tmp_path_factory.mktemp("videos")
     yield videodir

@@ -3,9 +3,8 @@ import random
 import matplotlib
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
-import pytest
-
 import numpy as np
+import pytest
 from numpy.testing import assert_equal
 
 from attractors import __version__

@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+# ------------------------------------------------------------------------------
+#  Copyright (c) 2021. Vignesh M
+#  This file attractor.py, part of the attractors package is licensed under the MIT license.
+#  See LICENSE.md in the project root for license information.
+# ------------------------------------------------------------------------------
+
+import importlib.resources as pkg_resources
 import json
 from random import shuffle
 
@@ -17,17 +25,12 @@ from attractors.utils.colortable import get_continuous_cmap
 from attractors.utils.des import DES
 from attractors.utils.video import ffmpeg_video
 
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    import importlib_resources as pkg_resources
-
 # * load theme
-raw_themes_data = pkg_resources.open_text(data, "themes.json")
-themes = json.load(raw_themes_data)
+THEMES = json.load(pkg_resources.open_text(data, "themes.json"))
 
 
 class Attractor(DES):
+
     bgcolor = None
     palette = None
     fig, ax = None, None
@@ -38,14 +41,16 @@ class Attractor(DES):
 
     def __init__(self, attractor, **kwargs):
         self.attr = ATTRACTOR_PARAMS[attractor]
-        self.init_coord = kwargs.get("init_coord", self.attr["init_coord"])
+        self.init_coord = np.array(kwargs.get("init_coord", self.attr["init_coord"]))
         self.params = {
             self.attr["params"][i]: kwargs.get(
                 self.attr["params"][i], self.attr["default_params"][i]
             )
             for i in range(len(self.attr["params"]))
         }
-        super(Attractor, self).__init__(attractor, self.init_coord, self.params)
+        super(Attractor, self).__init__(
+            attractor, np.copy(self.init_coord), self.params
+        )
 
     def __eq__(self, other):
         if not isinstance(other, Attractor):
@@ -54,7 +59,7 @@ class Attractor(DES):
 
     @staticmethod
     def list_themes():
-        return themes
+        return THEMES
 
     @staticmethod
     def list_des():
@@ -115,7 +120,7 @@ class Attractor(DES):
         ), "All objects must be of the same attractor type"
 
         try:
-            theme = themes[kwargs.get("theme")]
+            theme = THEMES[kwargs.get("theme")]
         except KeyError:
             theme = None
 
