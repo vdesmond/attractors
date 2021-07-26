@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d.axes3d as p3
 import pytest
 
+import numpy as np
+from numpy.testing import assert_equal
+
 from attractors import __version__
 from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 
@@ -33,7 +36,7 @@ des_list.remove("rk2")
 def test_attractors_des(attr, attractor_obj_des):
     attrparams = ATTRACTOR_PARAMS[attr]
     for aod in attractor_obj_des:
-        assert aod.init_coord == attrparams["init_coord"]
+        assert_equal(aod.init_coord, np.array(attrparams["init_coord"]))
         for i in range(len(attrparams["params"])):
             assert (
                 getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
@@ -45,7 +48,7 @@ def test_attractors_des(attr, attractor_obj_des):
 def test_attractors_des_rk2(attr, attractor_obj_des_rk2):
     attrparams = ATTRACTOR_PARAMS[attr]
     for aod in attractor_obj_des_rk2:
-        assert aod.init_coord == attrparams["init_coord"]
+        assert_equal(aod.init_coord, np.array(attrparams["init_coord"]))
         for i in range(len(attrparams["params"])):
             assert (
                 getattr(aod, attrparams["params"][i]) == attrparams["default_params"][i]
