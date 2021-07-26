@@ -6,6 +6,12 @@
 #  This file attractor.py, part of the attractors package is licensed under the MIT license.
 #  See LICENSE.md in the project root for license information.
 # ------------------------------------------------------------------------------
+"""Main module for attractors package
+
+Attributes:
+    THEMES (dict): Contains theme palettes
+    Loaded from data/themes.json file.
+"""
 
 import importlib.resources as pkg_resources
 import json
@@ -30,6 +36,13 @@ THEMES = json.load(pkg_resources.open_text(data, "themes.json"))
 
 
 class Attractor(DES):
+    """Attractor class inherits from DES. It sets default arguments and handles the plotting and animation for both
+    multipoint and gradient types.
+
+    Attributes:
+        bgcolor (str): background color in hex
+        palette (): background color in hex
+    """
 
     bgcolor = None
     palette = None

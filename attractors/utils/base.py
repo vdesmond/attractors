@@ -25,24 +25,37 @@ ATTRACTOR_PARAMS = json.load(pkg_resources.open_text(data, "params.json"))
 
 
 class BaseAttractors(object):
-    """Base class where all the attractors are defined with their respective ODE equations."""
+    """Base class where all the attractors are defined with their respective ODE equations.
+
+    Note:
+        The attributes for this class which involve the attractor parameters are dynamically generated during
+    runtime.
+
+    Attributes:
+        attractor (str): attractor name
+    """
 
     def __init__(self, attractor: str, params: dict):
-        """
-        constructor for BaseAttractors
-
-        Notes: The attributes for this class which involve the attractor parameters are dynamically generated during
-        runtime.
+        """Constructor for BaseAttractors class
 
         Args:
-            attractor (str): attractor name
-            params (dict): dict of the attractor's parameter values
+            attractor: attractor name
+            params: dict of the attractor's parameters
         """
 
         self.attractor = attractor
         self._func_params(params)
 
     def _func_params(self, params: dict):
+        """
+        Dynamic object attribute generator for attractor
+
+        Args:
+            params: dict of the attractor's parameters
+
+        Raises:
+            Exception: if invalid parameters are provided
+        """
         try:
             for prm in ATTRACTOR_PARAMS[self.attractor]["params"]:
                 exec("self.{} = {}".format(prm, params[prm]))

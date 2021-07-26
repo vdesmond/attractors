@@ -1,6 +1,6 @@
 <div align="center">
 <p>
-    <img width="400" src="./docs/logoblack.svg">
+    <img width="400" src="./assets/logoblack.svg">
 </p>
 <h1>attractors</h1>
 
@@ -118,7 +118,7 @@ ax = Attractor.plot_multipoint(
 <div align="center">
 <p>
 <h5>The output figure generated for the code snippet</h5>
-    <img src="./docs/plot.png">   
+    <img src="./assets/plot.png">   
 </p>
 </div>
 
@@ -169,7 +169,7 @@ Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 addititonal 
 <div align="center">
 <p>
 <h5>Output animation (converted to gif and sliced for README) </h5>
-    <img src="./docs/animate.gif">   
+    <img src="./assets/animate.gif">   
 </p>
 </div>
 
