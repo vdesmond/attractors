@@ -1,3 +1,4 @@
+import os
 import shlex
 import shutil
 import subprocess
@@ -39,6 +40,6 @@ def video_folder(tmp_path_factory):
 def test_ffmpeg(attr, plottype, video_folder):
     obj = Attractor(attr).rk4(0, SIMTIME, SIMPOINTS)
     animfunc = getattr(Attractor, f"set_animate_{plottype}")
-    animfunc(obj).animate(outf=f"{video_folder.resolve()}/main_{attr}.mp4")
-    check_err(f"{video_folder.resolve()}/main_{attr}.mp4")
+    animfunc(obj).animate(outf=os.path.join(video_folder.resolve(), f"main_{attr}.mp4"))
+    check_err(os.path.join(video_folder.resolve(), f"main_{attr}.mp4"))
     plt.close(Attractor.fig)
