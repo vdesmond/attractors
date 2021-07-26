@@ -200,14 +200,14 @@
             3.0
         ]
     },
-    "aizawa": {
+    "langford": {
         "params": [
-            "a",
-            "b",
-            "c",
-            "d",
-            "e",
-            "f"
+            "alpha",
+            "beta",
+            "lmbda",
+            "omega",
+            "rho",
+            "epsilon"
         ],
         "default_params": [
             0.95,
@@ -518,9 +518,9 @@
             1.89
         ],
         "init_coord": [
-            -5.0,
-            0.0,
-            0.0
+            -1.48,
+            1.51,
+            2.04
         ],
         "xlim": [
             -20.0,
@@ -624,7 +624,7 @@
             35.0
         ]
     },
-    "chen_celikovsky": {
+    "chen_lu": {
         "params": [
             "a",
             "b",
@@ -653,7 +653,7 @@
             30.0
         ]
     },
-    "thomas_cyclically_symmetric": {
+    "thomas": {
         "params": [
             "b"
         ],
