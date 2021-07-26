@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+# ------------------------------------------------------------------------------
+#  Copyright (c) 2021. Vignesh M
+#  This file des.py, part of the attractors package is licensed under the MIT license.
+#  See LICENSE.md in the project root for license information.
+# ------------------------------------------------------------------------------
+
 import numpy as np
 
 from attractors.utils.base import BaseAttractors
@@ -14,16 +21,6 @@ class DES(BaseAttractors):
         self.Z = 0
         self.ts = None
         self.N = None
-
-    def __lt__(self, other):
-        if not isinstance(other, DES):
-            return NotImplemented
-        return len(self.X) < len(other.X)
-
-    def __eq__(self, other):
-        if not isinstance(other, DES):
-            return NotImplemented
-        return self.X == other.X and self.Y == other.Y and self.Z == other.Z
 
     def __len__(self):
         return self.N

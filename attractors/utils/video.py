@@ -1,25 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
+
+# ------------------------------------------------------------------------------
+#  Copyright (c) 2021. Vignesh M
+#  This file video.py, part of the attractors package is licensed under the MIT license.
+#  See LICENSE.md in the project root for license information.
+# ------------------------------------------------------------------------------
+
+
+"""Module that handles video generation by piping matplotlib figure canvas to ffmpeg
+"""
+
 import subprocess
 from itertools import repeat
 
+import matplotlib.figure as mfig
 from pathos.pools import SerialPool
 from tqdm import tqdm
 
 
-def drawer(frame, fig, ufunc):
-    """Update function for pathos pool map
-    which returns an ARBG byte string of the canvas
-    for ffmpeg pipe
+def drawer(frame: int, fig: mfig.Figure, ufunc: callable) -> bytes:
+    """Update function for pathos pool map which returns an RGB byte string of the canvas for ffmpeg pipe
 
     Args:
         frame (int): index to set data and draw canvas
         fig (matplotlib.figure.Figure): matplotlib figure instance
-        ufunc (callable): animation function
+        ufunc (callable): animation function from Attractors class
 
     Returns:
-        bytes: canvas as ARGB byte-string
+        bytes: canvas as RGB byte-string
     """
     # proc = os.getpid()
     # print('{} by process {}'.format(frame,proc))
@@ -28,12 +37,14 @@ def drawer(frame, fig, ufunc):
     return fig.canvas.tostring_rgb()
 
 
-def ffmpeg_video(fig, update_func, points, fps, outf):
+def ffmpeg_video(
+    fig: mfig.Figure, update_func: callable, points: int, fps: int, outf: str
+):
     """Generates output video given a animation function via ffmpeg
 
     Args:
         fig (matplotlib.figure.Figure): matplotlib figure instance
-        update_func (callable): animation function
+        update_func (callable): animation function from Attractors class
         points (int): number of points used for the simulation
         fps (int): frames per second for output video
         outf (str): output video filename

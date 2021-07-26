@@ -15,7 +15,7 @@ SIMPOINTS = 10
 
 
 def check_err(videopath):
-    cmd = shlex.split("ffmpeg -v error -i " + videopath + " -f null -")
+    cmd = shlex.split("ffmpeg -v error -i " + videopath + " -f null -", posix=False)
     output = subprocess.run(cmd, capture_output=True)
     assert (
         output.stdout == b"" and output.stderr == b""
