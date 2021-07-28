@@ -131,7 +131,9 @@ class DES(BaseAttractors):
             self.Y = self.coord[1]
             self.Z = self.coord[2]
 
-            eval(method)()
+            print(locals())
+
+            locals()[method]()
 
             self.ts = ts
             yield self
