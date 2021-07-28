@@ -566,3 +566,23 @@ class BaseAttractors(object):
         dy = self.b * x - self.c * x * z
         dz = np.exp(x * y) - self.d * z
         return np.array([dx, dy, dz], dtype="double")
+
+    def newton_leipnik(self, coord: np.ndarray) -> np.ndarray:
+        """
+        Leipnik, R. B. & Newton, T. A. “Double strange attractors in rigid body motion with linear feedback control,
+        ” Phys. Lett. A86, 63–67. (1981)
+
+        Args:
+            coord (np.ndarray): Initial coordinate array [x, y, z]
+
+        Attractor parameters:
+            alpha, beta
+
+        Returns:
+            np.ndarray: ODE for single step [dx, dy, dz]
+        """
+        x, y, z = coord
+        dx = -self.alpha * x + y + 10 * y * z
+        dy = -x - 0.4 * y + 5 * x * z
+        dz = self.beta * z - 5 * x * y
+        return np.array([dx, dy, dz], dtype="double")
