@@ -10,8 +10,10 @@
 
 from __future__ import annotations
 
-import numpy as np
 from typing import Iterator
+
+import numpy as np
+
 from attractors.utils.base import BaseAttractors
 
 
@@ -49,8 +51,7 @@ class DES(BaseAttractors):
         return self.N
 
     def _unwrap(self, a: int, b: int, n: int):
-        """Private method for getting the attractor function
-        """
+        """Private method for getting the attractor function"""
         self.N = n
         h = (b - a) / n
         attractor_func = getattr(DES, self.attractor)
@@ -248,12 +249,12 @@ class DES(BaseAttractors):
             self.coord = rt
 
             self.coord = (
-                    self.coord
-                    - 3 * k1 / 7
-                    + 2 * k2 / 7
-                    + 12 * k3 / 7
-                    - 12 * k4 / 7
-                    + 8 * k5 / 7
+                self.coord
+                - 3 * k1 / 7
+                + 2 * k2 / 7
+                + 12 * k3 / 7
+                - 12 * k4 / 7
+                + 8 * k5 / 7
             )
             k6 = h * afunc(self, self.coord)
             self.coord = rt
