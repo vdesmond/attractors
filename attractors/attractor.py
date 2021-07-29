@@ -9,13 +9,13 @@
 """Main module for attractors package
 
 Attributes:
-    THEMES (dict): Contains theme palettes
-    Loaded from data/themes.json file.
+    THEMES (dict): Contains theme palettes. Loaded from data/themes.json file.
 """
 
 import importlib.resources as pkg_resources
 import json
 from random import shuffle
+from typing import Union, List
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -40,8 +40,10 @@ class Attractor(DES):
     multipoint and gradient types.
 
     Attributes:
-        bgcolor (str): background color in hex
-        palette (): background color in hex
+        bgcolor (str): Background color in hex
+        palette (Union[str,List[str]]): Color palette for plotting. Takes either list of hex values or matplotlib cmap
+        fig (matplotlib.figure.Figure): Matplotlib figure instance for Attractors class
+        ax (matplotlib.axes.Axes): Matplotlib axes instance for Attractors class
     """
 
     bgcolor = None
@@ -53,6 +55,16 @@ class Attractor(DES):
     _init_func = None
 
     def __init__(self, attractor, **kwargs):
+        """Constructor for Attractors class
+
+        Args:
+            attractor (str): Attractor name
+            **kwargs: See below
+
+        Keyword Args:
+            init_coord (List[float]): Initial coordinate for the attractor
+            params (Mapping[str, float]): Parameters of the attractor
+        """
         self.attr = ATTRACTOR_PARAMS[attractor]
         self.init_coord = np.array(kwargs.get("init_coord", self.attr["init_coord"]))
         self.params = {
@@ -72,19 +84,43 @@ class Attractor(DES):
 
     @staticmethod
     def list_themes():
+        """Static method to get themes as a JSON structured dict
+
+        Returns:
+            dict: JSON structured themes
+        """
         return THEMES
 
     @staticmethod
     def list_des():
+        """Static method to get list of iterative ODE solvers that are available
+
+        Returns:
+            List[str]: List of iterative ODE solvers
+        """
         des_methods = set(dir(DES.__mro__[0])) - set(dir(DES.__mro__[1]))
         return [x for x in des_methods if not x.startswith("_")]
 
     @staticmethod
     def list_attractors():
+        """Static method to get list of attractors that are implemented in the package
+
+        Returns:
+            List[str]: List of attractors
+        """
         return list(ATTRACTOR_PARAMS.keys())
 
     @staticmethod
     def list_params(attr):
+        """
+        Static method to get the parameters for a given attractor
+
+        Args:
+            attr (str): Attractor name
+
+        Returns:
+            List[str]: List of possible parameters
+        """
         return ATTRACTOR_PARAMS[attr]["params"]
 
     @classmethod
