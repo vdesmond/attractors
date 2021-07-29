@@ -89,10 +89,7 @@ class Attractor(DES):
 
     @classmethod
     def set_theme(cls, theme, bgcolor, palette):
-        if all(v is None for v in [theme, bgcolor, palette]):
-            cls.bgcolor = "#000000"
-            cls.palette = "jet"
-        elif all(v is None for v in [bgcolor, palette]) and theme is not None:
+        if theme is not None:
             palette_temp = list(theme.values())
             palette_temp.remove(theme["background"])
             palette_temp.insert(0, palette_temp.pop(-1))
@@ -100,10 +97,16 @@ class Attractor(DES):
             cls.bgcolor = theme["background"]
             cls.palette = palette_temp
         else:
-            if bgcolor is not None:
-                cls.bgcolor = bgcolor
-            if palette is not None:
-                cls.palette = palette
+            cls.bgcolor = "#000000"
+            cls.palette = "jet"
+
+        if bgcolor is not None:
+            cls.bgcolor = bgcolor
+
+        if palette is not None:
+            cls.palette = palette
+
+        print(cls.bgcolor, cls.palette)
 
     @classmethod
     def set_figure(cls, width, height, dpi):
