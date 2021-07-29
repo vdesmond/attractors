@@ -1,3 +1,6 @@
+Changelog
+=========
+
 `v1.3.0 <https://github.com/Vignesh-Desmond/attractors/releases/tag/1.3.0>`__
 =============================================================================
 :Date: 20 July, 2021

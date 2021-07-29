@@ -5,18 +5,18 @@ attractors - Documentation
 attractors is a package for simulation and visualization of strange attractors.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :titlesonly:
+
+   install
+   basic_usage
+   plotting_and_animation
+   changelog
+   development
+   license
 
 Indices and tables
 ==================
 
-* :ref:`install`
-* :ref:`basic_usage`
-* :ref:`plotting_and_animation`
-* :ref:`changelog`
-* :ref:`development`
-* :ref:`license`
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`

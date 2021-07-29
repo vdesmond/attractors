@@ -39,7 +39,6 @@ isort = "^5.9.1"
 flake9 = "^3.8.3"
 pytest-cov = "^2.12.1"
 Sphinx = "^4.1.1"
-sphinxcontrib-napoleon = "^0.7"
 sphinx-rtd-theme = "^0.5.2"
 
 [tool.poetry.scripts]
