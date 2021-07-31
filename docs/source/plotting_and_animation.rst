@@ -39,7 +39,6 @@ The following sample code shows the usage of ``plot_multipoint()``
 
    # Use plot_multipoint with necessary kwargs
    ax = Attractor.plot_multipoint(
-       simpoints - 1,
        *objs,
        dpi=240,
        bgcolor="#FFFFFF",

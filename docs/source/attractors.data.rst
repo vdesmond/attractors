@@ -1,4 +1,4 @@
-attractors.data package
+`data` package
 =======================
 
 Module contents

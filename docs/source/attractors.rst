@@ -1,6 +1,3 @@
-attractors package
-==================
-
 Subpackages
 -----------
 
@@ -10,10 +7,7 @@ Subpackages
    attractors.data
    attractors.utils
 
-Submodules
-----------
-
-attractors.attractor module
+`attractor` Module
 ---------------------------
 
 .. automodule:: attractors.attractor
@@ -21,18 +15,10 @@ attractors.attractor module
    :undoc-members:
    :show-inheritance:
 
-attractors.parser module
+`parser` Module
 ------------------------
 
 .. automodule:: attractors.parser
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: attractors
    :members:
    :undoc-members:
    :show-inheritance:

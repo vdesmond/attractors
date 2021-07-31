@@ -1,10 +1,8 @@
-attractors.utils package
+`utils` package
 ========================
 
-Submodules
-----------
 
-attractors.utils.base module
+`utils.base` module
 ----------------------------
 
 .. automodule:: attractors.utils.base
@@ -12,7 +10,7 @@ attractors.utils.base module
    :undoc-members:
    :show-inheritance:
 
-attractors.utils.colortable module
+`utils.colortable` module
 ----------------------------------
 
 .. automodule:: attractors.utils.colortable
@@ -20,7 +18,7 @@ attractors.utils.colortable module
    :undoc-members:
    :show-inheritance:
 
-attractors.utils.des module
+`utils.des` module
 ---------------------------
 
 .. automodule:: attractors.utils.des
@@ -28,18 +26,10 @@ attractors.utils.des module
    :undoc-members:
    :show-inheritance:
 
-attractors.utils.video module
+`utils.video` module
 -----------------------------
 
 .. automodule:: attractors.utils.video
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: attractors.utils
    :members:
    :undoc-members:
    :show-inheritance:

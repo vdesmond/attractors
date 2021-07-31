@@ -11,14 +11,16 @@
 Attributes:
     THEMES (dict): Contains theme palettes. Loaded from data/themes.json file.
 """
+from __future__ import annotations
 
 import importlib.resources as pkg_resources
 import json
 from random import shuffle
-from typing import Union, List
+from typing import Union, List, Tuple, Optional, Iterator
 
 import matplotlib
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d
 import mpl_toolkits.mplot3d.axes3d as p3  # noqa: F401
 import numpy as np
 from matplotlib import animation
@@ -42,19 +44,21 @@ class Attractor(DES):
     Attributes:
         bgcolor (str): Background color in hex
         palette (Union[str,List[str]]): Color palette for plotting. Takes either list of hex values or matplotlib cmap
+        cmap (matplotlib.cmap): Matplotlib color map for figure (from palette)
         fig (matplotlib.figure.Figure): Matplotlib figure instance for Attractors class
         ax (matplotlib.axes.Axes): Matplotlib axes instance for Attractors class
     """
 
     bgcolor = None
     palette = None
+    cmap = None
     fig, ax = None, None
 
     _update_func = None
     _points = None
     _init_func = None
 
-    def __init__(self, attractor, **kwargs):
+    def __init__(self, attractor: str, **kwargs):
         """Constructor for Attractors class
 
         Args:
@@ -62,7 +66,7 @@ class Attractor(DES):
             **kwargs: See below
 
         Keyword Args:
-            init_coord (List[float]): Initial coordinate for the attractor
+            init_coord (List[float]): Initial coordinate for the attractor. Default:
             params (Mapping[str, float]): Parameters of the attractor
         """
         self.attr = ATTRACTOR_PARAMS[attractor]
@@ -83,16 +87,16 @@ class Attractor(DES):
         return self.attractor == other.attractor
 
     @staticmethod
-    def list_themes():
+    def list_themes() -> dict:
         """Static method to get themes as a JSON structured dict
 
         Returns:
-            dict: JSON structured themes
+            dict: JSON structured dict of all themes
         """
         return THEMES
 
     @staticmethod
-    def list_des():
+    def list_des() -> List[str]:
         """Static method to get list of iterative ODE solvers that are available
 
         Returns:
@@ -102,7 +106,7 @@ class Attractor(DES):
         return [x for x in des_methods if not x.startswith("_")]
 
     @staticmethod
-    def list_attractors():
+    def list_attractors() -> List[str]:
         """Static method to get list of attractors that are implemented in the package
 
         Returns:
@@ -111,9 +115,8 @@ class Attractor(DES):
         return list(ATTRACTOR_PARAMS.keys())
 
     @staticmethod
-    def list_params(attr):
-        """
-        Static method to get the parameters for a given attractor
+    def list_params(attr: str) -> List[str]:
+        """Static method to get the parameters for a given attractor
 
         Args:
             attr (str): Attractor name
@@ -124,7 +127,17 @@ class Attractor(DES):
         return ATTRACTOR_PARAMS[attr]["params"]
 
     @classmethod
-    def set_theme(cls, theme, bgcolor, palette):
+    def set_theme(cls, theme: Optional[dict], bgcolor: Optional[str], palette: Optional[Union[str, List[str]]]):
+        """Class method that sets the background color and color palette for the matplotlib figure either via a theme
+        or manually. If both theme and manual arguments are given, the manual arguments take precedence
+
+        Args:
+            theme (dict, optional): Theme palette in dict format containing colors and their respective hex values.
+                Defaults to None.
+            bgcolor (str, optional): Background color in hex. Defaults to None.
+            palette (Union[str,List[str]], optional): Color palette in matplotlib cmap or list of hex values.
+                Defaults to None.
+        """
         if theme is not None:
             palette_temp = list(theme.values())
             palette_temp.remove(theme["background"])
@@ -135,37 +148,70 @@ class Attractor(DES):
         else:
             cls.bgcolor = "#000000"
             cls.palette = "jet"
-
         if bgcolor is not None:
             cls.bgcolor = bgcolor
-
         if palette is not None:
             cls.palette = palette
 
-        print(cls.bgcolor, cls.palette)
-
     @classmethod
-    def set_figure(cls, width, height, dpi):
+    def set_figure(cls, width: float, height: float, dpi: float):
+        """Class method to set figure size and dpi, and also set the background color and palette based on the
+        current class attributes of the same name.
+
+        Note:
+            :func:`~attractor.Attractor.set_theme` must be called before this function
+
+        Args:
+            width (float): Width of the figure in inches
+            height (float): Height of the figure in inches
+            dpi (float): The resolution of the figure in dots-per-inch
+
+        Raises:
+            ValueError: When background color is NoneType or when palette is NoneType
+        """
         cls.fig = plt.figure(figsize=(width, height), dpi=dpi)
         cls.ax = cls.fig.add_axes([0, 0, 1, 1], projection="3d")
         cls.ax.axis("off")
 
-        cls.fig.set_facecolor(cls.bgcolor)
-        cls.ax.set_facecolor(cls.bgcolor)
-
-        if isinstance(cls.palette, str):
-            cls.cmap = plt.cm.get_cmap(cls.palette)
+        if cls.bgcolor is not None:
+            cls.fig.set_facecolor(cls.bgcolor)
+            cls.ax.set_facecolor(cls.bgcolor)
         else:
-            cls.cmap = get_continuous_cmap(cls.palette)
+            raise ValueError("Background color cannot be NoneType")
+
+        if cls.palette is not None:
+            if isinstance(cls.palette, str):
+                cls.cmap = plt.cm.get_cmap(cls.palette)
+            else:
+                cls.cmap = get_continuous_cmap(cls.palette)
+        else:
+            raise ValueError("Palette cannot be NoneType")
 
     @classmethod
-    def set_limits(cls, xlim, ylim, zlim):
+    def set_limits(cls, xlim: Tuple[float, float], ylim: Tuple[float, float], zlim: Tuple[float, float]):
+        """Class method to set figure limits for all 3 dimensions.
+
+        Args:
+            xlim (Tuple[float, float]): X-axis limits for the figure
+            ylim (Tuple[float, float]): Y-axis limits for the figure
+            zlim (Tuple[float, float]): Z-axis limits for the figure
+        """
         cls.ax.set_xlim(xlim)
         cls.ax.set_ylim(ylim)
         cls.ax.set_zlim(zlim)
 
     @classmethod
-    def _wrap_set(cls, objs, kwargs):
+    def _wrap_set(cls, objs: List[peekable[Iterator[DES]]], kwargs: dict):
+        """Common function to call :func:`~attractor.Attractor.set_theme`, :func:`~attractor.Attractor.set_figure`,
+        :func:`~attractor.Attractor.set_limits`.
+
+        Note:
+            Only for use with set_animate and plot functions.
+
+        Args:
+            objs (List[peekable]): Peekable version of generators returned from DES methods
+            kwargs: all kwargs are just arguments of aforementioned set functions
+        """
 
         assert all(
             x.peek().attractor == objs[0].peek().attractor for x in objs
@@ -195,7 +241,22 @@ class Attractor(DES):
         )
 
     @classmethod
-    def set_animate_multipoint(cls, *objs, **kwargs):
+    def set_animate_multipoint(cls, *objs: Iterator[DES], **kwargs):
+        """Class method to set the animation for multipoint
+        
+        Args:
+            *objs: Variable length list of generators which yield DES
+            **kwargs: See below
+
+        Keyword Args:
+            linekwargs (dict): Kwargs for matplotlib line plot for lines plotted in the figure. Defaults to {}
+            pointkwargs (dict): Kwargs for matplotlib line plot for markers plotted in the figure. Defaults to {}
+            elevationrate (float): Rate of change of elevation angle in animation per frame. Defaults to 0.005
+            azimuthrate (float): Rate of change of azimuth angle in animation per frame. Defaults to 0.05
+
+        Returns:
+            Attractor: instance of the class
+        """
 
         objs = [peekable(obj) for obj in objs]
 
@@ -216,13 +277,13 @@ class Attractor(DES):
             [cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors], []
         )
 
+        maxlen = len(max([obj.peek() for obj in objs], key=len))
+
         def init():
             for line, pt in zip(lines, pts):
                 line.set_data_3d([], [], [])
                 pt.set_data_3d([], [], [])
             return lines + pts
-
-        maxlen = len(max([obj.peek() for obj in objs], key=len))
 
         def update(i):
             for line, pt, k in zip(lines, pts, objs):
@@ -256,8 +317,23 @@ class Attractor(DES):
         return cls
 
     @classmethod
-    def set_animate_gradient(cls, obj, **kwargs):
+    def set_animate_gradient(cls, obj: Iterator[DES], **kwargs):
+        """Class method to set the animation for gradient
 
+        Args:
+            obj: Generator which yields DES
+            **kwargs: See below
+
+        Keyword Args:
+            linekwargs (dict): Kwargs for matplotlib line plot for lines plotted in the figure. Defaults to {}
+            pointkwargs (dict): Kwargs for matplotlib line plot for markers plotted in the figure. Defaults to {}
+            elevationrate (float): Rate of change of elevation angle in animation per frame. Defaults to 0.005
+            azimuthrate (float): Rate of change of azimuth angle in animation per frame. Defaults to 0.05
+            gradientaxis (str): Axis along which color gradient is applied. Defaults to "Z"
+
+        Returns:
+            Attractor: instance of the class
+        """
         obj = peekable(obj)
         Attractor._wrap_set([obj], kwargs)
 
@@ -288,7 +364,7 @@ class Attractor(DES):
             return line, pt
 
         def update(i):
-            pts = np.array(objlist[:i]).reshape(-1, 1, 3)
+            pts = np.array(objlist[:i]).reshape((-1, 1, 3))
             segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
             line.set_segments(segs)
             pt.set_data_3d([objlist[i, 0]], [objlist[i, 1]], [objlist[i, 2]])
@@ -306,7 +382,32 @@ class Attractor(DES):
         return cls
 
     @classmethod
-    def animate(cls, **kwargs):
+    def animate(cls, **kwargs) -> Optional[matplotlib.animation.FuncAnimation]:
+        """Classmethod that animates the figure after setting the animation parameters
+
+        Example:
+
+            Following example returns an FuncAnimation instance::
+                >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
+                >>> x = Attractor.set_animate_gradient(inst).animate(live = True, show = False)
+
+            Following example saves the animation to output MPEG4 encoded video file::
+                >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
+                >>> x = Attractor.set_animate_gradient(inst).animate(outf="dequan_li.mp4")
+
+        Note:
+            :func:`~attractor.Attractor.set_animate_multipoint` or :func:`~attractor.Attractor.set_animate_gradient`,
+            must be run before running this method.
+
+        Keyword Args:
+           fps (int): Frames per second for live plot/generated video. Defaults to 60
+           live (bool): Flag to redirect plotting to FuncAnimation instead of piping to ffmpeg. Defaults to False
+           show (bool): Flag to call `plt.show()` instead of returning FuncAnimation if `live = True`. Defaults to True
+           outf (str): Filename of output video if generated. Defaults to "output.mp4"
+
+        Returns:
+            Optional[matplotlib.animation.FuncAnimation]: FuncAnimation instance if kwargs `live = True`, `show = False`
+        """
         if kwargs.get("live", False):
             anim = animation.FuncAnimation(
                 cls.fig,
@@ -330,7 +431,28 @@ class Attractor(DES):
             )
 
     @classmethod
-    def plot_gradient(cls, index, obj, **kwargs):
+    def plot_gradient(cls, obj: Iterator[DES], **kwargs) -> mpl_toolkits.mplot3d.Axes3D:
+        """Class method to plot the attractor as gradient type
+
+        Example:
+
+            Following example generates a gradient plot at a particular index::
+                >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
+                >>> ax = Attractor.plot_gradient(inst, index=8000)
+
+        Args:
+            obj: Generator which yields DES
+            **kwargs: See below
+
+        Keyword Args:
+            index (int): Index to be plotted. Defaults to the final index plottable
+            linekwargs (dict): Kwargs for matplotlib line plot for lines plotted in the figure. Defaults to {}
+            pointkwargs (dict): Kwargs for matplotlib line plot for markers plotted in the figure. Defaults to {}
+            gradientaxis (str): Axis along which color gradient is applied. Defaults to "Z"
+
+        Returns:
+            mpl_toolkits.mplot3d.Axes3D: Axes attribute of Attractor class
+        """
         obj = peekable(obj)
         Attractor._wrap_set([obj], kwargs)
 
@@ -350,7 +472,11 @@ class Attractor(DES):
         line.set_array(np.array(colorarray))
         colors = line.to_rgba(colorarray)
 
-        pts = np.array(objlist[:index]).reshape(-1, 1, 3)
+        del colorarray
+
+        index = kwargs.get("index", len(objlist) - 1)
+
+        pts = np.array(objlist[:index]).reshape((-1, 1, 3))
         segs = np.concatenate([pts[:-1], pts[1:]], axis=1)
         line.set_segments(segs)
         pt.set_data_3d([objlist[index, 0]], [objlist[index, 1]], [objlist[index, 2]])
@@ -359,8 +485,27 @@ class Attractor(DES):
         return cls.ax
 
     @classmethod
-    def plot_multipoint(cls, index, *objs, **kwargs):
+    def plot_multipoint(cls, *objs: Iterator[DES], **kwargs) -> mpl_toolkits.mplot3d.Axes3D:
+        """Class method to plot the attractor as multipoint type
 
+        Example:
+
+            Following example generates a gradient plot at a particular index::
+                >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
+                >>> ax = Attractor.plot_multipoint(inst, index=8000)
+
+        Args:
+            *objs: Variable length list of generators which yield DES
+            **kwargs: See below
+
+        Keyword Args:
+            index (int): Index to be plotted. Defaults to the final index plottable
+            linekwargs (dict): Kwargs for matplotlib line plot for lines plotted in the figure. Defaults to {}
+            pointkwargs (dict): Kwargs for matplotlib line plot for markers plotted in the figure. Defaults to {}
+
+        Returns:
+            mpl_toolkits.mplot3d.Axes3D: Axes attribute of Attractor class
+        """
         objs = [peekable(obj) for obj in objs]
 
         Attractor._wrap_set(objs, kwargs)
@@ -380,6 +525,10 @@ class Attractor(DES):
         pts = sum(
             (cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors), []
         )
+
+        maxlen = len(max([obj.peek() for obj in objs], key=len))
+
+        index = kwargs.get("index", maxlen - 1)
 
         for line, pt, k in zip(lines, pts, objs):
             tx, ty, tz = [], [], []
