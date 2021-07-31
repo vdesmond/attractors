@@ -1,6 +1,6 @@
 <div align="center">
 <p>
-    <img width="400" src="./docs/logoblack.svg">
+    <img width="400" src="./assets/logoblack.svg">
 </p>
 <h1>attractors</h1>
 
@@ -105,7 +105,6 @@ for a in attrs:
 
 # Use plot_multipoint with necessary kwargs
 ax = Attractor.plot_multipoint(
-    simpoints - 1,
     *objs,
     dpi=240,
     bgcolor="#FFFFFF",
@@ -118,13 +117,12 @@ ax = Attractor.plot_multipoint(
 <div align="center">
 <p>
 <h5>The output figure generated for the code snippet</h5>
-    <img src="./docs/plot.png">   
+    <img src="./assets/plot.png">   
 </p>
 </div>
 
-`plot_multipoint()` is a class method that requires 2 arguments:
+`plot_multipoint()` is a class method that requires only one argument:
 
-- _index_ : timestep of the attractor objects on plot
 - _\*objs_ : generator list
 
 Additionally, it also takes in multiple kwargs that
@@ -135,6 +133,7 @@ Additionally, it also takes in multiple kwargs that
 - set color
   - by _theme_
   - by manually by specifying _bgcolor_ (single hexcode) and _palette_ (list of hexcodes). Overrides theme settings if given.
+  - plot at a specific time ts: _index_
 
 The figure parameters, axes limits and theme can also be set via `set_figure()`, `set_limits()` and `set_theme()` methods respectively
 
@@ -164,12 +163,12 @@ The above code generates a video `example.mp4` in the directory that it was run 
 - _outf_: filename of output video if generated
 - _show_: boolean arg to disable `plt.show()` and return the Matplotlib.FuncAnimation instance (only when _live_ is True)
 
-Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 addititonal parameters: _elevationrate_ and _azimuthrate_ which control the rate of change of eleveation and azimuth angle for the duration of the animation respectively.
+Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 additional parameters: _elevationrate_ and _azimuthrate_ which control the rate of change of elevation and azimuth angle for the duration of the animation respectively.
 
 <div align="center">
 <p>
 <h5>Output animation (converted to gif and sliced for README) </h5>
-    <img src="./docs/animate.gif">   
+    <img src="./assets/animate.gif">   
 </p>
 </div>
 

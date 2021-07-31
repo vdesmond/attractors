@@ -10,8 +10,7 @@
 """Base module which contains the BaseAttractors class.
 
 Attributes:
-    ATTRACTOR_PARAMS (dict): Contains attributes of all attractors.
-    Loaded from data/params.json file.
+    ATTRACTOR_PARAMS (dict): Contains attributes of all attractors. Loaded from data/params.json file.
 """
 
 import importlib.resources as pkg_resources
@@ -25,24 +24,36 @@ ATTRACTOR_PARAMS = json.load(pkg_resources.open_text(data, "params.json"))
 
 
 class BaseAttractors(object):
-    """Base class where all the attractors are defined with their respective ODE equations."""
+    """Base class where all the attractors are defined with their respective ODE equations.
+
+    Note:
+        The attributes for this class which involve the Attractor Parameters are dynamically generated during runtime.
+
+    Attributes:
+        attractor (str): attractor name
+    """
 
     def __init__(self, attractor: str, params: dict):
-        """
-        constructor for BaseAttractors
-
-        Notes: The attributes for this class which involve the attractor parameters are dynamically generated during
-        runtime.
+        """Constructor for BaseAttractors class
 
         Args:
             attractor (str): attractor name
-            params (dict): dict of the attractor's parameter values
+            params (dict): dict of the attractor's parameters
         """
 
         self.attractor = attractor
         self._func_params(params)
 
     def _func_params(self, params: dict):
+        """
+        Dynamic object attribute generator for attractor
+
+        Args:
+            params (dict): dict of the attractor's parameters
+
+        Raises:
+            Exception: if invalid parameters are provided
+        """
         try:
             for prm in ATTRACTOR_PARAMS[self.attractor]["params"]:
                 exec("self.{} = {}".format(prm, params[prm]))
@@ -59,7 +70,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             sigma, beta, gamma
 
         Returns:
@@ -79,7 +90,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             alpha, gamma
 
         Returns:
@@ -99,7 +110,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -118,7 +129,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -138,7 +149,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c, d, e, f
 
         Returns:
@@ -158,7 +169,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, mu
 
         Returns:
@@ -178,7 +189,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a
 
         Returns:
@@ -198,7 +209,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             alpha, beta, lmbda. omega, rho, epsilon
 
         Returns:
@@ -224,7 +235,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             p1, p2, r, s
 
         Returns:
@@ -247,7 +258,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             k, b, mu, p, q, s
 
         Returns:
@@ -266,7 +277,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c, s, alpha, beta
 
         Returns:
@@ -285,7 +296,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             gamma, mu, alpha, beta
 
         Returns:
@@ -305,7 +316,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -325,7 +336,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             s, v
 
         Returns:
@@ -346,7 +357,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             t, r
 
         Returns:
@@ -365,7 +376,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b
 
         Returns:
@@ -385,7 +396,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c, d, h
 
         Returns:
@@ -404,7 +415,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a
 
         Returns:
@@ -423,7 +434,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, f, g
 
         Returns:
@@ -443,7 +454,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -463,7 +474,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -483,7 +494,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c
 
         Returns:
@@ -503,7 +514,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             b
 
         Returns:
@@ -522,7 +533,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, c, d, e, k, f
 
         Returns:
@@ -542,7 +553,7 @@ class BaseAttractors(object):
         Args:
             coord (np.ndarray): Initial coordinate array [x, y, z]
 
-        Attractor parameters:
+        Attractor Parameters:
             a, b, c, d
 
         Returns:
@@ -552,4 +563,24 @@ class BaseAttractors(object):
         dx = self.a * (y - x)
         dy = self.b * x - self.c * x * z
         dz = np.exp(x * y) - self.d * z
+        return np.array([dx, dy, dz], dtype="double")
+
+    def newton_leipnik(self, coord: np.ndarray) -> np.ndarray:
+        """
+        Leipnik, R. B. & Newton, T. A. “Double strange attractors in rigid body motion with linear feedback control,
+        ” Phys. Lett. A86, 63–67. (1981)
+
+        Args:
+            coord (np.ndarray): Initial coordinate array [x, y, z]
+
+        Attractor Parameters:
+            alpha, beta
+
+        Returns:
+            np.ndarray: ODE for single step [dx, dy, dz]
+        """
+        x, y, z = coord
+        dx = -self.alpha * x + y + 10 * y * z
+        dy = -x - 0.4 * y + 5 * x * z
+        dz = self.beta * z - 5 * x * y
         return np.array([dx, dy, dz], dtype="double")

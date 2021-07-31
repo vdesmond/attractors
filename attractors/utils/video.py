@@ -9,6 +9,9 @@
 
 
 """Module that handles video generation by piping matplotlib figure canvas to ffmpeg
+
+Note:
+    This module does not explicitly check for ffmpeg installation and does not handle errors related to that.
 """
 
 import subprocess

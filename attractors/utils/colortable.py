@@ -35,13 +35,10 @@ def hex_to_rgb(value: str) -> List[float]:
 
 
 def get_continuous_cmap(hex_list: List[str]) -> mcolors.LinearSegmentedColormap:
-    """Creates and returns a color map from a given hex list. If float_list is not provided, colour map graduates
-    linearly between each color in hex_list. If float_list is provided, each color in hex_list is mapped to the
-    respective location in float_list.
+    """Creates and returns a color map from a given hex list.
 
-    Args: hex_list (list[str]): list of hex code strings
-          float_list (list[float], optional): list of floats between 0 and 1, same length as hex_list. Must start
-           with 0 and end with 1. Defaults to None.
+    Args:
+        hex_list (list[str]): list of hex code strings
 
     Returns:
         matplotlib.colors.LinearSegmentedColormap: Colormap of given hex list.

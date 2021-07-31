@@ -6,6 +6,11 @@
 #  This file des.py, part of the attractors package is licensed under the MIT license.
 #  See LICENSE.md in the project root for license information.
 # ------------------------------------------------------------------------------
+"""Module which contains iterative methods for solving Ordinary Differential Equations (ODE)"""
+
+from __future__ import annotations
+
+from typing import Iterator
 
 import numpy as np
 
@@ -13,7 +18,27 @@ from attractors.utils.base import BaseAttractors
 
 
 class DES(BaseAttractors):
-    def __init__(self, attractor, init_coord, params):
+    """Differential Equations Solver (DES) class contains iterative methods for solving Ordinary Differential
+    Equations (ODE). Currently includes the following methods: Euler, RK2, RK3, RK4, RK5.
+    For more info: see https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
+
+    Attributes:
+        coord (np.ndarray): current coordinate of the attractor as (3,) ndarray
+        X (float): current X coordinate of the attractor
+        Y (float): current Y coordinate of the attractor
+        Z (float): current Z coordinate of the attractor
+        ts (int): current time step
+        N (int): number of points set for simulating the attractor
+    """
+
+    def __init__(self, attractor: str, init_coord: np.ndarray, params: dict):
+        """Constructor for DES class
+
+        Args:
+            attractor (str): attractor name
+            init_coord (np.ndarray): initial coordinate array
+            params (dict): dict of the attractor's parameters
+        """
         super(DES, self).__init__(attractor, params)
         self.coord = init_coord
         self.X = 0
@@ -25,17 +50,27 @@ class DES(BaseAttractors):
     def __len__(self):
         return self.N
 
-    def _unwrap(self, a, b, N):
-        self.N = N
-        h = (b - a) / N
+    def _unwrap(self, a: int, b: int, n: int):
+        """Private method for getting the attractor function"""
+        self.N = n
+        h = (b - a) / n
         attractor_func = getattr(DES, self.attractor)
         return h, attractor_func
 
-    def euler(self, a, b, N):
-        h, afunc = self._unwrap(a, b, N)
+    def euler(self, a: int, b: int, n: int) -> Iterator[DES]:
+        """First order Euler method
 
-        for ts in range(N):
+        Args:
+            a (int): simulation initial time step
+            b (int): simulation final time step
+            n (int): simulation points
 
+        Yields:
+            object: instance of DES
+        """
+        h, afunc = self._unwrap(a, b, n)
+
+        for ts in range(n):
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
@@ -45,8 +80,22 @@ class DES(BaseAttractors):
             self.ts = ts
             yield self
 
-    def rk2(self, a, b, N, method):
-        h, afunc = self._unwrap(a, b, N)
+    def rk2(self, a: int, b: int, n: int, method: str) -> Iterator[DES]:
+        """Second order Runge-Kutta method
+
+        Euler's method is a simple one-step method used for solving ODEs. In Euler’s method, the slope is estimated
+        in the most basic manner by using the first derivative.
+
+        Args:
+            a (int): simulation initial time step
+            b (int): simulation final time step
+            n (int): simulation points
+            method (str): RK2 method to be used
+
+        Yields:
+            object: instance of DES
+        """
+        h, afunc = self._unwrap(a, b, n)
 
         def heun():
             rt = self.coord
@@ -78,22 +127,30 @@ class DES(BaseAttractors):
 
             self.coord += (k1 + 2 * k2) / 3
 
-        for ts in range(N):
-
+        for ts in range(n):
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
 
-            eval(method)()
+            locals()[method]()
 
             self.ts = ts
             yield self
 
-    def rk3(self, a, b, N):
-        h, afunc = self._unwrap(a, b, N)
+    def rk3(self, a: int, b: int, n: int) -> Iterator[DES]:
+        """Third order Runge-Kutta method
 
-        for ts in range(N):
+        Args:
+            a (int): simulation initial time step
+            b (int): simulation final time step
+            n (int): simulation points
 
+        Yields:
+            object: instance of DES
+        """
+        h, afunc = self._unwrap(a, b, n)
+
+        for ts in range(n):
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
@@ -114,11 +171,20 @@ class DES(BaseAttractors):
             self.ts = ts
             yield self
 
-    def rk4(self, a, b, N):
-        h, afunc = self._unwrap(a, b, N)
+    def rk4(self, a: int, b: int, n: int) -> Iterator[DES]:
+        """Fourth order Runge-Kutta method
 
-        for ts in range(N):
+        Args:
+            a (int): simulation initial time step
+            b (int): simulation final time step
+            n (int): simulation points
 
+        Yields:
+            object: instance of DES
+        """
+        h, afunc = self._unwrap(a, b, n)
+
+        for ts in range(n):
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
@@ -143,10 +209,20 @@ class DES(BaseAttractors):
             self.ts = ts
             yield self
 
-    def rk5(self, a, b, N):
-        h, afunc = self._unwrap(a, b, N)
+    def rk5(self, a: int, b: int, n: int) -> Iterator[DES]:
+        """Fifth order Runge-Kutta method
 
-        for ts in range(N):
+        Args:
+            a (int): simulation initial time step
+            b (int): simulation final time step
+            n (int): simulation points
+
+        Yields:
+            object: instance of DES
+        """
+        h, afunc = self._unwrap(a, b, n)
+
+        for ts in range(n):
             self.X = self.coord[0]
             self.Y = self.coord[1]
             self.Z = self.coord[2]
