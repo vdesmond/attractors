@@ -29,7 +29,12 @@ release = "1.3.0"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode", "sphinx.ext.napoleon", "sphinx_rtd_dark_mode"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
+    "sphinx_rtd_dark_mode",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -53,7 +58,6 @@ html_static_path = ["_static"]
 
 napoleon_include_init_with_doc = True
 
-napoleon_custom_sections = [('Attractor Parameters', 'params_style')]
-autodoc_member_order = 'bysource'
+napoleon_custom_sections = [("Attractor Parameters", "params_style")]
+autodoc_member_order = "bysource"
 napoleon_use_admonition_for_examples = True
-

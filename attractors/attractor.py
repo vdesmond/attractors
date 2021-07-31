@@ -16,7 +16,7 @@ from __future__ import annotations
 import importlib.resources as pkg_resources
 import json
 from random import shuffle
-from typing import Union, List, Tuple, Optional, Iterator
+from typing import Iterator, List, Optional, Tuple, Union
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -141,7 +141,12 @@ class Attractor(DES):
         return ATTRACTOR_PARAMS[attr]["params"]
 
     @classmethod
-    def set_theme(cls, theme: Optional[dict], bgcolor: Optional[str], palette: Optional[Union[str, List[str]]]):
+    def set_theme(
+        cls,
+        theme: Optional[dict],
+        bgcolor: Optional[str],
+        palette: Optional[Union[str, List[str]]],
+    ):
         """Class method that sets the background color and color palette for the matplotlib figure either via a theme
         or manually. If both theme and manual arguments are given, the manual arguments take precedence
 
@@ -202,7 +207,12 @@ class Attractor(DES):
             raise ValueError("Palette cannot be NoneType")
 
     @classmethod
-    def set_limits(cls, xlim: Tuple[float, float], ylim: Tuple[float, float], zlim: Tuple[float, float]):
+    def set_limits(
+        cls,
+        xlim: Tuple[float, float],
+        ylim: Tuple[float, float],
+        zlim: Tuple[float, float],
+    ):
         """Class method to set figure limits for all 3 dimensions.
 
         Args:
@@ -257,7 +267,7 @@ class Attractor(DES):
     @classmethod
     def set_animate_multipoint(cls, *objs: Iterator[DES], **kwargs):
         """Class method to set the animation for multipoint
-        
+
         Args:
             *objs: Variable length list of generators which yield DES
             **kwargs: See below
@@ -502,7 +512,9 @@ class Attractor(DES):
         return cls.ax
 
     @classmethod
-    def plot_multipoint(cls, *objs: Iterator[DES], **kwargs) -> mpl_toolkits.mplot3d.Axes3D:
+    def plot_multipoint(
+        cls, *objs: Iterator[DES], **kwargs
+    ) -> mpl_toolkits.mplot3d.Axes3D:
         """Class method to plot the attractor as multipoint type
 
         Example:

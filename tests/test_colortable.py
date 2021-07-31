@@ -36,7 +36,7 @@ sample_d = {k: d[k] for k in keys}
 def test_themes(plottype, theme):
     obj = Attractor("lorenz").rk4(0, SIMTIME, SIMPOINTS)
     animfunc = getattr(Attractor, f"plot_{plottype}")
-    animfunc(SIMPOINTS - 1, obj, theme=theme)
+    animfunc(obj, theme=theme)
     assert Attractor.bgcolor == THEMES[theme]["background"]
     tmp = list(THEMES[theme].values())
     tmp.remove(THEMES[theme]["background"])
@@ -50,7 +50,7 @@ def test_palettes(plottype):
     animfunc = getattr(Attractor, f"plot_{plottype}")
     bg = random_color()
     palette = random_palette(random.randint(5, 8))
-    animfunc(SIMPOINTS - 1, obj, bgcolor=bg, palette=palette)
+    animfunc(obj, bgcolor=bg, palette=palette)
     assert Attractor.bgcolor == bg
     assert Attractor.palette == palette
     plt.close(Attractor.fig)
