@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attractors"
-version = "1.3.0"
+version = "1.4.0"
 description = "Simulation and visualization of strange attractors"
 authors = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
 maintainers = ["Vignesh Mohan <vignesh.desmond@gmail.com>"]
@@ -8,7 +8,7 @@ license = "MIT"
 readme = "readme.rst"
 homepage = "https://github.com/Vignesh-Desmond/attractors"
 repository = "https://github.com/Vignesh-Desmond/attractors"
-documentation = "https://github.com/Vignesh-Desmond/attractors"
+documentation = "https://attractors.readthedocs.io/en/latest/"
 keywords = [
     "Attractors",
     "Strange Attractors",
