@@ -163,7 +163,7 @@ The above code generates a video `example.mp4` in the directory that it was run 
 - _outf_: filename of output video if generated
 - _show_: boolean arg to disable `plt.show()` and return the Matplotlib.FuncAnimation instance (only when _live_ is True)
 
-Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 addititonal parameters: _elevationrate_ and _azimuthrate_ which control the rate of change of eleveation and azimuth angle for the duration of the animation respectively.
+Both `set_animate_gradient()` and `set_animate_multipoint()` have 2 additional parameters: _elevationrate_ and _azimuthrate_ which control the rate of change of elevation and azimuth angle for the duration of the animation respectively.
 
 <div align="center">
 <p>

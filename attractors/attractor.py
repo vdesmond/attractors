@@ -42,17 +42,25 @@ class Attractor(DES):
     multipoint and gradient types.
 
     Attributes:
-        bgcolor (str): Background color in hex
-        palette (Union[str,List[str]]): Color palette for plotting. Takes either list of hex values or matplotlib cmap
-        cmap (matplotlib.cmap): Matplotlib color map for figure (from palette)
-        fig (matplotlib.figure.Figure): Matplotlib figure instance for Attractors class
-        ax (matplotlib.axes.Axes): Matplotlib axes instance for Attractors class
+        attr (str): Attractor name
+        init_coord (List[float]): Initial coordinate for the attractor
+        params (Mapping[str, float]): Parameters of the attractor
     """
 
+    #: str: Background color in hex
     bgcolor = None
+
+    #: Union[str,List[str]]: Color palette for plotting. Takes either list of hex values or matplotlib cmap
     palette = None
+
+    #: matplotlib.cmap) Matplotlib color map for figure (from palette)
     cmap = None
-    fig, ax = None, None
+
+    #: matplotlib.figure.Figure: Matplotlib figure instance for Attractors class
+    fig = None
+
+    #: mpl_toolkits.mplot3d.Axes3D: Matplotlib axes instance for Attractors class
+    ax = None
 
     _update_func = None
     _points = None
@@ -65,9 +73,15 @@ class Attractor(DES):
             attractor (str): Attractor name
             **kwargs: See below
 
+        Examples:
+
+            A basic example for constructing an Attractors instance for "Lorenz"
+
+                >>> attr = Attractor("lorenz", sigma = 5, rho = 28.5, init_coord = [0.2,0.1,0.1])
+
         Keyword Args:
-            init_coord (List[float]): Initial coordinate for the attractor. Default:
-            params (Mapping[str, float]): Parameters of the attractor
+            init_coord (List[float]): Initial coordinate for the attractor. Defaults to values from :mod:attractors.utils.data
+            params (Mapping[str, float]): Parameters of the attractor. Defaults to values from :mod:attractors.utils.data
         """
         self.attr = ATTRACTOR_PARAMS[attractor]
         self.init_coord = np.array(kwargs.get("init_coord", self.attr["init_coord"]))
@@ -387,11 +401,13 @@ class Attractor(DES):
 
         Example:
 
-            Following example returns an FuncAnimation instance::
+            Following example returns an FuncAnimation instance
+
                 >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
                 >>> x = Attractor.set_animate_gradient(inst).animate(live = True, show = False)
 
-            Following example saves the animation to output MPEG4 encoded video file::
+            Following example saves the animation to output MPEG4 encoded video file
+
                 >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
                 >>> x = Attractor.set_animate_gradient(inst).animate(outf="dequan_li.mp4")
 
@@ -436,7 +452,8 @@ class Attractor(DES):
 
         Example:
 
-            Following example generates a gradient plot at a particular index::
+            Following example generates a gradient plot at a particular index
+
                 >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
                 >>> ax = Attractor.plot_gradient(inst, index=8000)
 
@@ -490,9 +507,10 @@ class Attractor(DES):
 
         Example:
 
-            Following example generates a gradient plot at a particular index::
-                >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
-                >>> ax = Attractor.plot_multipoint(inst, index=8000)
+            Following example generates a gradient plot at a particular index
+
+                    >>> inst = Attractor("dequan_li").rk3(0, 10, 10000)
+                    >>> ax = Attractor.plot_multipoint(inst, index=8000)
 
         Args:
             *objs: Variable length list of generators which yield DES

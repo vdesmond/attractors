@@ -12,7 +12,7 @@ Multipoint plot can be used to visualize multiple attractor objects
 which can be used to demonstrate the chaotic nature based on
 perturbances in initial conditions and parameters
 
-The following sample code shows the usage of ``plot_multipoint()``
+The following sample code shows the usage of :meth:`.plot_multipoint()`
 
 .. code:: python
 
@@ -47,7 +47,7 @@ The following sample code shows the usage of ``plot_multipoint()``
        pointkwargs={"markersize": 1}
    )
 
-``plot_multipoint()`` is a class method that requires 2 arguments:
+:meth:`.plot_multipoint()` is a class method that requires 2 arguments:
 
 -  *index* : timestep of the attractor objects on plot
 -  *\*objs* : generator list
@@ -65,23 +65,23 @@ Additionally, it also takes in multiple kwargs that
       (list of hexcodes). Overrides theme settings if given.
 
 The figure parameters, axes limits and theme can also be set via
-``set_figure()``, ``set_limits()`` and ``set_theme()`` methods
+:meth:`.set_figure()`, :meth:`.set_limits()` and :meth:`.set_theme()` methods
 respectively
 
-``plot_gradient()`` is similar to ``plot_multipoint()``, however it can
+:meth:`.plot_gradient()` is similar to :meth:`.plot_multipoint()`, however it can
 only take one generator as input. And it also takes an extra kwarg:
 *gradientaxis* to specify the axis along which the gradient is applied.
 (X, Y or Z).
 
-Both ``plot_gradient()`` and ``plot_multipoint()`` returns an
+Both :meth:`.plot_gradient()` and :meth:`.plot_multipoint()` returns an
 Matplotlib.axes object which can be used to display or save the figure
 and also change axes parameters after plotting.
 
 Animate
 -------
 
-The Animate functions ``set_animate_multipoint()`` and
-``set_animate_gradient()`` are similar to their plot function
+The Animate functions :meth:`.set_animate_multipoint()` and
+:meth:`.set_animate_gradient()` are similar to their plot function
 counterparts. By default, the visualization output will be saved in an
 MPEG4 encoded video. An example for gradient animation is as follows
 
@@ -97,8 +97,8 @@ MPEG4 encoded video. An example for gradient animation is as follows
        theme="nord").animate(outf="example.mp4")
 
 The above code generates a video ``example.mp4`` in the directory that
-it was run from. ``animate`` is a class method acting on the
-``Attractor`` class instance. It has no required argmunents and it takes
+it was run from. :meth:`.animate` is a class method acting on the
+:class:`.Attractor` class instance. It has no required argmunents and it takes
 the following kwargs
 
 -  *live*: boolean arg to show the animated plot in a window
@@ -108,7 +108,7 @@ the following kwargs
 -  *show*: boolean arg to disable ``plt.show()`` and return the
    Matplotlib.FuncAnimation instance (only when *live* is True)
 
-Both ``set_animate_gradient()`` and ``set_animate_multipoint()`` have 2
-addititonal parameters: *elevationrate* and *azimuthrate* which control
-the rate of change of eleveation and azimuth angle for the duration of
+Both :meth:`.set_animate_gradient()` and :meth:`.set_animate_multipoint()` have 2
+additional parameters: *elevationrate* and *azimuthrate* which control
+the rate of change of elevation and azimuth angle for the duration of
 the animation respectively.

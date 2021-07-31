@@ -15,7 +15,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../.."))
 
-
 # -- Project information -----------------------------------------------------
 
 project = "attractors"
@@ -24,7 +23,6 @@ author = "Vignesh Mohan"
 
 # The full version, including alpha/beta/rc tags
 release = "1.3.0"
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -41,7 +39,6 @@ templates_path = ["_templates"]
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -54,4 +51,9 @@ html_theme = "sphinx_rtd_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
+napoleon_include_init_with_doc = True
+
 napoleon_custom_sections = [('Attractor Parameters', 'params_style')]
+autodoc_member_order = 'bysource'
+napoleon_use_admonition_for_examples = True
+

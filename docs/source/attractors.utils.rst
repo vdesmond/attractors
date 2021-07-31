@@ -1,6 +1,8 @@
 `utils` package
 ========================
 
+This package contains the base modules for function definition of attractors and
+iterative ODE solvers, along with helper functions for handling colormaps and video generation.
 
 `utils.base` module
 ----------------------------
