@@ -192,19 +192,18 @@ class Attractor(DES):
         cls.ax = cls.fig.add_axes([0, 0, 1, 1], projection="3d")
         cls.ax.axis("off")
 
-        if cls.bgcolor is not None:
-            cls.fig.set_facecolor(cls.bgcolor)
-            cls.ax.set_facecolor(cls.bgcolor)
-        else:
+        if cls.bgcolor is None:
             raise ValueError("Background color cannot be NoneType")
 
-        if cls.palette is not None:
-            if isinstance(cls.palette, str):
-                cls.cmap = plt.cm.get_cmap(cls.palette)
-            else:
-                cls.cmap = get_continuous_cmap(cls.palette)
-        else:
+        cls.fig.set_facecolor(cls.bgcolor)
+        cls.ax.set_facecolor(cls.bgcolor)
+        if cls.palette is None:
             raise ValueError("Palette cannot be NoneType")
+
+        if isinstance(cls.palette, str):
+            cls.cmap = plt.cm.get_cmap(cls.palette)
+        else:
+            cls.cmap = get_continuous_cmap(cls.palette)
 
     @classmethod
     def set_limits(
@@ -247,10 +246,9 @@ class Attractor(DES):
             theme = None
 
         Attractor.set_theme(
-            theme,
-            bgcolor=kwargs.get("bgcolor", None),
-            palette=kwargs.get("palette", None),
+            theme, bgcolor=kwargs.get("bgcolor"), palette=kwargs.get("palette")
         )
+
         Attractor.set_figure(
             width=kwargs.get("width", 16),
             height=kwargs.get("width", 9),
@@ -556,7 +554,7 @@ class Attractor(DES):
             (cls.ax.plot([], [], [], "o", c=c, **pointkwargs) for c in colors), []
         )
 
-        maxlen = len(max([obj.peek() for obj in objs], key=len))
+        maxlen = len(max((obj.peek() for obj in objs), key=len))
 
         index = kwargs.get("index", maxlen - 1)
 

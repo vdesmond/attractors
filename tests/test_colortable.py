@@ -21,8 +21,7 @@ def random_color():
 
 
 def random_palette(palette_length):
-    palette = [random_color() for _ in range(palette_length)]
-    return palette
+    return [random_color() for _ in range(palette_length)]
 
 
 # Randomly test 20 themes (cant test more due to memory limits)
