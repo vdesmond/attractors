@@ -1,3 +1,5 @@
+version: 2
+
 sphinx:
   configuration: docs/source/conf.py
 
@@ -7,4 +9,4 @@ python:
     - method: pip
       path: .
       extra_requirements:
-        - docs
+        - doc

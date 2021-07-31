@@ -529,17 +529,6 @@ lint = ["flake8 (>=3.5.0)", "isort", "mypy (>=0.900)", "docutils-stubs", "types-
 test = ["pytest", "pytest-cov", "html5lib", "cython", "typed-ast"]
 
 [[package]]
-name = "sphinx-rtd-dark-mode"
-version = "1.2.3"
-description = "Dark mode for the Sphinx Read the Docs theme."
-category = "dev"
-optional = false
-python-versions = ">=3.4"
-
-[package.dependencies]
-sphinx-rtd-theme = "*"
-
-[[package]]
 name = "sphinx-rtd-theme"
 version = "0.5.2"
 description = "Read the Docs theme for Sphinx"
@@ -662,10 +651,13 @@ brotli = ["brotlipy (>=0.6.0)"]
 secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
+[extras]
+docs = ["matplotlib", "pathos", "tqdm", "more-itertools"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "08fcd21fa0307459d87e47a6c43132d19c8e5139823487eac5f5058956029e02"
+content-hash = "917ce921fd3f473ae6061e71d9360ab57ec21c8d9c2a942e7122b5a80a27cde1"
 
 [metadata.files]
 alabaster = [
@@ -1106,10 +1098,6 @@ snowballstemmer = [
 sphinx = [
     {file = "Sphinx-4.1.1-py3-none-any.whl", hash = "sha256:3d513088236eef51e5b0adb78b0492eb22cc3b8ccdb0b36dd021173b365d4454"},
     {file = "Sphinx-4.1.1.tar.gz", hash = "sha256:23c846a1841af998cb736218539bb86d16f5eb95f5760b1966abcd2d584e62b8"},
-]
-sphinx-rtd-dark-mode = [
-    {file = "sphinx_rtd_dark_mode-1.2.3-py3-none-any.whl", hash = "sha256:351df429ee5889c5716b4714765945008d304345ea1c55317c6b46d615f0e6e6"},
-    {file = "sphinx_rtd_dark_mode-1.2.3.tar.gz", hash = "sha256:23a8ba0056990e25345ded42165971e231342053a8298f5b398fb40d1f4f98c2"},
 ]
 sphinx-rtd-theme = [
     {file = "sphinx_rtd_theme-0.5.2-py2.py3-none-any.whl", hash = "sha256:4a05bdbe8b1446d77a01e20a23ebc6777c74f43237035e76be89699308987d6f"},

@@ -40,13 +40,12 @@ flake9 = "^3.8.3"
 pytest-cov = "^2.12.1"
 Sphinx = "^4.1.1"
 sphinx-rtd-theme = "^0.5.2"
-sphinx-rtd-dark-mode = "^1.2.3"
 
 [tool.poetry.scripts]
 attractors = "attractors.parser:cli"
 
 [tool.poetry.extras]
-docs = ["sphinx", "sphinx_rtd_dark_mode", "matplotlib", "pathos", "tqdm", "numpy", "more-itertools"]
+doc = ["sphinx", "matplotlib", "pathos", "tqdm", "numpy", "more-itertools"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
