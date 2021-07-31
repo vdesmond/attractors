@@ -584,3 +584,39 @@ class BaseAttractors(object):
         dy = -x - 0.4 * y + 5 * x * z
         dz = self.beta * z - 5 * x * y
         return np.array([dx, dy, dz], dtype="double")
+
+    def rucklidge(self, coord: np.ndarray) -> np.ndarray:
+        """Rucklidge, A. Chaos in models of double convection. J. Fluid Mech. 1992, 237, 209–229.
+
+        Args:
+            coord (np.ndarray): Initial coordinate array [x, y, z]
+
+        Attractor parameters:
+            k,alpha
+
+        Returns:
+            np.ndarray: ODE for single step [dx, dy, dz]
+        """
+        x, y, z = coord
+        dx = -self.k * x + (self.alpha * y) - (y * z)
+        dy = x
+        dz = -z + (y * y)
+        return np.array([dx, dy, dz], dtype="double")
+
+    def shimizu_morioka(self, coord: np.ndarray) -> np.ndarray:
+        """Shimizu, T.; Morioka, N. On the bifurcation of a symmetric limit cycle to an asymmetric one in a simple model. Phys. Lett. A 1980, 76, 201–204.
+
+        Args:
+            coord (np.ndarray): Initial coordinate array [x, y, z]
+
+        Attractor parameters:
+            a,B
+
+        Returns:
+            np.ndarray: ODE for single step [dx, dy, dz]
+        """
+        x, y, z = coord
+        dx = y
+        dy = x - (self.B * y) - (x * z)
+        dz = -self.a * z + (x * x)
+        return np.array([dx, dy, dz], dtype="double")
