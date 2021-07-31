@@ -31,7 +31,7 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-        id: setup-ffmpeg
+        id: setup-ffmpegs
       - name: Cache Poetry
         id: cache-poetry
         uses: actions/cache@v2.1.6
