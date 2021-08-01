@@ -125,7 +125,7 @@ def cli():
         choices=["heun", "imp_poly", "ralston"],
         default="heun",
     )
-    
+
     optional.add_argument(
         "--outf",
         help="output video filename Default: output.mp4",

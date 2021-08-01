@@ -13,6 +13,7 @@ from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 SIMTIME = 2
 SIMPOINTS = 10
 
+
 @pytest.fixture()
 def attractor_obj_des(attr, des):
     func = getattr(Attractor(attr), des)
