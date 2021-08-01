@@ -1,6 +1,6 @@
 <div align="center">
 <p>
-    <img width="400" src="./assets/logoblack.svg">
+    <img width="300" src="./assets/icon.png">
 </p>
 <h1>attractors</h1>
 

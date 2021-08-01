@@ -40,7 +40,7 @@ Usage
 
 See
 `documentation <https://attractors.readthedocs.io/en/latest/>`__
-on Readthedocs
+on readthedocs.io
 
 Changelog
 =========
@@ -59,7 +59,7 @@ License
 =======
 
 This package is licensed under the `MIT
-License <https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE.md>`__
+License <https://github.com/Vignesh-Desmond/attractors/blob/main/LICENSE>`__
 
 .. |Build status| image:: https://img.shields.io/github/workflow/status/Vignesh-Desmond/attractors/Build?style=flat-square&logo=GitHub
    :target: https://github.com/Vignesh-Desmond/attractors/actions/workflows/build.yml
