@@ -1,3 +1,21 @@
+<a name="1.4.0"></a>
+# [attractors v1.4.0 (1.4.0)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.4.0) - 31 Jul 2021
+
+# Announcements
+* Minor release introducing documentation and added features
+
+# Changes
+* Added 3 new attractors: Newton-Leipnik, Rucklidge and Shimizu-Morioka (Thanks @Sarath-24)
+* `index` is now a kwarg for `plot` methods
+* Added **docstrings**
+* Added type hints 
+* Set-up documentation with Sphinx-Napolean (Google Style) and ReadTheDocs
+* Renamed attractors: Aizawa -> Langford, Chen Celikovsky -> Chen LU, Thomas Cyclically Symmetric -> Thomas
+* Added tests for video generation with FFMPEG and colormaps
+
+[Changes][1.4.0]
+
+
 <a name="1.3.0"></a>
 # [attractors v1.3.0 (1.3.0)](https://github.com/Vignesh-Desmond/attractors/releases/tag/1.3.0) - 20 Jul 2021
 
@@ -76,6 +94,7 @@
 [Changes][1.0.0]
 
 
+[1.4.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/Vignesh-Desmond/attractors/compare/1.1.0...1.1.1
