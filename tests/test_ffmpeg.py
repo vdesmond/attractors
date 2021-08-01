@@ -8,7 +8,7 @@ import mpl_toolkits.mplot3d.axes3d as p3
 import pytest
 
 from attractors import __version__
-from attractors.attractor import ATTRACTOR_PARAMS, Attractor
+from attractors.attractor import Attractor
 
 SIMTIME = 2
 SIMPOINTS = 10
@@ -42,4 +42,5 @@ def test_ffmpeg(attr, plottype, video_folder):
     animfunc = getattr(Attractor, f"set_animate_{plottype}")
     animfunc(obj).animate(outf=os.path.join(video_folder.resolve(), f"main_{attr}.mp4"))
     check_err(os.path.join(video_folder.resolve(), f"main_{attr}.mp4"))
+    Attractor.fig.clf()
     plt.close(Attractor.fig)

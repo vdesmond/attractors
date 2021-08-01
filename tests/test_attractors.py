@@ -10,9 +10,8 @@ from numpy.testing import assert_equal
 from attractors import __version__
 from attractors.attractor import ATTRACTOR_PARAMS, Attractor
 
-SIMTIME = 10
-SIMPOINTS = 1000
-
+SIMTIME = 2
+SIMPOINTS = 10
 
 @pytest.fixture()
 def attractor_obj_des(attr, des):
@@ -64,6 +63,7 @@ def test_fig_defaults(attr, plottype):
     assert list(Attractor.ax.get_xlim()) == attrparams["xlim"]
     assert list(Attractor.ax.get_ylim()) == attrparams["ylim"]
     assert list(Attractor.ax.get_zlim()) == attrparams["zlim"]
+    Attractor.fig.clf()
     plt.close(Attractor.fig)
 
 
@@ -75,6 +75,7 @@ def test_live_fig(attr, plottype):
     anim = animfunc(obj).animate(live=True, show=False)
     assert type(anim) == matplotlib.animation.FuncAnimation
     plt.draw()
+    Attractor.fig.clf()
     plt.close(Attractor.fig)
 
 
@@ -85,4 +86,5 @@ def test_plot(attr, plottype):
     plotfunc = getattr(Attractor, f"plot_{plottype}")
     ax = plotfunc(obj, index=SIMPOINTS - random.randint(1, SIMPOINTS))
     assert type(ax) == p3.Axes3D
+    Attractor.fig.clf()
     plt.close(Attractor.fig)

@@ -1,9 +1,25 @@
 Changelog
 =========
 
+`v1.4.1 <https://github.com/Vignesh-Desmond/attractors/releases/tag/1.4.1>`__
+-----------------------------------------------------------------------------
+:Date: 1 August, 2021
+
+Announcements
+^^^^^^^^^^^^^
+
+*  Python 3.7 patch
+
+Changes
+^^^^^^^
+
+*  Python 3.7 is now compatible (tested)
+
+`commit history <https://github.com/Vignesh-Desmond/attractors/compare/1.4.0...1.4.1>`__
+
 `v1.4.0 <https://github.com/Vignesh-Desmond/attractors/releases/tag/1.4.0>`__
 -----------------------------------------------------------------------------
-:Date: 20 July, 2021
+:Date: 31 July, 2021
 
 Announcements
 ^^^^^^^^^^^^^
@@ -16,10 +32,10 @@ Changes
 *  Added 3 new attractors: Newton-Leipnik, Rucklidge and Shimizu-Morioka
 *  `index` is now a kwarg for `plot` methods
 *  Added docstrings
-* Added type hints
-* Set-up documentation with Sphinx-Napolean (Google Style)
-* Renamed attractors: Aizawa -> Langford, Chen Celikovsky -> Chen LU, Thomas Cyclically Symmetric -> Thomas
-* Added tests for video generation with FFMPEG and colormaps
+*  Added type hints
+*  Set-up documentation with Sphinx-Napolean (Google Style)
+*  Renamed attractors: Aizawa -> Langford, Chen Celikovsky -> Chen LU, Thomas Cyclically Symmetric -> Thomas
+*  Added tests for video generation with FFMPEG and colormaps
 
 `commit history <https://github.com/Vignesh-Desmond/attractors/compare/1.3.0...1.4.0>`__
 

@@ -7,8 +7,11 @@
 #  See LICENSE.md in the project root for license information.
 # ------------------------------------------------------------------------------
 
-import importlib.metadata
+try:
+    import importlib.metadata as metadata
+except ImportError:
+    import importlib_metadata as metadata
 
 from .attractor import *
 
-__version__ = importlib.metadata.version("attractors")
+__version__ = metadata.version("attractors")
