@@ -37,6 +37,18 @@ from attractors.utils.video import ffmpeg_video
 THEMES = json.load(pkg_resources.open_text(data, "themes.json"))
 
 
+def case_convert(snakecase_string: str) -> str:
+    """Converts snake case string to pascal string
+
+    Args:
+        snakecase_string (str): snakecase string
+
+    Returns:
+        str: Pascal string
+    """
+    return snakecase_string.replace("_", " ").title().replace("Cnn", "CNN")
+
+
 class Attractor(DES):
     """Attractor class inherits from DES. It sets default arguments and handles the plotting and animation for both
     multipoint and gradient types.
@@ -83,13 +95,13 @@ class Attractor(DES):
             init_coord (List[float]): Initial coordinate for the attractor. Defaults to values from :mod:attractors.utils.data
             params (Mapping[str, float]): Parameters of the attractor. Defaults to values from :mod:attractors.utils.data
         """
-        self.attr = ATTRACTOR_PARAMS[attractor]
-        self.init_coord = np.array(kwargs.get("init_coord", self.attr["init_coord"]))
+        attrdict = ATTRACTOR_PARAMS[attractor]
+        self.init_coord = np.array(kwargs.get("init_coord", attrdict["init_coord"]))
         self.params = {
-            self.attr["params"][i]: kwargs.get(
-                self.attr["params"][i], self.attr["default_params"][i]
+            attrdict["params"][i]: kwargs.get(
+                attrdict["params"][i], attrdict["default_params"][i]
             )
-            for i in range(len(self.attr["params"]))
+            for i in range(len(attrdict["params"]))
         }
         super(Attractor, self).__init__(
             attractor, np.copy(self.init_coord), self.params
@@ -99,6 +111,15 @@ class Attractor(DES):
         if not isinstance(other, Attractor):
             return NotImplemented
         return self.attractor == other.attractor
+
+    def __repr__(self) -> str:
+        return f"Point(attractor={self.attractor}, init_coord={self.init_coord}, params={self.params})"
+
+    def __str__(self) -> str:
+        params_str = "\n".join("{0} = {1}".format(k, v) for k, v in self.params.items())
+        attractor_str = case_convert(self.attractor)
+        init_coord_str = ", ".join(str(x) for x in self.init_coord)
+        return f"Attractor : {attractor_str}\nInital Coordinate : {init_coord_str}\nParameters:\n{params_str}"
 
     @staticmethod
     def list_themes() -> dict:
