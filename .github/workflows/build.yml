@@ -65,11 +65,11 @@ jobs:
       - name: Install package
         run: poetry install
       - name: Check code formatting
-        run: poetry run black . --check
+        run: poetry run black attractors/ tests/ --check
       - name: Check imports
-        run: poetry run isort . --check
+        run: poetry run isort attractors/ tests/ --check
       - name: Check linting
-        run: poetry run flake8 attractors
+        run: poetry run flake8 attractors/ tests/
       - name: Generate coverage report
         run: poetry run pytest --cov=attractors --cov-report=xml
       - if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.8'

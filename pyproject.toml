@@ -69,11 +69,16 @@ target-version = ['py37', 'py37', 'py38']
 include = '\.pyi?$'
 exclude = '''
 /(
-  \.toml
-  |\.sh
-  |\.git
-  |\.ini
-  |Dockerfile
-  |Jenkinfile
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
 )/
 '''
