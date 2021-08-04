@@ -8,7 +8,7 @@
 * Added 3 new attractors: Newton-Leipnik, Rucklidge and Shimizu-Morioka (Thanks @Sarath-24)
 * `index` is now a kwarg for `plot` methods
 * Added **docstrings**
-* Added type hints 
+* Added type hints
 * Set-up documentation with Sphinx-Napolean (Google Style) and ReadTheDocs
 * Renamed attractors: Aizawa -> Langford, Chen Celikovsky -> Chen LU, Thomas Cyclically Symmetric -> Thomas
 * Added tests for video generation with FFMPEG and colormaps

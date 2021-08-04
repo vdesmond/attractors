@@ -36,10 +36,11 @@ more-itertools = "^8.8.0"
 pytest = "^6.2.4"
 black = "^21.6b0"
 isort = "^5.9.1"
-flake9 = "^3.8.3"
 pytest-cov = "^2.12.1"
 Sphinx = "^4.1.1"
 sphinx-rtd-theme = "^0.5.2"
+pre-commit = "^2.13.0"
+flake8 = "^3.9.2"
 
 [tool.poetry.scripts]
 attractors = "attractors.parser:cli"
@@ -54,6 +55,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.flake8]
 ignore = ['E203', 'E266', 'E501', 'W503', 'F403', 'F401']
 max-line-length = 88
+max-complexity = 18
 
 [tool.isort]
 known_third_party = ["matplotlib", "mpl_toolkits", "numpy", "src"]
@@ -62,4 +64,16 @@ line_length = 88
 include_trailing_comma = true
 
 [tool.black]
-line_length = 88
+line-length = 88
+target-version = ['py37', 'py37', 'py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.toml
+  |\.sh
+  |\.git
+  |\.ini
+  |Dockerfile
+  |Jenkinfile
+)/
+'''
