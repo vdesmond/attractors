@@ -41,6 +41,7 @@ Sphinx = "^4.1.1"
 sphinx-rtd-theme = "^0.5.2"
 pre-commit = "^2.13.0"
 flake8 = "^3.9.2"
+prompt-toolkit = "^3.0.19"
 
 [tool.poetry.scripts]
 attractors = "attractors.parser:cli"
