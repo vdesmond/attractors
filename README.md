@@ -298,9 +298,10 @@ Read the documentation [here](https://attractors.readthedocs.io/en/latest/)
 
 See [changelog](https://github.com/Vignesh-Desmond/attractors/blob/main/CHANGELOG.md) for previous versions
 
-## Development
+## Contributing
 
-This package is under early stages of development it's open to any constructive suggestions. Please send bug reports and feature requests through issue trackers and pull requests.
+Read [contributing](https://attractors.readthedocs.io/en/latest/contributing.html>)
+on how to contribute.
 
 ## License
 

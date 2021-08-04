@@ -13,7 +13,7 @@ attractors is a package for simulation and visualization of strange attractors.
    cli
    changelog
    modules
-   development
+   contributing
    license
 
 Indices and tables

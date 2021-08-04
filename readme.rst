@@ -38,7 +38,7 @@ for generating video output.
 Usage
 =====
 
-See
+Read
 `documentation <https://attractors.readthedocs.io/en/latest/>`__
 on readthedocs.io
 
@@ -46,14 +46,15 @@ Changelog
 =========
 
 See
-`changelog <https://github.com/Vignesh-Desmond/attractors/blob/main/CHANGELOG.md>`__
+`changelog <https://attractors.readthedocs.io/en/latest/changelog.html>`__
 for previous versions
 
-Development
-===========
+Contributing
+============
 
-This package is under early stages of development it's open to any constructive suggestions.
-Please send bug reports and feature requests through issue trackers and pull requests.
+Read
+`contributing <https://attractors.readthedocs.io/en/latest/contributing.html>`__
+on how to contribute.
 
 License
 =======
