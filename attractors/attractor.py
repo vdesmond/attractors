@@ -113,13 +113,19 @@ class Attractor(DES):
         return self.attractor == other.attractor
 
     def __repr__(self) -> str:
-        return f"Point(attractor={self.attractor}, init_coord={self.init_coord}, params={self.params})"
+        return (
+            f"Point(attractor={self.attractor}, init_coord={self.init_coord},"
+            f" params={self.params})"
+        )
 
     def __str__(self) -> str:
         params_str = "\n".join("{0} = {1}".format(k, v) for k, v in self.params.items())
         attractor_str = case_convert(self.attractor)
         init_coord_str = ", ".join(str(x) for x in self.init_coord)
-        return f"Attractor : {attractor_str}\nInital Coordinate : {init_coord_str}\nParameters:\n{params_str}"
+        return (
+            f"Attractor : {attractor_str}\nInital Coordinate :"
+            f" {init_coord_str}\nParameters:\n{params_str}"
+        )
 
     @staticmethod
     def list_themes() -> dict:
