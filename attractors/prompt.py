@@ -8,36 +8,41 @@
 # ------------------------------------------------------------------------------
 from __future__ import unicode_literals
 
+import random
+import re
+
 from prompt_toolkit import prompt
 from prompt_toolkit.application import Application
-from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.completion import FuzzyWordCompleter
 from prompt_toolkit.key_binding.defaults import load_key_bindings
 from prompt_toolkit.key_binding.key_bindings import KeyBindings, merge_key_bindings
 from prompt_toolkit.layout import Layout
 from prompt_toolkit.layout.containers import HSplit
 from prompt_toolkit.shortcuts import confirm
+from prompt_toolkit.styles import Style
 from prompt_toolkit.validation import Validator
 from prompt_toolkit.widgets import Label, RadioList
 
 from attractors import Attractor as Attr
 
+_rgbstring = re.compile(r"#[a-fA-F0-9]{6}$")
+
+_param_style = Style.from_dict(
+    {
+        "param": "#62f5eb",
+    }
+)
+
 
 def radiolist_dialog(title="", values=None, style=None):
-    # Add exit key binding.
     bindings = KeyBindings()
 
     @bindings.add("n")
     def exit_(event):
-        """
-        Pressing Ctrl-d will exit the user interface.
-        """
         event.app.exit()
 
     @bindings.add("y")
     def exit_with_value(event):
-        """
-        Pressing Ctrl-a will exit the user interface returning the selected value.
-        """
         event.app.exit(result=radio_list.current_value)
 
     radio_list = RadioList(values)
@@ -51,9 +56,9 @@ def radiolist_dialog(title="", values=None, style=None):
     return application.run()
 
 
-des_completer = WordCompleter(Attr.list_des(), ignore_case=True)
-attractors_completer = WordCompleter(Attr.list_attractors(), ignore_case=True)
-themes_completer = WordCompleter(list(Attr.list_themes().keys()), ignore_case=True)
+des_completer = FuzzyWordCompleter(Attr.list_des())
+attractors_completer = FuzzyWordCompleter(Attr.list_attractors())
+themes_completer = FuzzyWordCompleter(list(Attr.list_themes().keys()))
 
 
 def is_valid_float(num):
@@ -76,6 +81,18 @@ def is_valid_des(des):
     return des in Attr.list_des()
 
 
+def is_valid_theme(theme):
+    return theme in Attr.list_themes()
+
+
+def is_valid_hex(hexstring):
+    return bool(_rgbstring.match(hexstring))
+
+
+def is_valid_palette(palette):
+    return all(bool(_rgbstring.match(i)) for i in palette.split(" "))
+
+
 attractors_validator = Validator.from_callable(
     is_valid_attractor,
     error_message="Not a valid attractor",
@@ -85,6 +102,12 @@ attractors_validator = Validator.from_callable(
 des_validator = Validator.from_callable(
     is_valid_des,
     error_message="Not a valid ODE solver",
+    move_cursor_to_end=False,
+)
+
+theme_validator = Validator.from_callable(
+    is_valid_theme,
+    error_message="Not a valid theme",
     move_cursor_to_end=False,
 )
 
@@ -100,6 +123,20 @@ float_validator = Validator.from_callable(
     move_cursor_to_end=False,
 )
 
+bg_validator = Validator.from_callable(
+    is_valid_hex,
+    error_message="Background must be a valid 6 character hex string",
+    move_cursor_to_end=False,
+)
+
+palette_validator = Validator.from_callable(
+    is_valid_palette,
+    error_message=(
+        "Palette must be list of space seperated valid 6 character hex strings"
+    ),
+    move_cursor_to_end=False,
+)
+
 
 def main():
     try:
@@ -110,6 +147,26 @@ def main():
             validator=attractors_validator,
             validate_while_typing=False,
         )
+
+        param_dict = Attr.list_params(attractor_name)
+        for p, d in param_dict.items():
+            prompt_message = [
+                ("class:normal", "  > Enter value for "),
+                ("class:param", p),
+                ("class:param", ": "),
+            ]
+
+            param = float(
+                prompt(
+                    prompt_message,
+                    validator=float_validator,
+                    validate_while_typing=False,
+                    default=f"{d}",
+                    style=_param_style,
+                )
+            )
+            param_dict[p] = param
+
         des_name = prompt(
             "> ODE Solver: ",
             completer=des_completer,
@@ -118,15 +175,19 @@ def main():
             validator=des_validator,
             validate_while_typing=False,
         )
-        sim_time = prompt(
-            "> Simulation Time: ",
-            validator=num_validator,
-            validate_while_typing=False,
+        sim_time = int(
+            prompt(
+                "> Simulation Time: ",
+                validator=num_validator,
+                validate_while_typing=False,
+            )
         )
-        sim_points = prompt(
-            "> Number of points for simulation: ",
-            validator=num_validator,
-            validate_while_typing=False,
+        sim_points = int(
+            prompt(
+                "> Number of points for simulation: ",
+                validator=num_validator,
+                validate_while_typing=False,
+            )
         )
         plot_type = radiolist_dialog(
             title="> Choose visualization type :",
@@ -135,6 +196,19 @@ def main():
                 ("Gradient", "Gradient"),
             ],
         )
+
+        # if plot_type == "Multipoint":
+        #     n = int(
+        #         prompt(
+        #             "> Number of starting points: ",
+        #             validator=num_validator,
+        #             validate_while_typing=False,
+        #             default="3",
+        #         )
+        #     )
+        # else:
+        #     n = random.randint(1, 10)
+
         output_type = radiolist_dialog(
             title="> Choose output type :",
             values=[
@@ -174,6 +248,56 @@ def main():
             width = 16
             height = 9
             dpi = 120
+
+        # theme_select = confirm("> Do you want to choose a theme:")
+        # if theme_select:
+        #     theme = prompt(
+        #         "> Theme: ",
+        #         validator=theme_validator,
+        #         validate_while_typing=False,
+        #     )
+        #     bgcolor = None
+        #     palette = None
+        # else:
+        #     theme = None
+        #     bgcolor = prompt(
+        #         "> Background color: ",
+        #         validator=bg_validator,
+        #         validate_while_typing=False,
+        #         default="#000000",
+        #     )
+        #     palette = prompt(
+        #         "> Palette: ",
+        #         validator=palette_validator,
+        #         validate_while_typing=False,
+        #         default=" ".join(
+        #             ["#" + "%06X" % random.randint(0, 0xFFFFFF) for _ in range(n)]
+        #         ),
+        #     )
+
+        # if output_type == "Animation":
+        #     fps = int(
+        #         prompt(
+        #             "> Animation FPS: ",
+        #             validator=num_validator,
+        #             validate_while_typing=False,
+        #             default="60",
+        #         )
+        #     )
+        #
+        #     live_type = radiolist_dialog(
+        #         title="> Animation type :",
+        #         values=[
+        #             ("Live", "Live plot"),
+        #             ("Video", "Video"),
+        #         ],
+        #     )
+        #
+        #     if live_type == "Video":
+        #         outf = prompt(
+        #             "> Output file name: ",
+        #             default="output.mp4",
+        #         )
 
     except KeyboardInterrupt:
         print("Exiting...")

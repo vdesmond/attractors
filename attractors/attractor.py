@@ -16,7 +16,7 @@ from __future__ import annotations
 import importlib.resources as pkg_resources
 import json
 from random import shuffle
-from typing import Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterator, List, Optional, Tuple, Union
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -156,16 +156,21 @@ class Attractor(DES):
         return list(ATTRACTOR_PARAMS.keys())
 
     @staticmethod
-    def list_params(attr: str) -> List[str]:
-        """Static method to get the parameters for a given attractor
+    def list_params(attr: str) -> Dict[str, float]:
+        """Static method to get the parameters for a given attractor along with their default values
 
         Args:
             attr (str): Attractor name
 
         Returns:
-            List[str]: List of possible parameters
+            Dict[str, float]: Dict of possible parameters and their default values
         """
-        return ATTRACTOR_PARAMS[attr]["params"]
+        return dict(
+            zip(
+                ATTRACTOR_PARAMS[attr]["params"],
+                ATTRACTOR_PARAMS[attr]["default_params"],
+            )
+        )
 
     @classmethod
     def set_theme(
