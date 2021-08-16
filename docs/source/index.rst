@@ -10,7 +10,6 @@ attractors is a package for simulation and visualization of strange attractors.
    install
    basic_usage
    plotting_and_animation
-   cli
    changelog
    modules
    contributing
