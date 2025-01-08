@@ -1,16 +1,20 @@
-"""
-attractors
-"""
+from pathlib import Path
 
-from __future__ import annotations
-
-from importlib.metadata import version
-
-from attractors.solvers import rk4
-from attractors.systems import lorenz
+from attractors.solvers import euler, rk2, rk3, rk4, rk5, stormer_verlet
+from attractors.solvers.core import integrate_system
+from attractors.solvers.registry import SolverRegistry
+from attractors.systems import (
+    finance,
+    lorenz,
+    rabinovich_fabrikant,
+    rossler,
+    thomas,
+    wang_sun,
+    yu_wang,
+)
+from attractors.systems.registry import SystemRegistry
 from attractors.themes.manager import ThemeManager
 
-ThemeManager.load("viz_themes.json")
-
-__version__ = version(__name__)
-__all__ = ["ThemeManager", "__version__", "lorenz", "rk4"]
+theme_path = Path(__file__).parent / "themes" / "viz_themes.json"
+ThemeManager.load(theme_path)
+__all__ = ["SolverRegistry", "SystemRegistry", "ThemeManager", "integrate_system"]

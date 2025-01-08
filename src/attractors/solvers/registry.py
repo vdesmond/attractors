@@ -3,17 +3,17 @@ from typing import ClassVar
 
 from numba import njit
 
-from attractors.type_defs import ParamVector, StateVector, SystemCallable
+from attractors.type_defs import (
+    SolverCallable,
+)
 
 
 class SolverRegistry:
-    _solvers: ClassVar[dict[str, Callable]] = {}
+    _solvers: ClassVar[dict[str, SolverCallable]] = {}
 
     @classmethod
-    def register(cls, name: str) -> Callable:
-        def decorator(
-            f: Callable[[SystemCallable, StateVector, ParamVector, float], StateVector],
-        ) -> Callable:
+    def register(cls, name: str) -> Callable[[SolverCallable], SolverCallable]:
+        def decorator(f: SolverCallable) -> SolverCallable:
             if not isinstance(name, str):
                 raise TypeError("Name must be string")
             if not callable(f):
@@ -29,7 +29,7 @@ class SolverRegistry:
         return decorator
 
     @classmethod
-    def get(cls, name: str) -> Callable:
+    def get(cls, name: str) -> SolverCallable:
         if name not in cls._solvers:
             msg = f"Solver {name} not found"
             raise KeyError(msg)

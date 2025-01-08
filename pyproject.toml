@@ -28,12 +28,9 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-    "jax>=0.4.38",
     "matplotlib>=3.10.0",
     "numba>=0.60.0",
     "numpy>=2.0.2",
-    "pandas>=2.2.3",
-    "psutil>=6.1.1",
     "setuptools>=75.7.0",
 ]
 
