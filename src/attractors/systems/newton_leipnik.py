@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Leipnik, R. B. & Newton, T. A. "Double strange attractors in rigid body motion with linear feedback control," Phys. Lett. A86, 63–67. (1981)',
     plot_lims={"xlim": (-0.7, 0.7), "ylim": (-0.4, 0.4), "zlim": (-0.4, 0.6)},
 )
-def newton_leipnik(state: StateVector, params: ParamVector) -> StateVector:
+def newton_leipnik(state: Vector, params: Vector) -> Vector:
     """Newton-Leipnik attractor system."""
     x, y, z = state
     alpha, beta = params

@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="W. F. Langford, Numerical studies of torus bifurcations, Numerical methods for bifurcation problems (Dortmund, 1983), Internat. Schriftenreihe Numer. Math., vol. 70, Birkhäuser, Basel, 1984, pp. 285–295.",
     plot_lims={"xlim": (-2.0, 2.0), "ylim": (-2.0, 2.0), "zlim": (-0.5, 2.0)},
 )
-def langford(state: StateVector, params: ParamVector) -> StateVector:
+def langford(state: Vector, params: Vector) -> Vector:
     """Langford attractor system."""
     x, y, z = state
     alpha, beta, lmbda, omega, rho, epsilon = params

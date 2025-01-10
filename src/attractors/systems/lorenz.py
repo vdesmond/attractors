@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Lorenz, E. N. "Deterministic Nonperiodic Flow", Journal of Atmospheric Sciences, 20(2), 130-141, 1963.',
     plot_lims={"xlim": (-20.0, 20.0), "ylim": (-30.0, 30.0), "zlim": (5.0, 45.0)},
 )
-def lorenz(state: StateVector, params: ParamVector) -> StateVector:
+def lorenz(state: Vector, params: Vector) -> Vector:
     """
     Lorenz attractor system.
     """

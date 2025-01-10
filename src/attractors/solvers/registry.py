@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import ClassVar
 
-from numba import njit
+from numba import njit  # type: ignore[import-untyped]
 
 from attractors.type_defs import (
     SolverCallable,

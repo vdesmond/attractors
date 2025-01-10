@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="J. S. Costello, “Synchronization of chaos in a generalized Lotka-Volterra attractor,” The Nonlinear Journal, vol. 1, pp. 11–17, 1999.",
     plot_lims={"xlim": (0.7, 1.3), "ylim": (0.7, 1.3), "zlim": (0.5, 1.1)},
 )
-def lotka_volterra(state: StateVector, params: ParamVector) -> StateVector:
+def lotka_volterra(state: Vector, params: Vector) -> Vector:
     """Lotka-Volterra attractor system."""
     x, y, z = state
     a, b, c = params

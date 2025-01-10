@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Dadras, Sara & Momeni, Hamid. (2009). A novel three-dimensional autonomous chaotic system generating two, three and four-scroll attractors. Physics Letters A. 373. 3637-3642.",
     plot_lims={"xlim": (-15.0, 15.0), "ylim": (-10.0, 8.0), "zlim": (-12.0, 12.0)},
 )
-def dadras(state: StateVector, params: ParamVector) -> StateVector:
+def dadras(state: Vector, params: Vector) -> Vector:
     """Dadras attractor system."""
     x, y, z = state
     a, b, c, d, h = params

@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Thomas, René. "DETERMINISTIC CHAOS SEEN IN TERMS OF FEEDBACK CIRCUITS: ANALYSIS, SYNTHESIS, "LABYRINTH CHAOS"." International Journal of Bifurcation and Chaos 9 (1999): 1889-1905.',
     plot_lims={"xlim": (-2.0, 5.0), "ylim": (-2.0, 4.0), "zlim": (-2.0, 4.0)},
 )
-def thomas(state: StateVector, params: ParamVector) -> StateVector:
+def thomas(state: Vector, params: Vector) -> Vector:
     """Thomas attractor system."""
     x, y, z = state
     b = params[0]

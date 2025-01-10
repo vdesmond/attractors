@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Cai & Huang (2007). A new finance chaotic attractor. International Journal of Nonlinear Science. vol 3. pp. 1479-3889.",
     plot_lims={"xlim": (-3.0, 3.0), "ylim": (-15.0, -5.0), "zlim": (-1.5, 1.5)},
 )
-def finance(state: StateVector, params: ParamVector) -> StateVector:
+def finance(state: Vector, params: Vector) -> Vector:
     """Finance attractor system."""
     x, y, z = state
     a, b, c = params

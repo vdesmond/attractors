@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Wang, Z., Sun, Y., van Wyk, B. J., Qi, G. & van Wyk, M. A. “A 3-D four-wing attractor and its analysis,” Brazilian J. Phys. 39, (2009) 547–553.",
     plot_lims={"xlim": (-4.0, 4.0), "ylim": (-4.0, 4.0), "zlim": (-3.0, 2.0)},
 )
-def wang_sun(state: StateVector, params: ParamVector) -> StateVector:
+def wang_sun(state: Vector, params: Vector) -> Vector:
     """Wang-Sun attractor system."""
     x, y, z = state
     a, b, c, d, e, f = params

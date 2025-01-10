@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Arena, P., et al. (1998). Bifurcation and Chaos in Noninteger Order Cellular Neural Networks. International Journal of Bifurcation and Chaos, 8(7), 1527-1539.",
     plot_lims={"xlim": (-1.5, 1.5), "ylim": (-1.5, 1.5), "zlim": (-2.0, 1.5)},
 )
-def three_cell_cnn(state: StateVector, params: ParamVector) -> StateVector:
+def three_cell_cnn(state: Vector, params: Vector) -> Vector:
     """Three-Cell CNN attractor system with nonlinear coupling."""
     x, y, z = state
     p1, p2, r, s = params

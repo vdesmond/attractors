@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Chen HK, Lee CI. "Anti-control of chaos in rigid body motion.", Chaos, Solitons & Fractals (2004), vol. 21, pp. 957–65',
     plot_lims={"xlim": (-30.0, 30.0), "ylim": (-30.0, 30.0), "zlim": (-1.0, 35.0)},
 )
-def chen_lee(state: StateVector, params: ParamVector) -> StateVector:
+def chen_lee(state: Vector, params: Vector) -> Vector:
     """Chen-Lee attractor system."""
     x, y, z = state
     a, b, c = params

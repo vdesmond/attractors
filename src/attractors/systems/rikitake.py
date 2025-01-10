@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Rikitake, Tsuneji. “Oscillations of a System of Disk Dynamos.” Mathematical Proceedings of the Cambridge Philosophical Society, vol. 54, no. 1, 1958, pp. 89–105.",
     plot_lims={"xlim": (-7.0, 6.0), "ylim": (-5.0, 3.0), "zlim": (3.0, 9.0)},
 )
-def rikitake(state: StateVector, params: ParamVector) -> StateVector:
+def rikitake(state: Vector, params: Vector) -> Vector:
     """Rikitake attractor system."""
     x, y, z = state
     a, mu = params

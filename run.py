@@ -1,53 +1,35 @@
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import numpy as np
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
 from attractors import (
     SolverRegistry,
+    StaticPlotter,
     SystemRegistry,
+    Theme,
     ThemeManager,
     integrate_system,
 )
 
-theme = ThemeManager.get("ayu")
+theme = ThemeManager.get("aurora")
+# or
+# theme = Theme(
+#     name="monochrome",
+#     background="#FFFFFF",
+#     colors=["#616161", "#7a7a7a", "#2e2e2e", "#1c1c1c"],
+#     foreground="#000000",  # Black foreground for contrast with white background
+# )
 
-mpl.rcParams["path.simplify"] = True
-mpl.rcParams["agg.path.chunksize"] = 10000
-mpl.rcParams["path.simplify_threshold"] = 1.0
-
-lorenz_system = SystemRegistry.get("lorenz")
-
+system = SystemRegistry.get("hadley")
 solver = SolverRegistry.get("rk4")
-steps = 10000
-dt = 0.01
+steps = 1000000
+dt = 0.001
+trajectory, time = integrate_system(system, solver, steps, dt)
 
 
-trajectory, time = integrate_system(lorenz_system, solver, steps, dt)
-
-fig = plt.figure(figsize=(10, 8), facecolor=theme.background)
-ax = fig.add_subplot(111, projection="3d")
-ax.set_facecolor(theme.background)
-
-segments = np.stack([trajectory[:-1], trajectory[1:]], axis=1)
-z_avg = (trajectory[:-1, 2] + trajectory[1:, 2]) / 2
-norm = plt.Normalize(trajectory[:, 2].min(), trajectory[:, 2].max())
-colors = theme.colormap(norm(z_avg))
-
-lc = Line3DCollection(segments, colors=colors, linewidth=1)
-ax.add_collection3d(lc)
-
-ax.set_xlim(*lorenz_system.plot_lims["xlim"])
-ax.set_ylim(*lorenz_system.plot_lims["ylim"])
-ax.set_zlim(*lorenz_system.plot_lims["zlim"])
-
-for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
-    axis.label.set_color(theme.foreground)
-    axis.set_tick_params(colors=theme.foreground)
-
-ax.set_xlabel("X")
-ax.set_ylabel("Y")
-ax.set_zlabel("Z")
-ax.set_title("Lorenz Attractor", color=theme.foreground)
+plotter = StaticPlotter(
+    system,
+    theme,
+    fig_kwargs={"figsize": (10, 8)},
+    line_kwargs={"linewidth": 0.5, "antialiased": True, "alpha": 0.7},
+).plot(trajectory)
 
 plt.show()

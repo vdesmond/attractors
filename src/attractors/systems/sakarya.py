@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="NA",
     plot_lims={"xlim": (-35.0, 30.0), "ylim": (-17.0, 15.0), "zlim": (-13.0, 17.0)},
 )
-def sakarya(state: StateVector, params: ParamVector) -> StateVector:
+def sakarya(state: Vector, params: Vector) -> Vector:
     """Sakarya attractor system."""
     x, y, z = state
     a, b = params

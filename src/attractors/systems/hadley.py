@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="J. C. Sprott and J. C. Sprott, Chaos and time-series analysis, Vol. 69 (Citeseer, 2003)",
     plot_lims={"xlim": (-1.0, 3.0), "ylim": (-2.0, 2.0), "zlim": (-2.0, 2.0)},
 )
-def hadley(state: StateVector, params: ParamVector) -> StateVector:
+def hadley(state: Vector, params: Vector) -> Vector:
     """Hadley attractor system."""
     x, y, z = state
     a, b, f, g = params

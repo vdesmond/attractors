@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -16,7 +16,7 @@ from attractors.type_defs import ParamVector, StateVector
         "zlim": (-50.0, 250.0),
     },
 )
-def dequan_li(state: StateVector, params: ParamVector) -> StateVector:
+def dequan_li(state: Vector, params: Vector) -> Vector:
     """Dequan-Li attractor system."""
     x, y, z = state
     a, c, d, e, k, f = params

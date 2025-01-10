@@ -21,7 +21,6 @@ class ThemeManager:
                 background=data["background"],
                 colors=data["colors"],
                 foreground=data.get("foreground", "#FFFFFF"),
-                gradient_axis=data.get("gradient_axis", "Z"),
             )
 
     @classmethod

@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Rabinovich, M. I. and Fabrikant, A. L., “Stochastic self-modulation of waves in nonequilibrium media”, Soviet Journal of Experimental and Theoretical Physics, vol. 50, p. 311, 1979.",
     plot_lims={"xlim": (-2.0, 0.0), "ylim": (-0.5, 3.0), "zlim": (0.0, 1.5)},
 )
-def rabinovich_fabrikant(state: StateVector, params: ParamVector) -> StateVector:
+def rabinovich_fabrikant(state: Vector, params: Vector) -> Vector:
     """Rabinovich-Fabrikant attractor system."""
     x, y, z = state
     alpha, gamma = params

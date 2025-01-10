@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Rossler, O. E. "An Equation for Continuous Chaos," Physics Letters A, 57(5), 397-398, 1976.',
     plot_lims={"xlim": (-15.0, 15.0), "ylim": (-15.0, 15.0), "zlim": (-1.0, 20.0)},
 )
-def rossler(state: StateVector, params: ParamVector) -> StateVector:
+def rossler(state: Vector, params: Vector) -> Vector:
     """Rossler attractor system."""
     x, y, z = state
     a, b, c = params

@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference='Lu, Jinhu & Chen, Guanrong. (2002). "A New Chaotic Attractor Coined.". International Journal of Bifurcation and Chaos. vol. 12. pp-659-661.',
     plot_lims={"xlim": (-30.0, 30.0), "ylim": (-30.0, 30.0), "zlim": (0.0, 30.0)},
 )
-def chen_lu(state: StateVector, params: ParamVector) -> StateVector:
+def chen_lu(state: Vector, params: Vector) -> Vector:
     """Chen-Lu attractor system."""
     x, y, z = state
     a, b, c = params

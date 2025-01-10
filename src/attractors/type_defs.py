@@ -4,12 +4,9 @@ from typing import TypeAlias, TypedDict
 import numpy as np
 from numpy.typing import NDArray
 
-StateVector: TypeAlias = NDArray[np.float64]
-ParamVector: TypeAlias = NDArray[np.float64]
-SystemCallable: TypeAlias = Callable[[StateVector, ParamVector], StateVector]
-SolverCallable: TypeAlias = Callable[
-    [SystemCallable, StateVector, ParamVector, float], StateVector
-]
+Vector: TypeAlias = NDArray[np.float64]
+SystemCallable: TypeAlias = Callable[[Vector, Vector], Vector]
+SolverCallable: TypeAlias = Callable[[SystemCallable, Vector, Vector, float], Vector]
 
 
 class PlotLimits(TypedDict):

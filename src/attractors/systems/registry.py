@@ -1,31 +1,35 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import ClassVar, TypeVar
 
-from numba import njit
+from numba import njit  # type: ignore[import-untyped]
 
-from attractors.type_defs import ParamVector, PlotLimits, StateVector
+from attractors.type_defs import PlotLimits, SystemCallable, Vector
 
 
 @dataclass
 class System:
-    func: Callable
-    params: ParamVector
+    func: SystemCallable
+    name: str
+    params: Vector
     param_names: list[str]
     reference: str
-    init_coord: StateVector
+    init_coord: Vector
     plot_lims: PlotLimits | None = None
 
-    def set_params(self, params: ParamVector) -> None:
+    def set_params(self, params: Vector) -> None:
         if len(params) != len(self.param_names):
             msg = f"Expected {len(self.param_names)} parameters"
             raise ValueError(msg)
         self.params = params
 
-    def set_init_coord(self, coord: StateVector) -> None:
+    def set_init_coord(self, coord: Vector) -> None:
         if len(coord) != 3:
             raise ValueError("State vector must have length 3")
         self.init_coord = coord
+
+
+F = TypeVar("F", bound=SystemCallable)
 
 
 class SystemRegistry:
@@ -36,13 +40,13 @@ class SystemRegistry:
         cls,
         name: str,
         *,
-        default_params: ParamVector,
+        default_params: Vector,
         param_names: list[str],
         reference: str = "",
-        init_coord: StateVector,
-        plot_lims: dict[str, tuple[float, float]] | None = None,
-    ) -> Callable:
-        def decorator(f: Callable[[StateVector, ParamVector], StateVector]) -> Callable:
+        init_coord: Vector,
+        plot_lims: PlotLimits | None = None,
+    ) -> Callable[[F], F]:
+        def decorator(f: F) -> F:
             if not isinstance(name, str):
                 raise TypeError("Name must be string")
             if not callable(f):
@@ -50,12 +54,11 @@ class SystemRegistry:
             if name in cls._systems:
                 msg = f"System {name} already registered"
                 raise ValueError(msg)
-
             if not hasattr(f, "_numba_signature"):
                 f = njit(f)
-
             cls._systems[name] = System(
                 func=f,
+                name=name,
                 params=default_params,
                 param_names=param_names,
                 reference=reference,

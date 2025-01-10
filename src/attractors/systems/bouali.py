@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -15,7 +15,7 @@ from attractors.type_defs import ParamVector, StateVector
     ),
     plot_lims={"xlim": (-0.05, 0.05), "ylim": (-5.0, 5.0), "zlim": (-0.2, 0.2)},
 )
-def bouali_type_1(state: StateVector, params: ParamVector) -> StateVector:
+def bouali_type_1(state: Vector, params: Vector) -> Vector:
     """Bouali Type 1 attractor system."""
     x, y, z = state
     k, b, mu, p, q, s = params
@@ -35,7 +35,7 @@ def bouali_type_1(state: StateVector, params: ParamVector) -> StateVector:
     reference="Bouali, S. (2012). A novel strange attractor with a stretched loop",
     plot_lims={"xlim": (-8.0, 8.0), "ylim": (-3.0, 13.0), "zlim": (-20.0, 1.5)},
 )
-def bouali_type_2(state: StateVector, params: ParamVector) -> StateVector:
+def bouali_type_2(state: Vector, params: Vector) -> Vector:
     """Bouali Type 2 attractor system."""
     x, y, z = state
     a, b, c, s, alpha, beta = params
@@ -55,7 +55,7 @@ def bouali_type_2(state: StateVector, params: ParamVector) -> StateVector:
     reference="Bouali, S. (2013). A 3D Strange Attractor with a Distinctive Silhouette",
     plot_lims={"xlim": (-3.0, 3.0), "ylim": (0.0, 3.0), "zlim": (-0.15, 0.15)},
 )
-def bouali_type_3(state: StateVector, params: ParamVector) -> StateVector:
+def bouali_type_3(state: Vector, params: Vector) -> Vector:
     """Bouali Type 3 attractor system."""
     x, y, z = state
     gamma, mu, alpha, beta = params

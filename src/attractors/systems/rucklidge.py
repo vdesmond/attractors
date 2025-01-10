@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Rucklidge, A. Chaos in models of double convection. J. Fluid Mech. 1992, 237, 209–229.",
     plot_lims={"xlim": (-10.0, 10.0), "ylim": (-10.0, 10.0), "zlim": (-10.0, 10.0)},
 )
-def rucklidge(state: StateVector, params: ParamVector) -> StateVector:
+def rucklidge(state: Vector, params: Vector) -> Vector:
     """Rucklidge attractor system."""
     x, y, z = state
     k, alpha = params

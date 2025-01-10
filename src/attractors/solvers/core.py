@@ -1,25 +1,24 @@
 import numpy as np
-from numba import njit
+from numba import njit  # type: ignore[import-untyped]
 from numpy.typing import NDArray
 
 from attractors.systems.registry import System
 from attractors.type_defs import (
-    ParamVector,
     SolverCallable,
-    StateVector,
     SystemCallable,
+    Vector,
 )
 
 
-@njit
+@njit  # type: ignore[misc]
 def _integrate_trajectory(
     system_func: SystemCallable,
     solver_step: SolverCallable,
-    init_coord: StateVector,
-    params: ParamVector,
+    init_coord: Vector,
+    params: Vector,
     steps: int,
     dt: float,
-) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+) -> tuple[Vector, Vector]:
     trajectory = np.empty((steps, len(init_coord)), dtype=np.float64)
     time = np.empty(steps, dtype=np.float64)
     current = init_coord.copy()
@@ -37,7 +36,7 @@ def integrate_system(
     solver_step: SolverCallable,
     steps: int,
     dt: float,
-) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
-    return _integrate_trajectory(
+) -> tuple[Vector, Vector]:
+    return _integrate_trajectory(  # type: ignore[no-any-return]
         system.func, solver_step, system.init_coord, system.params, steps, dt
     )

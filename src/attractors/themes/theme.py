@@ -10,7 +10,6 @@ class Theme:
     background: str
     foreground: str
     colors: str | list[str]
-    gradient_axis: str = "Z"
 
     @property
     def colormap(self) -> matplotlib.colors.Colormap:

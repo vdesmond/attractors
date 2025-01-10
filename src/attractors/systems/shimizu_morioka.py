@@ -1,7 +1,7 @@
 import numpy as np
 
 from attractors.systems.registry import SystemRegistry
-from attractors.type_defs import ParamVector, StateVector
+from attractors.type_defs import Vector
 
 
 @SystemRegistry.register(
@@ -12,7 +12,7 @@ from attractors.type_defs import ParamVector, StateVector
     reference="Shimizu, T.; Morioka, N. On the bifurcation of a symmetric limit cycle to an asymmetric one in a simple model. Phys. Lett. A 1980, 76, 201–204.",
     plot_lims={"xlim": (-10.0, 10.0), "ylim": (-10.0, 10.0), "zlim": (-10.0, 10.0)},
 )
-def shimizu_morioka(state: StateVector, params: ParamVector) -> StateVector:
+def shimizu_morioka(state: Vector, params: Vector) -> Vector:
     """Shimizu-Morioka attractor system."""
     x, y, z = state
     a, B = params
