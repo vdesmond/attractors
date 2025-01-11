@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "attractors"
-version = "2.0.0"
+version = "2.0.0-alpha.1"
 authors = [
   { name = "vdesmond", email = "vignesh.desmond@gmail.com" },
 ]
