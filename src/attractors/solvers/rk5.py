@@ -3,18 +3,12 @@ from attractors.type_defs import SystemCallable, Vector
 
 
 @SolverRegistry.register("rk5")
-def rk5(
-    system_func: SystemCallable, state: Vector, params: Vector, dt: float
-) -> Vector:
+def rk5(system_func: SystemCallable, state: Vector, params: Vector, dt: float) -> Vector:
     k1 = system_func(state, params)
     k2 = system_func(state + dt * k1 / 4, params)
     k3 = system_func(state + dt * (k1 + k2) / 8, params)
-    k4 = system_func(state + dt * (k3 - k2 / 2 + k3), params)
-    k5 = system_func(state + dt * (-3 * k1 / 16 + 9 * k4 / 16), params)
-    k6 = system_func(
-        state
-        + dt * (-3 * k1 / 7 + 2 * k2 / 7 + 12 * k3 / 7 - 12 * k4 / 7 + 8 * k5 / 7),
-        params,
-    )
-    result: Vector = state + dt * (7 * k1 + 32 * k3 + 12 * k4 + 32 * k5 + 7 * k6) / 90
+    k4 = system_func(state + dt * k3, params)
+    k5 = system_func(state + dt * (k1 - k2 + k4) / 2, params)
+    k6 = system_func(state + dt * (k1 - 3 * k3 + 4 * k5) / 2, params)
+    result: Vector = state + dt * (k1 + 4 * k5 + k6) / 6
     return result

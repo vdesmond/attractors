@@ -9,8 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([2.0, 6.7]),  # k, alpha
     param_names=["k", "alpha"],
     init_coord=np.array([1.0, 0.0, 4.5]),
-    reference="Rucklidge, A. Chaos in models of double convection. J. Fluid Mech. 1992, 237, 209–229.",
-    plot_lims={"xlim": (-10.0, 10.0), "ylim": (-10.0, 10.0), "zlim": (-10.0, 10.0)},
+    reference=(
+        "Rucklidge, A. Chaos in models of double convection. J. Fluid Mech. 1992, 237, 209 - 229."
+    ),
+    plot_lims={"xlim": (-10.5, 4.5), "ylim": (-8.5, 6.7), "zlim": (0.9, 16.0)},
 )
 def rucklidge(state: Vector, params: Vector) -> Vector:
     """Rucklidge attractor system."""

@@ -1,6 +1,5 @@
 import numpy as np
 from numba import njit  # type: ignore[import-untyped]
-from numpy.typing import NDArray
 
 from attractors.systems.registry import System
 from attractors.type_defs import (

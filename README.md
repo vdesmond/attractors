@@ -1,25 +1,30 @@
-# attractors
-
-[![Actions Status][actions-badge]][actions-link]
-[![PyPI version][pypi-version]][pypi-link]
-[![PyPI platforms][pypi-platforms]][pypi-link]
-
-A great package.
+<div align="center">
+<p>
+    <img width="300" src="./docs/source/attractors.gif">
+</p>
+<h1>attractors</h1>
+attractors is a package for simulation and visualization of strange attractors.
+</div>
 
 ## Installation
 
 ```bash
-python -m pip install attractors
+pip install attractors
 ```
 
 From source:
 ```bash
 git clone https://github.com/vdesmond/attractors
 cd attractors
-python -m pip install .
+pip install .
 ```
 
-## Usage
+## Dependencies
+- python >= 3.11
+- matplotlib>=3.10.0
+- numba>=0.60.0
+
+## Basic Usage
 
 
 ## Contributing

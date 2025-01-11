@@ -9,7 +9,11 @@ from attractors.type_defs import Vector
     default_params=np.array([0.208]),  # b
     param_names=["b"],
     init_coord=np.array([0.01, 0.0, 0.0]),
-    reference='Thomas, René. "DETERMINISTIC CHAOS SEEN IN TERMS OF FEEDBACK CIRCUITS: ANALYSIS, SYNTHESIS, "LABYRINTH CHAOS"." International Journal of Bifurcation and Chaos 9 (1999): 1889-1905.',
+    reference=(
+        'Thomas, René. "DETERMINISTIC CHAOS SEEN IN TERMS OF FEEDBACK CIRCUITS: '
+        'ANALYSIS, SYNTHESIS, "LABYRINTH CHAOS"." International Journal of '
+        "Bifurcation and Chaos 9 (1999): 1889-1905."
+    ),
     plot_lims={"xlim": (-2.0, 5.0), "ylim": (-2.0, 4.0), "zlim": (-2.0, 4.0)},
 )
 def thomas(state: Vector, params: Vector) -> Vector:

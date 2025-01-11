@@ -1,4 +1,5 @@
 import json
+import random
 from pathlib import Path
 from typing import ClassVar
 
@@ -56,3 +57,8 @@ class ThemeManager:
         if name == cls._default_theme:
             raise ValueError("Cannot remove default theme")
         cls._themes.pop(name)
+
+    @classmethod
+    def random(cls) -> Theme:
+        """Get random theme"""
+        return random.choice(list(cls._themes.values()))

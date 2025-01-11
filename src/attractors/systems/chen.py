@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([35.0, 3.0, 28.0]),  # a, b, c
     param_names=["a", "b", "c"],
     init_coord=np.array([-10.0, 0.0, 37.0]),
-    reference='Chen, G. & Ueta, T. "Yet another chaotic attractor," International Journal of Bifurcation and Chaos 9, 1465–1466. [1999]',
+    reference=(
+        'Chen, G. & Ueta, T. "Yet another chaotic attractor," '
+        "International Journal of Bifurcation and Chaos 9, 1465 - 1466. [1999]"
+    ),
     plot_lims={"xlim": (-30.0, 30.0), "ylim": (-30.0, 30.0), "zlim": (5.0, 45.0)},
 )
 def chen(state: Vector, params: Vector) -> Vector:

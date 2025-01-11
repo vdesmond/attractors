@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([0.4, 0.175]),  # alpha, beta
     param_names=["alpha", "beta"],
     init_coord=np.array([0.349, 0.0, -0.160]),
-    reference='Leipnik, R. B. & Newton, T. A. "Double strange attractors in rigid body motion with linear feedback control," Phys. Lett. A86, 63–67. (1981)',
+    reference=(
+        'Leipnik, R. B. & Newton, T. A. "Double strange attractors in rigid body motion '
+        'with linear feedback control," Phys. Lett. A86, 63 - 67. (1981)'
+    ),
     plot_lims={"xlim": (-0.7, 0.7), "ylim": (-0.4, 0.4), "zlim": (-0.4, 0.6)},
 )
 def newton_leipnik(state: Vector, params: Vector) -> Vector:

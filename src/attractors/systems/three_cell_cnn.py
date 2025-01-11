@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([1.24, 1.1, 4.4, 3.21]),
     param_names=["p1", "p2", "r", "s"],
     init_coord=np.array([0.1, 0.1, 0.1]),
-    reference="Arena, P., et al. (1998). Bifurcation and Chaos in Noninteger Order Cellular Neural Networks. International Journal of Bifurcation and Chaos, 8(7), 1527-1539.",
+    reference=(
+        "Arena, P., et al. (1998). Bifurcation and Chaos in Noninteger Order Cellular "
+        "Neural Networks. International Journal of Bifurcation and Chaos, 8(7), 1527-1539."
+    ),
     plot_lims={"xlim": (-1.5, 1.5), "ylim": (-1.5, 1.5), "zlim": (-2.0, 1.5)},
 )
 def three_cell_cnn(state: Vector, params: Vector) -> Vector:

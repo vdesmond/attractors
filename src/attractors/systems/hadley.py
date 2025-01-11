@@ -9,7 +9,9 @@ from attractors.type_defs import Vector
     default_params=np.array([0.2, 4.0, 8.0, 1.0]),  # a, b, f, g
     param_names=["a", "b", "f", "g"],
     init_coord=np.array([0.0, 0.0, 1.0]),
-    reference="J. C. Sprott and J. C. Sprott, Chaos and time-series analysis, Vol. 69 (Citeseer, 2003)",
+    reference=(
+        "J. C. Sprott and J. C. Sprott, Chaos and time-series analysis, Vol. 69 (Citeseer, 2003)"
+    ),
     plot_lims={"xlim": (-1.0, 3.0), "ylim": (-2.0, 2.0), "zlim": (-2.0, 2.0)},
 )
 def hadley(state: Vector, params: Vector) -> Vector:

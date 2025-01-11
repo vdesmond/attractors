@@ -9,7 +9,9 @@ from attractors.type_defs import Vector
     default_params=np.array([40.0, 1.833, 0.16, 0.65, 55.0, 20.0]),  # a, c, d, e, k, f
     param_names=["a", "c", "d", "e", "k", "f"],
     init_coord=np.array([0.01, 0.0, 0.0]),
-    reference='Li, Dequan., "A three-scroll chaotic attractor." Physics Letters A. 372. 387-393. (2008).',
+    reference=(
+        'Li, Dequan., "A three-scroll chaotic attractor." Physics Letters A. 372. 387-393. (2008).'
+    ),
     plot_lims={
         "xlim": (-200.0, 200.0),
         "ylim": (-200.0, 250.0),

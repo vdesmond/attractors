@@ -9,7 +9,11 @@ from attractors.type_defs import Vector
     default_params=np.array([1.1, 0.87]),
     param_names=["alpha", "gamma"],
     init_coord=np.array([-1.0, 0.0, 0.5]),
-    reference="Rabinovich, M. I. and Fabrikant, A. L., “Stochastic self-modulation of waves in nonequilibrium media”, Soviet Journal of Experimental and Theoretical Physics, vol. 50, p. 311, 1979.",
+    reference=(
+        "Rabinovich, M. I. and Fabrikant, A. L., “Stochastic self-modulation of waves in "
+        "nonequilibrium media”, Soviet Journal of Experimental and Theoretical Physics, "
+        "vol. 50, p. 311, 1979."
+    ),
     plot_lims={"xlim": (-2.0, 0.0), "ylim": (-0.5, 3.0), "zlim": (0.0, 1.5)},
 )
 def rabinovich_fabrikant(state: Vector, params: Vector) -> Vector:

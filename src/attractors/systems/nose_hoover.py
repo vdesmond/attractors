@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([1.0]),
     param_names=["a"],
     init_coord=np.array([0.1, 0.0, -0.1]),
-    reference='Posch et al. "Canonical dynamics of the Nosé oscillator: Stability, order, and chaos." Physical Review A, 33(6), 4253-4265, 1986.',
+    reference=(
+        'Posch et al. "Canonical dynamics of the Nosé oscillator: Stability, order, '
+        'and chaos." Physical Review A, 33(6), 4253-4265, 1986.'
+    ),
     plot_lims={"xlim": (-3.0, 1.0), "ylim": (-3.0, 3.0), "zlim": (-3.0, 3.0)},
 )
 def nose_hoover(state: Vector, params: Vector) -> Vector:

@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([36.0, 3.0, 17.0]),  # a, b, c
     param_names=["a", "b", "c"],
     init_coord=np.array([1.0, 1.0, 30.0]),
-    reference='Lu, Jinhu & Chen, Guanrong. (2002). "A New Chaotic Attractor Coined.". International Journal of Bifurcation and Chaos. vol. 12. pp-659-661.',
+    reference=(
+        'Lu, Jinhu & Chen, Guanrong. (2002). "A New Chaotic Attractor Coined.".'
+        " International Journal of Bifurcation and Chaos. vol. 12. pp-659-661."
+    ),
     plot_lims={"xlim": (-30.0, 30.0), "ylim": (-30.0, 30.0), "zlim": (0.0, 30.0)},
 )
 def chen_lu(state: Vector, params: Vector) -> Vector:

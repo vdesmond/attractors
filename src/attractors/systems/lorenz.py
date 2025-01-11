@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([10.0, 28.0, 8 / 3]),
     param_names=["sigma", "rho", "beta"],
     init_coord=np.array([0.0, 1.0, 0.0], dtype=np.float64),
-    reference='Lorenz, E. N. "Deterministic Nonperiodic Flow", Journal of Atmospheric Sciences, 20(2), 130-141, 1963.',
+    reference=(
+        'Lorenz, E. N. "Deterministic Nonperiodic Flow", '
+        "Journal of Atmospheric Sciences, 20(2), 130-141, 1963."
+    ),
     plot_lims={"xlim": (-20.0, 20.0), "ylim": (-30.0, 30.0), "zlim": (5.0, 45.0)},
 )
 def lorenz(state: Vector, params: Vector) -> Vector:

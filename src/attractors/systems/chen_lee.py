@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([5.0, -10.0, -0.38]),  # a, b, c
     param_names=["a", "b", "c"],
     init_coord=np.array([1.0, 1.0, 1.0]),
-    reference='Chen HK, Lee CI. "Anti-control of chaos in rigid body motion.", Chaos, Solitons & Fractals (2004), vol. 21, pp. 957–65',
+    reference=(
+        'Chen HK, Lee CI. "Anti-control of chaos in rigid body motion.", '
+        "Chaos, Solitons & Fractals (2004), vol. 21, pp. 957 - 65"
+    ),
     plot_lims={"xlim": (-30.0, 30.0), "ylim": (-30.0, 30.0), "zlim": (-1.0, 35.0)},
 )
 def chen_lee(state: Vector, params: Vector) -> Vector:

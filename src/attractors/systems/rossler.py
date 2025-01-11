@@ -9,7 +9,10 @@ from attractors.type_defs import Vector
     default_params=np.array([0.2, 0.2, 5.7]),
     param_names=["a", "b", "c"],
     init_coord=np.array([0.1, 0.0, -0.1]),
-    reference='Rossler, O. E. "An Equation for Continuous Chaos," Physics Letters A, 57(5), 397-398, 1976.',
+    reference=(
+        'Rossler, O. E. "An Equation for Continuous Chaos," '
+        "Physics Letters A, 57(5), 397-398, 1976."
+    ),
     plot_lims={"xlim": (-15.0, 15.0), "ylim": (-15.0, 15.0), "zlim": (-1.0, 20.0)},
 )
 def rossler(state: Vector, params: Vector) -> Vector:
