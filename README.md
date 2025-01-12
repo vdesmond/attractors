@@ -1,10 +1,13 @@
 <div align="center">
 <p>
-    <img width="300" src="./docs/source/attractors.gif">
+    <img src="https://res.cloudinary.com/dpxa3ttym/image/upload/v1736659811/attractors_y4tepz.gif">
 </p>
 <h1>attractors</h1>
+
 attractors is a package for simulation and visualization of strange attractors.
 </div>
+
+[![codecov](https://codecov.io/github/vdesmond/attractors/graph/badge.svg?token=91EPQN331H)](https://codecov.io/github/vdesmond/attractors)
 
 ## Installation
 
