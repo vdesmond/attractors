@@ -1,6 +1,6 @@
 <div align="center">
 <p>
-    <img src="https://res.cloudinary.com/dpxa3ttym/image/upload/v1736659811/attractors_y4tepz.gif">
+    <img src="https://res.cloudinary.com/vdesmond/image/upload/c_thumb,w_800,g_face/attractors_y4tepz.gif" />
 </p>
 <h1>attractors</h1>
 
