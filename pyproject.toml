@@ -39,6 +39,7 @@ dev = [
   "pytest >=6",
   "pytest-cov >=3",
   "pre-commit",
+  "mypy>=1.14.1",
 ]
 lint = [
   "ruff",
