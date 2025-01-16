@@ -98,7 +98,7 @@ line-length = 100
 extend-exclude = ["docs"]
 
 [tool.ruff.format]
-docstring-code-format = true  # code snippets in docstrings will be formatted
+docstring-code-format = true
 
 [tool.ruff.lint]
 select = [
@@ -132,3 +132,6 @@ unfixable = [
   "F841",   # Would remove unused variables
 ]
 flake8-unused-arguments.ignore-variadic-names = true  # allow unused *args/**kwargsisort.required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = true
