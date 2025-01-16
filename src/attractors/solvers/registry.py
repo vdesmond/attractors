@@ -2,7 +2,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, ClassVar, TypeVar
 
-from numba import njit  # type: ignore[import-untyped]
+from numba import njit
 from numba.core.dispatcher import Dispatcher
 
 from attractors.type_defs import (

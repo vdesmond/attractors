@@ -40,6 +40,9 @@ dev = [
   "pytest-cov >=3",
   "pre-commit",
 ]
+lint = [
+  "ruff",
+]
 
 [project.urls]
 Homepage = "https://github.com/vdesmond/attractors"
@@ -92,6 +95,7 @@ disallow_incomplete_defs = true
 src = ["src"]
 exclude = []
 line-length = 100
+extend-exclude = ["docs"]
 
 [tool.ruff.format]
 docstring-code-format = true  # code snippets in docstrings will be formatted
