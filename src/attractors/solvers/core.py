@@ -1,6 +1,7 @@
 import numpy as np
-from numba import njit  # type: ignore[import-untyped]
+from numba import njit
 
+from attractors.solvers.registry import Solver
 from attractors.systems.registry import System
 from attractors.type_defs import (
     SolverCallable,
@@ -9,8 +10,8 @@ from attractors.type_defs import (
 )
 
 
-@njit  # type: ignore[misc]
-def _integrate_trajectory(
+# non-jitted
+def _integrate_trajectory_impl(
     system_func: SystemCallable,
     solver_step: SolverCallable,
     init_coord: Vector,
@@ -30,12 +31,28 @@ def _integrate_trajectory(
     return trajectory, time
 
 
+# jitted
+_integrate_trajectory_jitted = njit(_integrate_trajectory_impl)
+
+
 def integrate_system(
-    system: System,
-    solver_step: SolverCallable,
-    steps: int,
-    dt: float,
+    system: System, solver: Solver, steps: int, dt: float, use_jit: bool | None = None
 ) -> tuple[Vector, Vector]:
-    return _integrate_trajectory(  # type: ignore[no-any-return]
-        system.func, solver_step, system.init_coord, system.params, steps, dt
+    if steps <= 0:
+        raise ValueError("Number of steps must be positive")
+    if dt <= 0:
+        raise ValueError("Time step must be positive")
+
+    jit_enabled = True if use_jit is None else use_jit
+
+    if jit_enabled is True:
+        integrate_func = _integrate_trajectory_jitted
+    else:
+        integrate_func = _integrate_trajectory_impl
+
+    system_func = system.get_func(jit_enabled)
+    solver_func = solver.get_func(jit_enabled)
+
+    return integrate_func(  # type: ignore[no-any-return]
+        system_func, solver_func, system.init_coord, system.params, steps, dt
     )

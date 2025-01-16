@@ -34,7 +34,7 @@ dependencies = [
     "setuptools>=75.7.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
   "pytest >=6",
   "pytest-cov >=3",
@@ -77,6 +77,11 @@ disallow_incomplete_defs = false
 check_untyped_defs = true
 strict = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+disable_error_code = ["misc"]
+
+[[tool.mypy.overrides]]
+module = "numba.*"
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "attractors.*"

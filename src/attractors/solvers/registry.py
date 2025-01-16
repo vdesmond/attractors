@@ -1,19 +1,34 @@
 from collections.abc import Callable
-from typing import ClassVar
+from dataclasses import dataclass
+from typing import Any, ClassVar, TypeVar
 
 from numba import njit  # type: ignore[import-untyped]
+from numba.core.dispatcher import Dispatcher
 
 from attractors.type_defs import (
     SolverCallable,
 )
 
 
+@dataclass
+class Solver:
+    func: SolverCallable
+    jitted_func: SolverCallable
+    name: str
+
+    def get_func(self, jitted: bool = True) -> SolverCallable:
+        return self.jitted_func if jitted else self.func
+
+
+F = TypeVar("F", bound=SolverCallable)
+
+
 class SolverRegistry:
-    _solvers: ClassVar[dict[str, SolverCallable]] = {}
+    _solvers: ClassVar[dict[str, Solver]] = {}
 
     @classmethod
-    def register(cls, name: str) -> Callable[[SolverCallable], SolverCallable]:
-        def decorator(f: SolverCallable) -> SolverCallable:
+    def register(cls, name: str) -> Callable[[F], F]:
+        def decorator(f: F) -> F:
             if not isinstance(name, str):
                 raise TypeError("Name must be string")
             if not callable(f):
@@ -21,15 +36,15 @@ class SolverRegistry:
             if name in cls._solvers:
                 msg = f"Solver {name} already registered"
                 raise ValueError(msg)
-            if not hasattr(f, "_numba_signature"):
-                f = njit(f)
-            cls._solvers[name] = f
+
+            jitted_f = njit(f)
+            cls._solvers[name] = Solver(f, jitted_f, name)
             return f
 
         return decorator
 
     @classmethod
-    def get(cls, name: str) -> SolverCallable:
+    def get(cls, name: str) -> Solver:
         if name not in cls._solvers:
             msg = f"Solver {name} not found"
             raise KeyError(msg)
@@ -38,3 +53,8 @@ class SolverRegistry:
     @classmethod
     def list_solvers(cls) -> list[str]:
         return list(cls._solvers.keys())
+
+    @staticmethod
+    def is_jitted(func: Callable[..., Any]) -> bool:
+        """Check if a function is jitted"""
+        return isinstance(func, Dispatcher)

@@ -1,8 +1,9 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import ClassVar, TypeVar
+from typing import Any, ClassVar, TypeVar
 
-from numba import njit  # type: ignore[import-untyped]
+from numba import njit
+from numba.core.dispatcher import Dispatcher
 
 from attractors.type_defs import PlotLimits, SystemCallable, Vector
 
@@ -10,6 +11,7 @@ from attractors.type_defs import PlotLimits, SystemCallable, Vector
 @dataclass
 class System:
     func: SystemCallable
+    jitted_func: SystemCallable
     name: str
     params: Vector
     param_names: list[str]
@@ -27,6 +29,9 @@ class System:
         if len(coord) != 3:
             raise ValueError("State vector must have length 3")
         self.init_coord = coord
+
+    def get_func(self, jitted: bool = True) -> SystemCallable:
+        return self.jitted_func if jitted else self.func
 
 
 F = TypeVar("F", bound=SystemCallable)
@@ -54,10 +59,12 @@ class SystemRegistry:
             if name in cls._systems:
                 msg = f"System {name} already registered"
                 raise ValueError(msg)
-            if not hasattr(f, "_numba_signature"):
-                f = njit(f)
+
+            jitted_f = f if cls.is_jitted(f) else njit(f)
+
             cls._systems[name] = System(
                 func=f,
+                jitted_func=jitted_f,
                 name=name,
                 params=default_params,
                 param_names=param_names,
@@ -79,3 +86,8 @@ class SystemRegistry:
     @classmethod
     def list_systems(cls) -> list[str]:
         return list(cls._systems.keys())
+
+    @staticmethod
+    def is_jitted(func: Callable[..., Any]) -> bool:
+        """Check if a function is jitted"""
+        return isinstance(func, Dispatcher)

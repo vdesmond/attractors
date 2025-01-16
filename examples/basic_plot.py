@@ -20,7 +20,7 @@ from attractors import (
 theme = ThemeManager.random()
 system = SystemRegistry.get("lorenz")
 solver = SolverRegistry.get("rk4")
-steps = 1000000
+steps = 10000
 dt = 0.001
 
 # generate trajectory
