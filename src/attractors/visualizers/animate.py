@@ -20,7 +20,7 @@ class AnimatedVisualizeKwargs(TypedDict, total=False):
 
 
 class AnimatedPlotter(BasePlotter):
-    def visualize(
+    def _visualize(
         self,
         trajectory: Vector,
         **kwargs: AnimatedVisualizeKwargs,

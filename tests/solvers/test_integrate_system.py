@@ -57,9 +57,9 @@ class TestCore:
 
         assert not np.any(np.isnan(trajectory))
         assert not np.any(np.isinf(trajectory))
-        assert np.all(np.abs(trajectory[:, 0]) < 50)  # x
-        assert np.all(np.abs(trajectory[:, 1]) < 50)  # y
-        assert np.all(trajectory[:, 2] > 0)  # z is typically positive
+        assert np.all(np.abs(trajectory[:, 0]) < 50)
+        assert np.all(np.abs(trajectory[:, 1]) < 50)
+        assert np.all(trajectory[:, 2] > 0)
 
     def test_error_handling(self, lorenz_system, euler_solver):
         """Test basic error handling"""

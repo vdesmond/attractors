@@ -8,11 +8,11 @@ version = "2.0.0-alpha.1"
 authors = [
   { name = "vdesmond", email = "vignesh.desmond@gmail.com" },
 ]
-description = "A great package."
+description = "A package for simulation and visualization of strange attractors"
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
-  "Development Status :: 1 - Planning",
+  "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
@@ -20,8 +20,6 @@ classifiers = [
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering",

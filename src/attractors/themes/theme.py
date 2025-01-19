@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 import matplotlib.colors
-import matplotlib.pyplot as plt
 
 
 @dataclass(frozen=True)
@@ -14,7 +13,7 @@ class Theme:
     @property
     def colormap(self) -> matplotlib.colors.Colormap:
         if isinstance(self.colors, str):
-            return plt.cm.get_cmap(self.colors)
+            return matplotlib.colormaps[self.colors]
         rgb_colors = [
             tuple(int(c.lstrip("#")[i : i + 2], 16) / 255 for i in (0, 2, 4)) for c in self.colors
         ]

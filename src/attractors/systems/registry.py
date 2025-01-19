@@ -6,6 +6,9 @@ from numba import njit
 from numba.core.dispatcher import Dispatcher
 
 from attractors.type_defs import PlotLimits, SystemCallable, Vector
+from attractors.utils.logger import setup_logger
+
+logger = setup_logger(name=__name__)
 
 
 @dataclass
@@ -23,15 +26,23 @@ class System:
         if len(params) != len(self.param_names):
             msg = f"Expected {len(self.param_names)} parameters"
             raise ValueError(msg)
+        logger.debug("Setting parameters: %s for system: %s", params, self.name)
         self.params = params
 
     def set_init_coord(self, coord: Vector) -> None:
         if len(coord) != 3:
             raise ValueError("State vector must have length 3")
+        logger.debug("Setting initial coord: %s for system: %s", coord, self.name)
         self.init_coord = coord
 
     def get_func(self, jitted: bool = True) -> SystemCallable:
         return self.jitted_func if jitted else self.func
+
+    def __repr__(self) -> str:
+        return (
+            f"System(name={self.name}, params={self.params}, param_names={self.param_names}, "
+            f"init_coord={self.init_coord}, plot_lims={self.plot_lims})"
+        )
 
 
 F = TypeVar("F", bound=SystemCallable)
@@ -74,6 +85,7 @@ class SystemRegistry:
             )
             return f
 
+        logger.debug("Registered system: %s", name)
         return decorator
 
     @classmethod
@@ -81,6 +93,7 @@ class SystemRegistry:
         if name not in cls._systems:
             msg = f"System {name} not found"
             raise KeyError(msg)
+        logger.debug("Getting system: %s", name)
         return cls._systems[name]
 
     @classmethod

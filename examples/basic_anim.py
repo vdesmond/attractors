@@ -12,7 +12,7 @@ from attractors import (
 theme = ThemeManager.get("solarized_darcula")
 system = SystemRegistry.get("rucklidge")
 solver = SolverRegistry.get("rk4")
-steps = 100000
+steps = 1000000
 dt = 0.001
 
 # generate trajectory

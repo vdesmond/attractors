@@ -2,33 +2,52 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import Any
 
-import numpy as np
 from matplotlib import pyplot as plt
 
 from attractors.systems.registry import System
 from attractors.themes.theme import Theme
 from attractors.type_defs import Vector
+from attractors.visualizers.utils.color_mapper import (
+    ColorMapper,
+    CoordinateColorMapper,
+    TimeColorMapper,
+    VelocityColorMapper,
+)
+from attractors.visualizers.utils.downsampler import CompressionMethod, _downsample_trajectory
 
 
 class BasePlotter(ABC):
-    VALID_COLOR_OPTIONS = ("time", "x", "y", "z")
+    VALID_COLOR_OPTIONS = ("time", "x", "y", "z", "velocity")
 
     def __init__(
         self,
         system: System,
         theme: Theme,
         num_segments: int = 50,
-        color_by: str | Callable[[Vector], Vector] = "time",
+        color_by: str | ColorMapper = "time",
         color_cycles: float = 1.0,
         fig_kwargs: dict[str, Any] | None = None,
     ) -> None:
-        self._validate_inputs(num_segments, color_cycles, color_by)
+        self.color_mapper: ColorMapper
         self.system = system
         self.theme = theme
         self.num_segments = num_segments
         self.color_cycles = color_cycles
         self.fig_kwargs = fig_kwargs or {}
-        self.color_by = color_by
+
+        if isinstance(color_by, str):
+            if color_by not in self.VALID_COLOR_OPTIONS:
+                msg = f"color_by must be one of {self.VALID_COLOR_OPTIONS} or a ColorMapper"
+                raise ValueError(msg)
+
+            if color_by == "time":
+                self.color_mapper = TimeColorMapper()
+            elif color_by == "velocity":
+                self.color_mapper = VelocityColorMapper()
+            else:  # x, y, z
+                self.color_mapper = CoordinateColorMapper({"x": 0, "y": 1, "z": 2}[color_by])
+        else:
+            self.color_mapper = color_by
 
     def _validate_inputs(
         self, num_segments: int, color_cycles: float, color_by: str | Callable[[Vector], Vector]
@@ -51,37 +70,25 @@ class BasePlotter(ABC):
             if self.system.plot_lims:
                 getattr(self.ax, f"set_{axis}lim")(*self.system.plot_lims[f"{axis}lim"])  # type: ignore[literal-required]
 
-    def __validate_color_values(self, values: Vector, trajectory: Vector) -> Vector:
-        if not isinstance(values, np.ndarray):
-            raise ValueError("Color function must return numpy array")
-        if values.shape != (len(trajectory),):
-            msg = f"Color function must return array of shape ({len(trajectory)},)"
-            raise ValueError(msg)
-        if not np.issubdtype(values.dtype, np.number):
-            raise ValueError("Color function must return numeric array")
-        if np.any(np.isnan(values)) or np.any(np.isinf(values)):
-            raise ValueError("Color function returned NaN or Inf values")
-        return (
-            np.interp(values, (values.min(), values.max()), (0, 1))
-            if values.max() != values.min()
-            else values
-        )
-
     def _get_color_values(self, trajectory: Vector) -> Vector:
         try:
-            if callable(self.color_by):
-                values = self.__validate_color_values(self.color_by(trajectory), trajectory)
-            elif self.color_by == "time":
-                values = np.linspace(0, 1, len(trajectory))
-            else:
-                values = self.__validate_color_values(
-                    trajectory[:, {"x": 0, "y": 1, "z": 2}[self.color_by]], trajectory
-                )
+            values = self.color_mapper.map(trajectory)
             return (values * self.color_cycles) % 1.0
         except Exception as e:
-            msg = f"Error in color function: {e!s}"
+            msg = f"Error in color mapping: {e!s}"
             raise ValueError(msg) from e
 
+    def visualize(
+        self,
+        trajectory: Vector,
+        compression: float = 0.0,
+        compression_method: CompressionMethod = CompressionMethod.VELOCITY,
+        **kwargs: Any,
+    ) -> "BasePlotter":
+        """Template method that handles downsampling before specific visualization"""
+        processed = _downsample_trajectory(trajectory, compression, compression_method)
+        return self._visualize(processed, **kwargs)
+
     @abstractmethod
-    def visualize(self, trajectory: Vector, **kwargs: Any) -> "BasePlotter":
-        pass
+    def _visualize(self, trajectory: Vector, **kwargs: Any) -> "BasePlotter":
+        """Implementation specific visualization logic"""

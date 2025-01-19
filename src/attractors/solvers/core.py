@@ -8,6 +8,9 @@ from attractors.type_defs import (
     SystemCallable,
     Vector,
 )
+from attractors.utils.logger import setup_logger
+
+logger = setup_logger(name=__name__)
 
 
 # non-jitted
@@ -44,6 +47,9 @@ def integrate_system(
         raise ValueError("Time step must be positive")
 
     jit_enabled = True if use_jit is None else use_jit
+    logger.debug("JIT enabled: %s", jit_enabled)
+    logger.info("Integrating system: %s with solver: %s", system, solver)
+    logger.info("Steps: %d, dt: %.6g", steps, dt)
 
     if jit_enabled is True:
         integrate_func = _integrate_trajectory_jitted
