@@ -8,7 +8,7 @@ resolution-markers = [
 
 [[package]]
 name = "attractors"
-version = "2.0.0a1"
+version = "2.0.0b1"
 source = { editable = "." }
 dependencies = [
     { name = "matplotlib" },

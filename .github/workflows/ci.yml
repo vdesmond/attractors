@@ -76,9 +76,14 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest -ra --cov --cov-report=xml --cov-report=term --durations=20 tests
+          uv run pytest -ra --cov --cov-report=xml --cov-report=term --junitxml=junit.xml --durations=20 tests
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
