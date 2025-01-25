@@ -31,14 +31,13 @@ def _downsample_trajectory(
     Downsample trajectory while preserving important features.
 
     Args:
-        trajectory: Input trajectory points (N x 3)
-        compression: Compression ratio from 0.0 (no compression) to 1.0 (max compression)
-        method: Compression method to use
-        min_points: Minimum number of points to retain
+        trajectory (Vector): Input trajectory points (N x 3)
+        compression (float): Compression ratio from 0.0 (no compression) to 1.0 (max compression). Defaults to 0.0.
+        method (CompressionMethod): Compression method to use. Defaults to CompressionMethod.VELOCITY.
 
     Returns:
         Downsampled trajectory
-    """
+    """  # noqa: E501
     if trajectory.ndim != 2 or trajectory.shape[1] != 3:
         raise ValueError("Trajectory must be Nx3 array")
 

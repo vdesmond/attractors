@@ -17,6 +17,16 @@ from attractors.visualizers.utils.downsampler import CompressionMethod, _downsam
 
 
 class BasePlotter(ABC):
+    """
+    Abstract base class for visualization of dynamical systems.
+
+    An abstract base class that handles the common functionality for plotting and visualizing
+    dynamical systems trajectories, including color mapping and plot setup.
+
+    Attributes:
+        VALID_COLOR_OPTIONS (tuple[str, ...]): Valid color mapping options ("time", "x", "y", "z", "velocity")
+    """  # noqa: E501
+
     VALID_COLOR_OPTIONS = ("time", "x", "y", "z", "velocity")
 
     def __init__(
@@ -28,6 +38,20 @@ class BasePlotter(ABC):
         color_cycles: float = 1.0,
         fig_kwargs: dict[str, Any] | None = None,
     ) -> None:
+        """
+        Initialize the plotter.
+
+        Args:
+            system (System): Dynamical system to visualize
+            theme (Theme): Visual theme for plots
+            num_segments (int): Number of segments for visualization
+            color_by (str | ColorMapper): Color mapping strategy ("time", "x", "y", "z", "velocity") or ColorMapper instance
+            color_cycles (float): Number of color cycles through the palette
+            fig_kwargs (dict[str, Any] | None): Additional arguments for matplotlib figure
+
+        Raises:
+            ValueError: If color_by is not a valid option or ColorMapper instance
+        """  # noqa: E501
         self.color_mapper: ColorMapper
         self.system = system
         self.theme = theme
@@ -52,6 +76,17 @@ class BasePlotter(ABC):
     def _validate_inputs(
         self, num_segments: int, color_cycles: float, color_by: str | Callable[[Vector], Vector]
     ) -> None:
+        """
+        Validate initialization parameters.
+
+        Args:
+            num_segments (int): Number of segments for visualization
+            color_cycles (float): Number of color cycles through the palette
+            color_by (str | Callable[[Vector], Vector]): Color mapping strategy
+
+        Raises:
+            ValueError: If parameters are invalid
+        """
         if num_segments <= 0:
             raise ValueError("num_segments must be positive")
         if color_cycles <= 0:
@@ -61,6 +96,7 @@ class BasePlotter(ABC):
             raise ValueError(error_message)
 
     def _setup_plot(self) -> None:
+        """Configure matplotlib figure and 3D axes with theme settings."""
         self.fig = plt.figure(facecolor=self.theme.background, **self.fig_kwargs)
         self.ax = self.fig.add_subplot(111, projection="3d")
         self.ax.set_facecolor(self.theme.background)
@@ -71,6 +107,18 @@ class BasePlotter(ABC):
                 getattr(self.ax, f"set_{axis}lim")(*self.system.plot_lims[f"{axis}lim"])  # type: ignore[literal-required]
 
     def _get_color_values(self, trajectory: Vector) -> Vector:
+        """
+        Map trajectory points to color values.
+
+        Args:
+            trajectory (Vector): Trajectory points to map to colors
+
+        Returns:
+            Color values for each trajectory point
+
+        Raises:
+            ValueError: If color mapping fails
+        """
         try:
             values = self.color_mapper.map(trajectory)
             return (values * self.color_cycles) % 1.0
@@ -85,10 +133,21 @@ class BasePlotter(ABC):
         compression_method: CompressionMethod = CompressionMethod.VELOCITY,
         **kwargs: Any,
     ) -> "BasePlotter":
-        """Template method that handles downsampling before specific visualization"""
+        """
+        Process and visualize trajectory data.
+
+        Args:
+            trajectory (Vector): Trajectory points to visualize
+            compression (float): Compression ratio (0.0 to 1.0)
+            compression_method (CompressionMethod): Method for trajectory compression
+            **kwargs (Any): Additional visualization parameters
+
+        Returns:
+            BasePlotter: Self reference for method chaining
+        """
         processed = _downsample_trajectory(trajectory, compression, compression_method)
-        return self._visualize(processed, **kwargs)
+        return self.visualize_impl(processed, **kwargs)
 
     @abstractmethod
-    def _visualize(self, trajectory: Vector, **kwargs: Any) -> "BasePlotter":
+    def visualize_impl(self, trajectory: Vector, **kwargs: Any) -> "BasePlotter":
         """Implementation specific visualization logic"""

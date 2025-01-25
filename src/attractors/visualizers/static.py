@@ -5,13 +5,27 @@ from attractors.visualizers.base import BasePlotter
 
 
 class StaticPlotter(BasePlotter):
-    def _visualize(
+    """Plotter for static visualization of dynamical system trajectories."""
+
+    def visualize_impl(
         self,
         trajectory: Vector,
         line_kwargs: dict[str, Any] | None = None,
         segment_overlap: int = 1,
         **kwargs: Any,
     ) -> "StaticPlotter":
+        """
+        Create a static plot of trajectory segments with color mapping.
+
+        Args:
+            trajectory (Vector): Trajectory points to visualize
+            line_kwargs (dict[str, Any] | None): Additional arguments for matplotlib line plots. Defaults to None.
+            segment_overlap (int): Number of points to overlap between segments. Defaults to 1.
+            **kwargs (Any): Additional visualization parameters
+
+        Returns:
+            StaticPlotter: Self reference for method chaining
+        """  # noqa: E501
         self._setup_plot()
 
         line_kwargs = line_kwargs or {}

@@ -41,6 +41,24 @@ _integrate_trajectory_jitted = njit(_integrate_trajectory_impl)
 def integrate_system(
     system: System, solver: Solver, steps: int, dt: float, use_jit: bool | None = None
 ) -> tuple[Vector, Vector]:
+    """Integrates a dynamical system using the specified numerical solver.
+
+    Args:
+        system (System): System to integrate
+        solver (Solver): Numerical solver to use for integration
+        steps (int): Number of integration steps
+        dt (float): Time step size
+        use_jit (bool | None): Whether to use Numba JIT compilation. Defaults to True.
+
+    Raises:
+        ValueError: If steps <= 0 or dt <= 0
+
+    Returns:
+        tuple[Vector, Vector]: A tuple containing:
+            - Vector: System state trajectory at each time step
+            - Vector: Time points corresponding to trajectory
+
+    """
     if steps <= 0:
         raise ValueError("Number of steps must be positive")
     if dt <= 0:

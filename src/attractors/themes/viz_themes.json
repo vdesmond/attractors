@@ -4115,6 +4115,18 @@
       "#f08cc3"
     ]
   },
+  "vdesmond_horizon": {
+    "background": "#1C1E26",
+    "foreground": "#e95378",
+    "colors": [
+      "#e95378",
+      "#25B0BC",
+      "#27D797",
+      "#B877DB",
+      "#FAB795",
+      "#21BFC2"
+    ]
+  },
   "vesper": {
     "background": "#101010",
     "foreground": "#ffffff",

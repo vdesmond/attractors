@@ -4,6 +4,9 @@ from attractors.type_defs import SystemCallable, Vector
 
 @SolverRegistry.register("rk5")
 def rk5(system_func: SystemCallable, state: Vector, params: Vector, dt: float) -> Vector:
+    """
+    Runge-Kutta 5th order integration scheme.
+    """
     k1 = system_func(state, params)
     k2 = system_func(state + dt * k1 / 4, params)
     k3 = system_func(state + dt * (k1 + k2) / 8, params)

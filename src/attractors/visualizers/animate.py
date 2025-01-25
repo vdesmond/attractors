@@ -12,6 +12,17 @@ from attractors.visualizers.base import BasePlotter
 
 
 class AnimatedVisualizeKwargs(TypedDict, total=False):
+    """
+    Type definition for animation visualization parameters.
+
+    Attributes:
+        speed (int): Speed multiplier for animation
+        interval (int): Animation interval in milliseconds
+        rotate_view (Callable[[Axes3D], None]): Function to rotate view in each frame
+        line_kwargs (dict[str, Any]): Additional arguments for matplotlib line plots
+        anim_kwargs (dict[str, Any]): Additional arguments for matplotlib animation
+    """
+
     speed: int
     interval: int
     rotate_view: Callable[[Axes3D], None] | None
@@ -20,11 +31,21 @@ class AnimatedVisualizeKwargs(TypedDict, total=False):
 
 
 class AnimatedPlotter(BasePlotter):
-    def _visualize(
+    def visualize_impl(
         self,
         trajectory: Vector,
         **kwargs: AnimatedVisualizeKwargs,
     ) -> "AnimatedPlotter":
+        """
+        Create an animation showing trajectory evolution over time with
+        colored segments.
+
+        Args:
+            trajectory (Vector): Trajectory points to visualize
+            **kwargs (AnimatedVisualizeKwargs): Animation parameters. Refer to attributes of AnimatedVisualizeKwargs.
+        Returns:
+            AnimatedPlotter: Self reference for method chaining
+        """  # noqa: E501
         self.speed = typing.cast(int, kwargs.get("speed", 20))
         self.line_kwargs = typing.cast(dict[str, Any], kwargs.get("line_kwargs", {})) or {}
         self.anim_kwargs = typing.cast(dict[str, Any], kwargs.get("anim_kwargs", {})) or {}
