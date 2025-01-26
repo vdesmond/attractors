@@ -21,7 +21,10 @@
 - Stunning visualizations with various themes and color mappings
 - Modular design that welcomes extensions and experimentation
 
-Read the full creator's note [here](http://localhost:9000/#creators-note)
+Read the full creator's note [here](https://attractors.vdesmond.com/#creators-note)
+
+> [!NOTE]
+> The version 2.x of attractors is a complete rewrite and is not backward compatible with the previous versions. Especially the API has been completely revamped, and the CLI support has been removed (though it might be added back in the future). If you are looking for the older version, you can find it in the [v1-legacy branch](https://github.com/vdesmond/attractors/tree/v1-legacy) and its related [documentation](https://attractors.rtfd.io/)
 
 # Setup
 
@@ -59,7 +62,7 @@ plt.show()
 
 Check out some [examples](examples/) for more inspiration. The [banner.py](examples/banner.py) for example was the code used to generate the README banner!
 
-For a deeper dive into the package's capabilities, explore the complete [documentation](https://attractors.readthedocs.io/).
+For a deeper dive into the package's capabilities, explore the complete [documentation](https://attractors.vdesmond.com/).
 
 # License
 
