@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://attractors.readthedocs.io/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/api/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/changelog/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/nav/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/quickstart/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/guides/overview/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+    <url>
+         <loc>https://attractors.readthedocs.io/guides/systems/</loc>
+         <lastmod>2025-01-26</lastmod>
+    </url>
+</urlset>
