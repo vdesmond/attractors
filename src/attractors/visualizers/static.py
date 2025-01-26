@@ -19,16 +19,19 @@ class StaticPlotter(BasePlotter):
 
         Args:
             trajectory (Vector): Trajectory points to visualize
-            line_kwargs (dict[str, Any] | None): Additional arguments for matplotlib line plots. Defaults to None.
+            line_kwargs (dict[str, Any] | None): Additional arguments for matplotlib line plots.
             segment_overlap (int): Number of points to overlap between segments. Defaults to 1.
             **kwargs (Any): Additional visualization parameters
 
         Returns:
             StaticPlotter: Self reference for method chaining
-        """  # noqa: E501
+        """
+        if line_kwargs is None:
+            line_kwargs = {"linewidth": 1, "antialiased": True}
+
         self._setup_plot()
 
-        line_kwargs = line_kwargs or {}
+        line_kwargs = line_kwargs or {"linewidth": 1, "antialiased": True}
 
         n = len(trajectory)
         segment_size = n // self.num_segments
