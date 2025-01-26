@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: ["main"]
@@ -15,14 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        python-version:
-          - "3.11"
-          - "3.12"
-
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -40,12 +33,10 @@ jobs:
         run: uv sync --all-groups
 
       - name: Format
-        run: |
-          uv run ruff format
+        run: uv run ruff format
 
       - name: Lint
-        run: |
-          uv run ruff check --fix --exit-non-zero-on-fix .
+        run: uv run ruff check --fix --exit-non-zero-on-fix .
 
       - name: Type check
         run: uv run mypy src/
@@ -55,8 +46,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11', '3.12']
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        python-version: ["3.11", "3.12"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository
@@ -76,14 +67,43 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest -ra --cov --cov-report=xml --cov-report=term --junitxml=junit.xml --durations=20 tests
+          uv run pytest -ra --cov --cov-report=xml --cov-report=term \
+            --junitxml=junit.xml --durations=20 tests
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  docs:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install docs dependencies
+        run: uv sync --group docs
+
+      - name: Setup Git
+        uses: qoomon/actions--setup-git@v1
+        with:
+          user: bot # Uses github-actions[bot]
+
+      - name: Build and deploy docs
+        run: uv run mkdocs gh-deploy --force
