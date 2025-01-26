@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#attractors-v140-140-31-jul-2021" class="md-skip">
+        <a href="#attractors-v200-january-2025" class="md-skip">
           Skip to content
         </a>
       
@@ -432,9 +432,32 @@
   
 
 
-<p><a name="1.4.0"></a></p>
-<h1 id="attractors-v140-140-31-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.4.0">attractors v1.4.0 (1.4.0)</a> - 31 Jul 2021<a class="headerlink" href="#attractors-v140-140-31-jul-2021" title="Permanent link">¤</a></h1>
+<p><a name="v2.0.0"></a></p>
+<h1 id="attractors-v200-january-2025"><a href="https://github.com/vdesmond/attractors/releases/tag/2.0.0">attractors v2.0.0</a> - January 2025<a class="headerlink" href="#attractors-v200-january-2025" title="Permanent link">¤</a></h1>
 <h1 id="announcements">Announcements<a class="headerlink" href="#announcements" title="Permanent link">¤</a></h1>
+<p>A complete rewrite of the attractors package. Read my quick note on the migration <a href="https://attractors.vdesmond.com/#creators-note">here</a>!</p>
+<h2 id="breaking-changes">Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">¤</a></h2>
+<ul>
+<li>Complete restructuring from v1.x - not backwards compatible</li>
+<li>Removed CLI support (may be reintroduced in future versions)</li>
+<li>Changed main API interface to use registry pattern instead of class-based approach</li>
+<li>Migrated visualization system to use dedicated plotter classes (though it is still on top of matplotlib)</li>
+</ul>
+<h2 id="features-architecture">Features &amp; Architecture<a class="headerlink" href="#features-architecture" title="Permanent link">¤</a></h2>
+<ul>
+<li>High-performance numerical solving with Numba JIT compilation</li>
+<li>Registry system for systems, solvers and themes enabling easy extensibility</li>
+<li>Robust visualization system with static and animated plotters</li>
+<li>Advanced trajectory processing with downsampling and color mapping</li>
+<li>Support for both JIT and non-JIT execution paths</li>
+<li>Modern type hints throughout codebase</li>
+<li>Comprehensive test suite including numerical stability tests (still in progress)</li>
+<li>Better documentation (still in progress)</li>
+</ul>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.4.1...v2.0.0">Changes</a></p>
+<p><a name="1.4.0"></a></p>
+<h1 id="attractors-v140-140-31-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.4.0">attractors v1.4.0 (1.4.0)</a> - 31 Jul 2021<a class="headerlink" href="#attractors-v140-140-31-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_1">Announcements<a class="headerlink" href="#announcements_1" title="Permanent link">¤</a></h1>
 <ul>
 <li>Minor release introducing documentation and added features</li>
 </ul>
@@ -448,10 +471,10 @@
 <li>Renamed attractors: Aizawa -&gt; Langford, Chen Celikovsky -&gt; Chen LU, Thomas Cyclically Symmetric -&gt; Thomas</li>
 <li>Added tests for video generation with FFMPEG and colormaps</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/compare/1.3.0...1.4.0">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.3.0...1.4.0">Changes</a></p>
 <p><a name="1.3.0"></a></p>
-<h1 id="attractors-v130-130-20-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.3.0">attractors v1.3.0 (1.3.0)</a> - 20 Jul 2021<a class="headerlink" href="#attractors-v130-130-20-jul-2021" title="Permanent link">¤</a></h1>
-<h1 id="announcements_1">Announcements<a class="headerlink" href="#announcements_1" title="Permanent link">¤</a></h1>
+<h1 id="attractors-v130-130-20-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.3.0">attractors v1.3.0 (1.3.0)</a> - 20 Jul 2021<a class="headerlink" href="#attractors-v130-130-20-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_2">Announcements<a class="headerlink" href="#announcements_2" title="Permanent link">¤</a></h1>
 <ul>
 <li>Minor release with breaking changes (not backwards compatible)</li>
 </ul>
@@ -463,10 +486,10 @@
 <li>Removed slice method</li>
 <li>(Dev) Coverage tests</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/compare/1.2.0...1.3.0">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.2.0...1.3.0">Changes</a></p>
 <p><a name="1.2.0"></a></p>
-<h1 id="attractors-v120-120-15-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.2.0">attractors v1.2.0 (1.2.0)</a> - 15 Jul 2021<a class="headerlink" href="#attractors-v120-120-15-jul-2021" title="Permanent link">¤</a></h1>
-<h1 id="announcements_2">Announcements<a class="headerlink" href="#announcements_2" title="Permanent link">¤</a></h1>
+<h1 id="attractors-v120-120-15-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.2.0">attractors v1.2.0 (1.2.0)</a> - 15 Jul 2021<a class="headerlink" href="#attractors-v120-120-15-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_3">Announcements<a class="headerlink" href="#announcements_3" title="Permanent link">¤</a></h1>
 <ul>
 <li>Minor version bump adding 2 new attractors</li>
 </ul>
@@ -479,10 +502,10 @@
 <li>Tweaked default params for multiple attractors</li>
 <li>Minor bugfixes</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/compare/1.1.1...1.2.0">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.1.1...1.2.0">Changes</a></p>
 <p><a name="1.1.1"></a></p>
-<h1 id="attractors-v111-111-09-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.1.1">attractors v1.1.1 (1.1.1)</a> - 09 Jul 2021<a class="headerlink" href="#attractors-v111-111-09-jul-2021" title="Permanent link">¤</a></h1>
-<h1 id="announcements_3">Announcements<a class="headerlink" href="#announcements_3" title="Permanent link">¤</a></h1>
+<h1 id="attractors-v111-111-09-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.1.1">attractors v1.1.1 (1.1.1)</a> - 09 Jul 2021<a class="headerlink" href="#attractors-v111-111-09-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_4">Announcements<a class="headerlink" href="#announcements_4" title="Permanent link">¤</a></h1>
 <ul>
 <li>Patch 1.1.1 for parser rewrite</li>
 </ul>
@@ -491,10 +514,10 @@
 <li>parser rewrite based on Attractor class</li>
 <li>parametrized testing (pytest)</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/compare/1.1.0...1.1.1">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.1.0...1.1.1">Changes</a></p>
 <p><a name="1.1.0"></a></p>
-<h1 id="attractors-v110-110-07-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.1.0">attractors v1.1.0 (1.1.0)</a> - 07 Jul 2021<a class="headerlink" href="#attractors-v110-110-07-jul-2021" title="Permanent link">¤</a></h1>
-<h1 id="announcements_4">Announcements<a class="headerlink" href="#announcements_4" title="Permanent link">¤</a></h1>
+<h1 id="attractors-v110-110-07-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.1.0">attractors v1.1.0 (1.1.0)</a> - 07 Jul 2021<a class="headerlink" href="#attractors-v110-110-07-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_5">Announcements<a class="headerlink" href="#announcements_5" title="Permanent link">¤</a></h1>
 <ul>
 <li>Update of attractors package with various new features and bugfixes</li>
 </ul>
@@ -506,10 +529,10 @@
 <li>Included plotting methods</li>
 <li>Bugfixes and minor QoL changes</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/compare/1.0.0...1.1.0">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/compare/1.0.0...1.1.0">Changes</a></p>
 <p><a name="1.0.0"></a></p>
-<h1 id="attractors-v100-100-03-jul-2021"><a href="https://github.com/Vignesh-Desmond/attractors/releases/tag/1.0.0">attractors v1.0.0 (1.0.0)</a> - 03 Jul 2021<a class="headerlink" href="#attractors-v100-100-03-jul-2021" title="Permanent link">¤</a></h1>
-<h1 id="announcements_5">Announcements<a class="headerlink" href="#announcements_5" title="Permanent link">¤</a></h1>
+<h1 id="attractors-v100-100-03-jul-2021"><a href="https://github.com/vdesmond/attractors/releases/tag/1.0.0">attractors v1.0.0 (1.0.0)</a> - 03 Jul 2021<a class="headerlink" href="#attractors-v100-100-03-jul-2021" title="Permanent link">¤</a></h1>
+<h1 id="announcements_6">Announcements<a class="headerlink" href="#announcements_6" title="Permanent link">¤</a></h1>
 <ul>
 <li>First major release of attractors package</li>
 </ul>
@@ -519,7 +542,7 @@
 <li>New attractor module</li>
 <li>Live gradient plotting</li>
 </ul>
-<p><a href="https://github.com/Vignesh-Desmond/attractors/tree/1.0.0">Changes</a></p>
+<p><a href="https://github.com/vdesmond/attractors/tree/1.0.0">Changes</a></p>
 <!-- Generated by changelog-from-release -->
 
 
