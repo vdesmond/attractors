@@ -1,5 +1,1 @@
----
-title: Changelog
----
-
-{!../CHANGELOG.md!}
+--8<-- "CHANGELOG.md"

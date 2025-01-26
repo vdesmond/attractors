@@ -22,6 +22,7 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering",
   "Typing :: Typed",
 ]
@@ -42,7 +43,7 @@ dev = [
 lint = [
   "ruff",
 ]
-docs = ["mkdocs-material", "mkdocstrings"]
+docs = ["mkdocs-material", "mkdocstrings-python", "mkdocs-literate-nav"]
 
 [project.urls]
 Homepage = "https://github.com/vdesmond/attractors"

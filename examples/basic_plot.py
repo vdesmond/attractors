@@ -20,11 +20,11 @@ from attractors.utils.logger import set_log_level
 set_log_level("DEBUG")  # or set_log_level(logging.DEBUG)
 
 # setup
-theme = ThemeManager.random()
-system = SystemRegistry.get("rossler")
+theme = ThemeManager.get("vdesmond_horizon")
+system = SystemRegistry.get("langford")
 solver = SolverRegistry.get("rk4")
 steps = 1000000
-dt = 0.001
+dt = 0.0005
 
 # generate trajectory
 trajectory, time = integrate_system(system, solver, steps, dt)
@@ -39,7 +39,7 @@ plotter = StaticPlotter(
     trajectory,
     compression_method="curvature",
     compression=0.8,
-    line_kwargs={"linewidth": 1, "antialiased": True, "alpha": 0.5},
+    line_kwargs={"linewidth": 1.5, "antialiased": True, "alpha": 0.4},
 )
 
 

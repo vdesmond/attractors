@@ -14,20 +14,14 @@
 <a href="https://github.com/astral-sh/uv"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json" alt="uv"></a></p>
 </div>
 
-# Creator's note
-
-In the realm where mathematics transcends into art, strange attractors emerge as mesmerizing patterns that dance on the edge of chaos. This package is an attempt to visualize that: bringing rigorous numerical computation and stunning visualization that brings these mathematical marvels to life.
-
-Born from a fascination with dynamical systems, I made the package `attractors` to provide an elegant interface to explore, simulate, and visualize the haunting beauty of chaotic systems. From the iconic spirals of the Lorenz attractor to the ethereal forms of lesser-known systems, each visualization tells a story of order emerging from chaos.
-
-Now in its completely reimagined second iteration, `attractors` is now powered by Numba-accelerated computations and a modular architecture that supports extension in creating more solvers, systems, themes and visualizers while keeping the dependencies lean and code clean, typed and tested. In short, its artistic soul is kept as is, while I ported it to modern software design: clean, fast, and endlessly adaptable.
-
 # Core Features
 
 - A curated collection of 20+ strange attractors including classics and rare gems
 - High-performance numerical solving using Numba-accelerated Runge-Kutta solvers
 - Stunning visualizations with various themes and color mappings
 - Modular design that welcomes extensions and experimentation
+
+Read the full creator's note [here](http://localhost:9000/#creators-note)
 
 # Setup
 
@@ -37,7 +31,7 @@ For end user, it is just a pip installation
 pip install attractors
 ```
 
-Note that attractors depends on numba, so the system must be able to compile it. If any issues arise, visit numba installation (link)
+Note that attractors depends on numba, so the system must be able to compile it. If any issues arise, look at [numba installation docs](https://numba.readthedocs.io/en/stable/user/installing.html).
 
 # Basic Usage
 
@@ -45,33 +39,27 @@ In **v2.x** of attractors, registries are introduced to facilitate easier creati
 
 ```python
 from attractors import SystemRegistry, SolverRegistry, integrate_system
+import matplotlib.pyplot as plt
 from attractors.visualizers import StaticPlotter
 from attractors.themes import ThemeManager
 
-# Get a system and solver
-lorenz = SystemRegistry.get("lorenz")
-solver = SolverRegistry.get("rk4")
+# Get system and solver from registry
+system = SystemRegistry.get("lorenz")  # Using default parameters
+solver = SolverRegistry.get("rk4")     # 4th order Runge-Kutta
 
 # Generate trajectory
-trajectory, time = integrate_system(lorenz, solver, steps=10000, dt=0.01)
+trajectory, time = integrate_system(system, solver, steps=10000, dt=0.01)
 
-# Visualize
-theme = ThemeManager.get("nord")
-StaticPlotter(lorenz, theme).visualize(trajectory)
+# Create visualization
+theme = ThemeManager.get("nord")  # Using Nord color theme
+plotter = StaticPlotter(system, theme)
+plotter.visualize(trajectory)
 plt.show()
 ```
 
 Check out some [examples](examples/) for more inspiration. The [banner.py](examples/banner.py) for example was the code used to generate the README banner!
 
 For a deeper dive into the package's capabilities, explore the complete [documentation](https://attractors.readthedocs.io/).
-
-# Changelog
-
-View the project's evolution in [changelog](CHANGELOG.md).
-
-# Contributing
-
-Contributions in any form are always appreciated. To get started, please read the [contributing guidelines](CONTRIBUTING.md) to familiarize yourself with the code and best practices.
 
 # License
 

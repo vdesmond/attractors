@@ -4,6 +4,9 @@ site_description: A package for simulation and visualization of strange attracto
 site_author: "vdesmond"
 repo_url: https://github.com/vdesmond/attractors
 repo_name: vdesmond/attractors
+watch: [mkdocs.yml, README.md, CHANGELOG.md, examples]
+copyright: Copyright &copy; 2025 vdesmond
+
 theme:
   name: material
   logo: assets/logo.png
@@ -14,10 +17,33 @@ theme:
     scheme: slate
     primary: custom
     accent: custom
+  features:
+    - navigation.instant
 extra_css:
   - stylesheets/extra.css
+
+# markdown_extensions:
+markdown_extensions:
+  - attr_list
+  - admonition
+  - footnotes
+  - pymdownx.magiclink
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - toc:
+      permalink: "¤"
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.blocks.caption:
+      prepend: false
+      auto: true
+
+# plugins:
 plugins:
   - search
+  - literate-nav:
+      nav_file: nav.md
+      implicit_index: false
   - mkdocstrings:
       handlers:
         python:
@@ -31,6 +57,3 @@ plugins:
             show_docstring_examples: true
             show_symbol_type_toc: true
             show_symbol_type_heading: true
-markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
