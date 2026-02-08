@@ -31,6 +31,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numba>=0.63.1",
     "numpy>=2.2.0,<2.3",
+    "pillow>=12.0.0",  # Required for Python 3.14 support with prebuilt wheels
     "setuptools>=75.7.0",
 ]
 
