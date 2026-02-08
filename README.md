@@ -31,6 +31,11 @@ For end user, it is just a pip installation
 pip install attractors
 ```
 
+**Requirements:** Python 3.11+ with NumPy 2.2+, Numba 0.63+, and Matplotlib 3.10+
+
+> [!WARNING]
+> Python 3.14 support is experimental and not fully tested in CI. While the package should work with Python 3.14, some edge cases may not be covered. Use at your own discretion.
+
 Note that attractors depends on numba, so the system must be able to compile it. If any issues arise, look at [numba installation docs](https://numba.readthedocs.io/en/stable/user/installing.html).
 
 # Basic Usage

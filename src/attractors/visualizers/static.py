@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 from attractors.type_defs import Vector
@@ -13,7 +15,7 @@ class StaticPlotter(BasePlotter):
         line_kwargs: dict[str, Any] | None = None,
         segment_overlap: int = 1,
         **kwargs: Any,
-    ) -> "StaticPlotter":
+    ) -> StaticPlotter:
         """
         Create a static plot of trajectory segments with color mapping.
 

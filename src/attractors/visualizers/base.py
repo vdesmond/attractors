@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import Any
@@ -132,7 +134,7 @@ class BasePlotter(ABC):
         compression: float = 0.0,
         compression_method: CompressionMethod = CompressionMethod.VELOCITY,
         **kwargs: Any,
-    ) -> "BasePlotter":
+    ) -> BasePlotter:
         """
         Process and visualize trajectory data.
 
@@ -149,5 +151,5 @@ class BasePlotter(ABC):
         return self.visualize_impl(processed, **kwargs)
 
     @abstractmethod
-    def visualize_impl(self, trajectory: Vector, **kwargs: Any) -> "BasePlotter":
+    def visualize_impl(self, trajectory: Vector, **kwargs: Any) -> BasePlotter:
         """Implementation specific visualization logic"""

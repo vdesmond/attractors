@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 
 from attractors import SolverRegistry, StaticPlotter, SystemRegistry, ThemeManager, integrate_system

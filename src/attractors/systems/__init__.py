@@ -1,4 +1,6 @@
 # ruff: noqa: F401
+from __future__ import annotations
+
 from attractors.systems import (
     bouali,
     burke_shaw,

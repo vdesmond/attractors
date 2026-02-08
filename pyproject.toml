@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "attractors"
-version = "2.0.0"
+version = "2.0.1"
 authors = [
   { name = "vdesmond", email = "vignesh.desmond@gmail.com" },
 ]
@@ -23,13 +23,15 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Scientific/Engineering",
   "Typing :: Typed",
 ]
 dependencies = [
-    "matplotlib>=3.10.0",
-    "numba>=0.60.0",
-    "numpy>=2.0.2",
+    "matplotlib>=3.10.8",
+    "numba>=0.63.1",
+    "numpy>=2.2.0,<2.3",
+    "pyparsing>=3.2.1",
     "setuptools>=75.7.0",
 ]
 
@@ -134,7 +136,10 @@ unfixable = [
   "F401",   # Would remove unused imports
   "F841",   # Would remove unused variables
 ]
-flake8-unused-arguments.ignore-variadic-names = true  # allow unused *args/**kwargsisort.required-imports = ["from __future__ import annotations"]
+flake8-unused-arguments.ignore-variadic-names = true  # allow unused *args/**kwargs
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

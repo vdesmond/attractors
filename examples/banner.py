@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any
 
 import matplotlib.animation as animation
@@ -19,7 +21,7 @@ class ThemeCyclingPlotter(StaticPlotter):
         trajectory: Vector,
         n_frames: int = 30,
         **kwargs: Any,
-    ) -> "ThemeCyclingPlotter":
+    ) -> ThemeCyclingPlotter:
         super().visualize(trajectory, **kwargs)
 
         frames = range(n_frames)
