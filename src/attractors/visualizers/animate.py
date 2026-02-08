@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing
 from collections.abc import Callable, Sequence
 from typing import Any, TypedDict
@@ -35,7 +37,7 @@ class AnimatedPlotter(BasePlotter):
         self,
         trajectory: Vector,
         **kwargs: AnimatedVisualizeKwargs,
-    ) -> "AnimatedPlotter":
+    ) -> AnimatedPlotter:
         """
         Create an animation showing trajectory evolution over time with
         colored segments.

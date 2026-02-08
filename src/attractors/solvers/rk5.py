@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from attractors.solvers.registry import SolverRegistry
 from attractors.type_defs import SystemCallable, Vector
 

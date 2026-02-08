@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -16,18 +18,20 @@ class ColorMapper(ABC):
         """Utility to normalize values to [0,1] range."""
         if values.max() == values.min():
             return np.full_like(values, 0.0, dtype=np.float64)
-        return np.divide(
+        result: Vector = np.divide(
             np.subtract(values, values.min(), dtype=np.float64),
             np.subtract(values.max(), values.min(), dtype=np.float64),
             dtype=np.float64,
         )
+        return result
 
 
 class TimeColorMapper(ColorMapper):
     """Maps colors based on time/position in trajectory."""
 
     def map(self, trajectory: Vector) -> Vector:
-        return np.linspace(0, 1, len(trajectory))
+        result: Vector = np.linspace(0, 1, len(trajectory), dtype=np.float64)
+        return result
 
 
 class CoordinateColorMapper(ColorMapper):
